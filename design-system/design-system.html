@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HMP Design System — Component Showcase</title>
+  <link rel="stylesheet" href="design-system.css">
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script>window.react = window.React;</script>
+  <script src="https://unpkg.com/lucide-react@latest/dist/umd/lucide-react.js"></script>
+  <script>window.lucideReact = window.LucideReact;</script>
+  <script src="design-system.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    .showcase { max-width: 1200px; margin: 0 auto; padding: 48px 32px; }
+    .showcase h1 { font-size: var(--text-3xl); font-weight: var(--font-bold); color: var(--typo-800); margin-bottom: 8px; }
+    .showcase .subtitle { font-size: var(--text-lg); color: var(--typo-500); margin-bottom: 48px; }
+    .section { margin-bottom: 64px; }
+    .section h2 {
+      font-size: var(--text-2xl); font-weight: var(--font-semibold); color: var(--typo-800);
+      border-bottom: 2px solid var(--elements-300); padding-bottom: 12px; margin-bottom: 24px;
+    }
+    .section h3 { font-size: var(--text-lg); font-weight: var(--font-semibold); color: var(--typo-600); margin: 24px 0 12px; }
+    .row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-bottom: 16px; }
+    .col { display: flex; flex-direction: column; gap: 12px; max-width: 400px; width: 100%; }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    .demo-label { font-size: var(--text-xs); color: var(--typo-400); font-weight: var(--font-semibold); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 4px; }
+    .color-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px; }
+    .icon-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 4px; }
+    .icon-cell {
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+      padding: 12px 8px; border-radius: var(--radius-md); cursor: default;
+      transition: background 0.1s;
+    }
+    .icon-cell:hover { background: var(--surface-400); }
+    .icon-cell code { font-size: 10px; color: var(--typo-500); text-align: center; word-break: break-all; }
+    .color-swatch {
+      border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--elements-300);
+    }
+    .color-swatch-block { height: 48px; }
+    .color-swatch-info { padding: 6px 8px; font-size: var(--text-xs); }
+    .color-swatch-info code { font-size: 10px; color: var(--typo-500); }
+    .snackbar-stack { display: flex; flex-direction: column; gap: 12px; max-width: 640px; }
+    .type-sample { margin-bottom: 4px; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { Button, Input, Select, Card, Badge, Snackbar, Table, Tabs, Modal, SnackbarProvider, toast, Checkbox, RadioGroup, Switch, Textarea, SearchBar, Avatar, ProgressBar, Tooltip, Separator, Collapsible } = DS;
+
+    function ColorSwatch({ name, token, hex }) {
+      return (
+        <div className="color-swatch">
+          <div className="color-swatch-block" style={{ background: hex }} />
+          <div className="color-swatch-info">
+            <div style={{ fontWeight: 600 }}>{name}</div>
+            <code>{token}</code><br />
+            <code>{hex}</code>
+          </div>
+        </div>
+      );
+    }
+
+    function Section({ title, children }) {
+      return (
+        <div className="section">
+          <h2>{title}</h2>
+          {children}
+        </div>
+      );
+    }
+
+    function App() {
+      const [modalOpen, setModalOpen] = React.useState(false);
+
+      return (
+        <SnackbarProvider>
+          <div className="showcase">
+            <h1>HMP Design System</h1>
+            <p className="subtitle">IES NG Component Library — Living Styleguide</p>
+
+            {/* ── Colors ── */}
+            <Section title="Colors">
+              <h3>Primary</h3>
+              <div className="color-grid">
+                <ColorSwatch name="100" token="--primary-100" hex="#E4F1FF" />
+                <ColorSwatch name="200" token="--primary-200" hex="#8EBCF2" />
+                <ColorSwatch name="300" token="--primary-300" hex="#1C79E5" />
+                <ColorSwatch name="400" token="--primary-400" hex="#155BAC" />
+                <ColorSwatch name="500" token="--primary-500" hex="#0E3D73" />
+              </div>
+
+              <h3>Secondary</h3>
+              <div className="color-grid">
+                <ColorSwatch name="100" token="--secondary-100" hex="#F2F4F7" />
+                <ColorSwatch name="200" token="--secondary-200" hex="#DCE3E8" />
+                <ColorSwatch name="300" token="--secondary-300" hex="#ADBDCC" />
+                <ColorSwatch name="400" token="--secondary-400" hex="#6F7E8C" />
+                <ColorSwatch name="500" token="--secondary-500" hex="#394A59" />
+              </div>
+
+              <h3>Tertiary (Destructive)</h3>
+              <div className="color-grid">
+                <ColorSwatch name="100" token="--tertiary-100" hex="#FFF0F3" />
+                <ColorSwatch name="200" token="--tertiary-200" hex="#FFB5C3" />
+                <ColorSwatch name="300" token="--tertiary-300" hex="#FF1C47" />
+                <ColorSwatch name="400" token="--tertiary-400" hex="#B20C2C" />
+                <ColorSwatch name="500" token="--tertiary-500" hex="#850019" />
+              </div>
+
+              <h3>Alert</h3>
+              <div className="color-grid">
+                <ColorSwatch name="100" token="--alert-100" hex="#FFE8EA" />
+                <ColorSwatch name="200" token="--alert-200" hex="#FFC4C6" />
+                <ColorSwatch name="300" token="--alert-300" hex="#FF7777" />
+                <ColorSwatch name="400" token="--alert-400" hex="#F0113A" />
+                <ColorSwatch name="500" token="--alert-500" hex="#9C0D1E" />
+              </div>
+
+              <h3>Success</h3>
+              <div className="color-grid">
+                <ColorSwatch name="100" token="--success-100" hex="#E8FAEF" />
+                <ColorSwatch name="200" token="--success-200" hex="#B6EECE" />
+                <ColorSwatch name="300" token="--success-300" hex="#62DA94" />
+                <ColorSwatch name="400" token="--success-400" hex="#14C860" />
+                <ColorSwatch name="500" token="--success-500" hex="#0B6E35" />
+              </div>
+
+              <h3>Warning</h3>
+              <div className="color-grid">
+                <ColorSwatch name="100" token="--warning-100" hex="#FFF4EA" />
+                <ColorSwatch name="200" token="--warning-200" hex="#FFDEBF" />
+                <ColorSwatch name="300" token="--warning-300" hex="#FFB774" />
+                <ColorSwatch name="400" token="--warning-400" hex="#FF932F" />
+                <ColorSwatch name="500" token="--warning-500" hex="#8C511A" />
+              </div>
+
+              <h3>Info</h3>
+              <div className="color-grid">
+                <ColorSwatch name="100" token="--info-100" hex="#EBF8FF" />
+                <ColorSwatch name="200" token="--info-200" hex="#C1E9FF" />
+                <ColorSwatch name="300" token="--info-300" hex="#79CFFF" />
+                <ColorSwatch name="400" token="--info-400" hex="#37B7FF" />
+                <ColorSwatch name="500" token="--info-500" hex="#1E658C" />
+              </div>
+
+              <h3>Typography</h3>
+              <div className="color-grid">
+                <ColorSwatch name="100" token="--typo-100" hex="#FFFFFF" />
+                <ColorSwatch name="400" token="--typo-400" hex="#768EA6" />
+                <ColorSwatch name="500" token="--typo-500" hex="#526A80" />
+                <ColorSwatch name="600" token="--typo-600" hex="#394A59" />
+                <ColorSwatch name="700" token="--typo-700" hex="#28313E" />
+                <ColorSwatch name="800" token="--typo-800" hex="#1F2937" />
+              </div>
+            </Section>
+
+            {/* ── Typography ── */}
+            <Section title="Typography">
+              <div className="type-sample" style={{ fontSize: 'var(--text-3xl)', fontWeight: 700, lineHeight: 1.35 }}>Heading 3XL — Inter Bold 32px</div>
+              <div className="type-sample" style={{ fontSize: 'var(--text-2xl)', fontWeight: 600, lineHeight: 1.35 }}>Heading 2XL — Inter SemiBold 24px</div>
+              <div className="type-sample" style={{ fontSize: 'var(--text-xl)', fontWeight: 600, lineHeight: 1.35 }}>Heading XL — Inter SemiBold 20px</div>
+              <div className="type-sample" style={{ fontSize: 'var(--text-lg)', fontWeight: 500, lineHeight: 1.35 }}>Subheading LG — Inter Medium 18px</div>
+              <div className="type-sample" style={{ fontSize: 'var(--text-base)', fontWeight: 400, lineHeight: 1.5 }}>Body Base — Inter Regular 16px</div>
+              <div className="type-sample" style={{ fontSize: 'var(--text-sm)', fontWeight: 400, lineHeight: 1.3, color: 'var(--typo-600)' }}>Body SM — Inter Regular 14px</div>
+              <div className="type-sample" style={{ fontSize: 'var(--text-xs)', fontWeight: 400, lineHeight: 1.3, color: 'var(--typo-500)' }}>Caption XS — Inter Regular 12px</div>
+            </Section>
+
+            {/* ── Icons ── */}
+            <Section title="Icons (Lucide)">
+              {(() => {
+                const categories = {
+                  'Navigation': ['Menu','ChevronDown','ChevronRight','ChevronLeft','ChevronUp','ArrowLeft','ArrowRight','ArrowUp','ArrowDown','Home','CornerDownLeft','ExternalLink','Link','MoreHorizontal','MoreVertical'],
+                  'Aktionen': ['Plus','Minus','Edit','Pencil','Trash2','Copy','Download','Upload','Share2','Filter','SortAsc','SortDesc','RotateCcw','RefreshCw','Save','Check','X','Undo2','Redo2','Maximize2'],
+                  'Status & Feedback': ['CheckCircle2','XCircle','AlertCircle','AlertTriangle','Info','Clock','Timer','Loader2','Ban','ShieldCheck','ShieldAlert','CircleDot','CircleCheck'],
+                  'Daten & Dateien': ['File','FileText','FileSpreadsheet','FilePlus','Folder','FolderOpen','Database','BarChart3','PieChart','TrendingUp','TrendingDown','LineChart','Table2','ClipboardList','Archive'],
+                  'Kommunikation': ['Mail','Bell','BellRing','MessageSquare','MessageCircle','Send','Phone','AtSign'],
+                  'Benutzer': ['User','Users','UserPlus','UserMinus','UserCheck','Settings','Settings2','LogIn','LogOut','Key','Lock','Unlock','Shield'],
+                  'Medizin & Pharma': ['Pill','Heart','HeartPulse','Activity','Thermometer','Stethoscope','Syringe','Cross','Flame','Droplets','Microscope','FlaskConical','TestTube2','Dna','Brain'],
+                  'Logistik & Lager': ['Package','PackageCheck','PackageX','PackagePlus','Truck','MapPin','Building2','Warehouse','Box','Boxes','Container','Weight','Scale','Receipt','Barcode','QrCode','ScanLine'],
+                  'Interface': ['Eye','EyeOff','Search','ZoomIn','ZoomOut','Calendar','CalendarDays','Star','Bookmark','Tag','Hash','Globe','Printer','Columns3','LayoutGrid','List','ListOrdered','Grip','Layers','PanelLeft'],
+                };
+
+                return Object.entries(categories).map(([cat, icons]) => (
+                  <div key={cat}>
+                    <h3>{cat}</h3>
+                    <div className="icon-grid">
+                      {icons.map(name => {
+                        const Icon = lucideReact[name];
+                        return Icon ? (
+                          <div key={name} className="icon-cell" title={name}>
+                            <Icon size={24} color="var(--typo-700)" />
+                            <code>{name}</code>
+                          </div>
+                        ) : null;
+                      })}
+                    </div>
+                  </div>
+                ));
+              })()}
+              <div style={{ marginTop: '24px', padding: '16px', background: 'var(--surface-400)', borderRadius: 'var(--radius-md)' }}>
+                <p style={{ fontSize: 'var(--text-sm)', color: 'var(--typo-600)' }}>
+                  <strong>Usage:</strong> <code style={{ background: 'white', padding: '2px 6px', borderRadius: '3px' }}>lucideReact.IconName</code> oder in JSX: <code style={{ background: 'white', padding: '2px 6px', borderRadius: '3px' }}>&lt;lucideReact.Pill size=&#123;24&#125; /&gt;</code>
+                  <br />Alle Icons: <a href="https://lucide.dev/icons" target="_blank" style={{ color: 'var(--primary-300)' }}>lucide.dev/icons</a>
+                </p>
+              </div>
+            </Section>
+
+            {/* ── Buttons ── */}
+            <Section title="Buttons">
+              <h3>Primary</h3>
+              <div className="row">
+                <Button color="primary" size="sm">Small</Button>
+                <Button color="primary" size="base">Base</Button>
+                <Button color="primary" size="lg">Large</Button>
+                <Button color="primary" size="base" disabled>Disabled</Button>
+              </div>
+              <div className="row">
+                <Button color="primary" variant="outline" size="base">Outline</Button>
+                <Button color="primary" variant="ghost" size="base">Ghost</Button>
+                <Button color="primary" size="base" iconLeft="Plus">Mit Icon</Button>
+                <Button color="primary" size="base" iconOnly iconLeft="Plus" round />
+              </div>
+
+              <h3>Secondary</h3>
+              <div className="row">
+                <Button color="secondary" size="sm">Small</Button>
+                <Button color="secondary" size="base">Base</Button>
+                <Button color="secondary" size="lg">Large</Button>
+              </div>
+              <div className="row">
+                <Button color="secondary" variant="outline">Outline</Button>
+                <Button color="secondary" variant="ghost">Ghost</Button>
+              </div>
+
+              <h3>Destructive</h3>
+              <div className="row">
+                <Button color="destructive" size="sm">Small</Button>
+                <Button color="destructive" size="base">Base</Button>
+                <Button color="destructive" size="lg">Large</Button>
+              </div>
+              <div className="row">
+                <Button color="destructive" variant="outline">Outline</Button>
+                <Button color="destructive" variant="ghost">Ghost</Button>
+              </div>
+
+              <h3>Success</h3>
+              <div className="row">
+                <Button color="success" size="sm">Small</Button>
+                <Button color="success" size="base">Base</Button>
+                <Button color="success" variant="outline">Outline</Button>
+                <Button color="success" variant="ghost">Ghost</Button>
+              </div>
+
+              <h3>Link</h3>
+              <div className="row">
+                <Button color="link">Link Button</Button>
+                <Button color="link" iconLeft="ExternalLink">Mit Icon</Button>
+              </div>
+            </Section>
+
+            {/* ── Inputs ── */}
+            <Section title="Inputs">
+              <div className="grid-2">
+                <div className="col">
+                  <h3>Base Size</h3>
+                  <Input label="Name" placeholder="Vorname eingeben" required />
+                  <Input label="E-Mail" placeholder="email@example.com" type="email" />
+                  <Input label="Fehlerhaft" placeholder="Ungültig" error errorMessage="Pflichtfeld ist erforderlich" required />
+                  <Input label="Warnung" placeholder="Prüfen" warning />
+                  <Input label="Deaktiviert" placeholder="Nicht editierbar" disabled />
+                  <Input label="Readonly" value="Nur Lesen" readOnly />
+                </div>
+                <div className="col">
+                  <h3>Small Size</h3>
+                  <Input label="Name" placeholder="Vorname" size="sm" required />
+                  <Input label="Suche" placeholder="Suchen..." size="sm" />
+                  <Input label="Fehler" placeholder="Ungültig" size="sm" error />
+                </div>
+              </div>
+            </Section>
+
+            {/* ── Selects ── */}
+            <Section title="Selects">
+              <div className="grid-2">
+                <div className="col">
+                  <h3>Base Size</h3>
+                  <Select
+                    label="Kategorie"
+                    required
+                    options={[
+                      { value: 'med', label: 'Medikamente' },
+                      { value: 'verb', label: 'Verbandsmaterial' },
+                      { value: 'desinf', label: 'Desinfektionsmittel' },
+                    ]}
+                  />
+                  <Select label="Fehlerhaft" error options={[{ value: '1', label: 'Option 1' }]} />
+                  <Select label="Deaktiviert" disabled options={[{ value: '1', label: 'Option 1' }]} />
+                </div>
+                <div className="col">
+                  <h3>Small Size</h3>
+                  <Select
+                    label="Status"
+                    size="sm"
+                    options={[
+                      { value: 'active', label: 'Aktiv' },
+                      { value: 'inactive', label: 'Inaktiv' },
+                    ]}
+                  />
+                </div>
+              </div>
+            </Section>
+
+            {/* ── Checkbox, Radio, Switch ── */}
+            <Section title="Checkbox, Radio, Switch">
+              <div className="grid-2">
+                <div className="col">
+                  <h3>Checkbox</h3>
+                  <Checkbox label="Option aktivieren" defaultChecked />
+                  <Checkbox label="Benachrichtigungen" />
+                  <Checkbox label="Deaktiviert" disabled />
+                </div>
+                <div className="col">
+                  <h3>RadioGroup</h3>
+                  <RadioGroup
+                    name="lieferant"
+                    defaultValue="option1"
+                    options={[
+                      { value: 'option1', label: 'Lieferant A' },
+                      { value: 'option2', label: 'Lieferant B' },
+                      { value: 'option3', label: 'Lieferant C' },
+                    ]}
+                  />
+                </div>
+              </div>
+              <h3>Switch</h3>
+              <div className="row">
+                <Switch label="Aktiv" defaultChecked />
+                <Switch label="Inaktiv" />
+                <Switch label="Deaktiviert" disabled />
+              </div>
+            </Section>
+
+            {/* ── Textarea ── */}
+            <Section title="Textarea">
+              <div className="grid-2">
+                <Textarea label="Beschreibung" placeholder="Beschreibung eingeben..." required />
+                <Textarea label="Notizen" placeholder="Optionale Notizen..." size="sm" />
+              </div>
+            </Section>
+
+            {/* ── Search Bar ── */}
+            <Section title="Search Bar">
+              {(() => {
+                const [q, setQ] = React.useState('');
+                return (
+                  <div style={{ maxWidth: '400px' }}>
+                    <SearchBar
+                      value={q}
+                      onChange={(e) => setQ(e.target.value)}
+                      onClear={() => setQ('')}
+                      placeholder="Medikament suchen..."
+                    />
+                  </div>
+                );
+              })()}
+            </Section>
+
+            {/* ── Avatar ── */}
+            <Section title="Avatar">
+              <div className="row">
+                <Avatar size="sm" fallbackText="Max Muster" />
+                <Avatar size="base" fallbackText="Anna Beispiel" />
+                <Avatar size="lg" fallbackText="Peter Schmidt" />
+                <Avatar size="lg" image="https://api.dicebear.com/7.x/initials/svg?seed=HM" fallbackText="HM" />
+              </div>
+            </Section>
+
+            {/* ── ProgressBar ── */}
+            <Section title="ProgressBar">
+              <div className="col" style={{ gap: '16px', maxWidth: '400px' }}>
+                <div>
+                  <div className="demo-label">Default — 65%</div>
+                  <ProgressBar value={65} />
+                </div>
+                <div>
+                  <div className="demo-label">Success — 100%</div>
+                  <ProgressBar value={100} variant="success" />
+                </div>
+                <div>
+                  <div className="demo-label">Warning — 40%</div>
+                  <ProgressBar value={40} variant="warning" />
+                </div>
+                <div>
+                  <div className="demo-label">Alert — 15%</div>
+                  <ProgressBar value={15} variant="alert" />
+                </div>
+              </div>
+            </Section>
+
+            {/* ── Tooltip ── */}
+            <Section title="Tooltip">
+              <div className="row">
+                <Tooltip text="Pflichtlager anzeigen">
+                  <Button color="secondary" size="sm">Hover mich</Button>
+                </Tooltip>
+                <Tooltip text="Lagerbestand: 12'500 Einheiten">
+                  <Badge variant="success">OK</Badge>
+                </Tooltip>
+              </div>
+            </Section>
+
+            {/* ── Collapsible ── */}
+            <Section title="Collapsible">
+              <Card>
+                <Collapsible title="Zusätzliche Details" defaultOpen>
+                  <p>Hier stehen weitere Informationen zum Pflichtlagerbestand.</p>
+                </Collapsible>
+                <Separator />
+                <Collapsible title="Lieferanteninformationen">
+                  <p>Lieferant A: Vertrag bis 2027, monatliche Lieferung.</p>
+                </Collapsible>
+              </Card>
+            </Section>
+
+            {/* ── Cards ── */}
+            <Section title="Cards">
+              <div className="grid-2">
+                <Card title="Lagerbericht">
+                  <p>Aktuelle Bestände für Q1 2026. Alle Pflichtlagermengen sind eingehalten.</p>
+                </Card>
+                <Card
+                  title="Bestellung #4281"
+                  footer={<>
+                    <Button color="secondary" size="sm">Abbrechen</Button>
+                    <Button color="primary" size="sm">Bestätigen</Button>
+                  </>}
+                >
+                  <p>12 Positionen, Gesamtwert CHF 24'350.00</p>
+                </Card>
+              </div>
+            </Section>
+
+            {/* ── Badges ── */}
+            <Section title="Badges">
+              <div className="row">
+                <Badge variant="success">Aktiv</Badge>
+                <Badge variant="alert">Kritisch</Badge>
+                <Badge variant="warning">Warnung</Badge>
+                <Badge variant="info">Info</Badge>
+                <Badge variant="neutral">Entwurf</Badge>
+              </div>
+            </Section>
+
+            {/* ── Snackbars ── */}
+            <Section title="Snackbars">
+              <div className="snackbar-stack">
+                <Snackbar variant="success" message="Änderungen erfolgreich gespeichert." action="Rückgängig" duration={0} />
+                <Snackbar variant="alert" message="Pflichtlagermenge unterschritten!" action="Details" duration={0} />
+                <Snackbar variant="warning" message="Ablaufdatum in 30 Tagen erreicht." duration={0} />
+                <Snackbar variant="info" message="Neuer Import wird verarbeitet." duration={0} />
+              </div>
+              <div style={{ marginTop: '16px' }}>
+                <Button color="primary" size="sm" onClick={() => toast({ variant: 'success', message: 'Toast Notification!', duration: 3000 })}>
+                  Toast anzeigen
+                </Button>
+              </div>
+            </Section>
+
+            {/* ── Table ── */}
+            <Section title="Table">
+              <Card>
+                <Table
+                  columns={[
+                    { key: 'product', label: 'Produkt', sortable: true },
+                    { key: 'category', label: 'Kategorie', sortable: true },
+                    { key: 'stock', label: 'Bestand', sortable: true },
+                    { key: 'status', label: 'Status', render: (val) => (
+                      <Badge variant={val === 'OK' ? 'success' : val === 'Kritisch' ? 'alert' : 'warning'}>{val}</Badge>
+                    )},
+                  ]}
+                  data={[
+                    { product: 'Paracetamol 500mg', category: 'Analgetika', stock: 12500, status: 'OK' },
+                    { product: 'Amoxicillin 250mg', category: 'Antibiotika', stock: 3200, status: 'Warnung' },
+                    { product: 'Ibuprofen 400mg', category: 'Analgetika', stock: 890, status: 'Kritisch' },
+                    { product: 'Omeprazol 20mg', category: 'PPI', stock: 7800, status: 'OK' },
+                    { product: 'Metformin 850mg', category: 'Antidiabetika', stock: 5100, status: 'OK' },
+                  ]}
+                />
+              </Card>
+            </Section>
+
+            {/* ── Tabs ── */}
+            <Section title="Tabs">
+              <Tabs
+                items={[
+                  { key: 'overview', label: 'Übersicht', content: <p>Gesamtübersicht aller Pflichtlagerbestände mit aktuellen Kennzahlen.</p> },
+                  { key: 'details', label: 'Details', content: <p>Detaillierte Aufstellung nach Wirkstoffgruppen und Lieferanten.</p> },
+                  { key: 'history', label: 'Verlauf', content: <p>Historische Entwicklung der Lagerbestände über die letzten 12 Monate.</p> },
+                ]}
+              />
+            </Section>
+
+            {/* ── Modal ── */}
+            <Section title="Modal">
+              <Button color="primary" onClick={() => setModalOpen(true)}>Modal öffnen</Button>
+              <Modal
+                open={modalOpen}
+                onClose={() => setModalOpen(false)}
+                title="Bestellung bestätigen"
+                footer={<>
+                  <Button color="secondary" size="sm" onClick={() => setModalOpen(false)}>Abbrechen</Button>
+                  <Button color="primary" size="sm" onClick={() => { setModalOpen(false); toast({ variant: 'success', message: 'Bestellung bestätigt!' }); }}>Bestätigen</Button>
+                </>}
+              >
+                <p style={{ marginBottom: '16px' }}>Möchten Sie die Bestellung #4281 mit 12 Positionen bestätigen?</p>
+                <Input label="Bemerkung" placeholder="Optionale Anmerkung" />
+              </Modal>
+            </Section>
+
+          </div>
+        </SnackbarProvider>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>

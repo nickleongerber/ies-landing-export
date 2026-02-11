@@ -1,0 +1,1657 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IES NG Design System - Showcase</title>
+  <link rel="stylesheet" href="design-system.css" />
+  <style>
+    /* Showcase-specific styles */
+    body { margin: 0; padding: 0; background: white; }
+
+    /* Sidebar */
+    .showcase-sidebar {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 240px;
+      height: 100vh;
+      background: var(--surface-400);
+      border-right: 1px solid var(--elements-300);
+      overflow-y: auto;
+      padding: var(--space-6) 0;
+      z-index: 100;
+    }
+    .showcase-sidebar h3 {
+      font-size: var(--text-sm);
+      font-weight: var(--font-bold);
+      color: var(--typo-800);
+      padding: var(--space-2) var(--space-6);
+      margin: var(--space-4) 0 var(--space-2);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .showcase-sidebar ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .showcase-sidebar li {
+      margin: 0;
+    }
+    .showcase-sidebar a {
+      display: block;
+      padding: var(--space-2) var(--space-6);
+      font-size: var(--text-sm);
+      color: var(--typo-600);
+      text-decoration: none;
+      transition: all 0.15s ease;
+    }
+    .showcase-sidebar a:hover {
+      background: var(--secondary-100);
+      color: var(--primary-300);
+    }
+
+    /* Main Content */
+    .showcase-content {
+      margin-left: 240px;
+      padding: var(--space-8);
+      max-width: 960px;
+    }
+
+    /* Header */
+    .showcase-header {
+      margin-bottom: var(--space-12);
+    }
+    .showcase-header h1 {
+      font-size: var(--text-4xl);
+      font-weight: var(--font-bold);
+      color: var(--typo-800);
+      margin: 0 0 var(--space-2);
+    }
+    .showcase-header p {
+      font-size: var(--text-lg);
+      color: var(--typo-500);
+      margin: 0;
+    }
+
+    /* Section */
+    .showcase-section {
+      margin-bottom: var(--space-12);
+      scroll-margin-top: var(--space-4);
+    }
+    .showcase-section h2 {
+      font-size: var(--text-2xl);
+      font-weight: var(--font-bold);
+      color: var(--typo-800);
+      margin: 0 0 var(--space-2);
+    }
+    .showcase-section > p {
+      font-size: var(--text-sm);
+      color: var(--typo-400);
+      margin: 0 0 var(--space-6);
+    }
+
+    /* Subsection */
+    .showcase-subsection {
+      margin-bottom: var(--space-8);
+    }
+    .showcase-subsection h3 {
+      font-size: var(--text-lg);
+      font-weight: var(--font-semibold);
+      color: var(--typo-700);
+      margin: 0 0 var(--space-4);
+    }
+
+    /* Demo Box */
+    .showcase-demo {
+      background: var(--surface-400);
+      border-radius: var(--radius-lg);
+      padding: var(--space-6);
+      margin-bottom: var(--space-4);
+    }
+
+    /* Code Block */
+    .showcase-code {
+      background: #f5f5f5;
+      border-radius: var(--radius-md);
+      padding: var(--space-4);
+      margin-bottom: var(--space-4);
+      overflow-x: auto;
+    }
+    .showcase-code pre {
+      margin: 0;
+      font-family: 'Monaco', 'Menlo', 'Consolas', monospace;
+      font-size: var(--text-xs);
+      line-height: 1.5;
+      color: var(--typo-700);
+    }
+
+    /* Color Swatch */
+    .color-swatches {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: var(--space-4);
+    }
+    .color-swatch {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+    .color-swatch-box {
+      width: 100%;
+      height: 48px;
+      border-radius: var(--radius-md);
+      border: 1px solid var(--elements-300);
+    }
+    .color-swatch-label {
+      font-size: var(--text-xs);
+      font-weight: var(--font-medium);
+      color: var(--typo-600);
+    }
+    .color-swatch-value {
+      font-size: var(--text-xxs);
+      font-family: 'Monaco', monospace;
+      color: var(--typo-400);
+    }
+
+    /* Typography Demo */
+    .typo-demo {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+    .typo-row {
+      display: flex;
+      align-items: baseline;
+      gap: var(--space-4);
+      padding: var(--space-2) 0;
+      border-bottom: 1px solid var(--elements-300);
+    }
+    .typo-label {
+      width: 100px;
+      font-size: var(--text-xs);
+      font-family: 'Monaco', monospace;
+      color: var(--typo-500);
+      flex-shrink: 0;
+    }
+    .typo-sample {
+      flex: 1;
+      color: var(--typo-700);
+    }
+
+    /* Spacing Demo */
+    .spacing-demo {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+    .spacing-row {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+    }
+    .spacing-label {
+      width: 80px;
+      font-size: var(--text-xs);
+      font-family: 'Monaco', monospace;
+      color: var(--typo-500);
+    }
+    .spacing-bar {
+      height: 24px;
+      background: var(--primary-300);
+      border-radius: var(--radius-sm);
+    }
+
+    /* Radius Demo */
+    .radius-demo {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: var(--space-4);
+    }
+    .radius-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-2);
+    }
+    .radius-sample {
+      width: 80px;
+      height: 80px;
+      background: var(--primary-300);
+    }
+    .radius-label {
+      font-size: var(--text-xs);
+      font-family: 'Monaco', monospace;
+      color: var(--typo-500);
+    }
+
+    /* Shadow Demo */
+    .shadow-demo {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-6);
+    }
+    .shadow-box {
+      height: 100px;
+      background: white;
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: var(--text-xs);
+      font-family: 'Monaco', monospace;
+      color: var(--typo-500);
+    }
+
+    /* Button Grid */
+    .button-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: var(--space-4);
+      align-items: center;
+    }
+
+    /* Icon Grid */
+    .icon-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+      gap: var(--space-4);
+    }
+    .icon-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-2);
+      padding: var(--space-3);
+      border-radius: var(--radius-md);
+      transition: background 0.15s;
+    }
+    .icon-item:hover {
+      background: var(--surface-400);
+    }
+    .icon-item svg {
+      width: 32px;
+      height: 32px;
+      color: var(--typo-700);
+    }
+    .icon-label {
+      font-size: var(--text-xxs);
+      color: var(--typo-500);
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <!-- Sidebar Navigation -->
+  <nav class="showcase-sidebar">
+    <h3>Design Tokens</h3>
+    <ul>
+      <li><a href="#colors">Colors</a></li>
+      <li><a href="#typography">Typography</a></li>
+      <li><a href="#spacing">Spacing</a></li>
+      <li><a href="#radius-shadows">Radius & Shadows</a></li>
+    </ul>
+
+    <h3>Form Controls</h3>
+    <ul>
+      <li><a href="#button">Button</a></li>
+      <li><a href="#input">Input</a></li>
+      <li><a href="#select">Select</a></li>
+      <li><a href="#textarea">Textarea</a></li>
+      <li><a href="#checkbox-radio">Checkbox & Radio</a></li>
+      <li><a href="#switch">Switch</a></li>
+      <li><a href="#searchbar">SearchBar</a></li>
+    </ul>
+
+    <h3>Data Display</h3>
+    <ul>
+      <li><a href="#table">Table</a></li>
+      <li><a href="#badge">Badge</a></li>
+      <li><a href="#avatar">Avatar</a></li>
+      <li><a href="#progressbar">ProgressBar</a></li>
+      <li><a href="#tooltip">Tooltip</a></li>
+    </ul>
+
+    <h3>Layout</h3>
+    <ul>
+      <li><a href="#card">Card</a></li>
+      <li><a href="#tabs">Tabs</a></li>
+      <li><a href="#collapsible">Collapsible</a></li>
+      <li><a href="#separator">Separator</a></li>
+    </ul>
+
+    <h3>Feedback</h3>
+    <ul>
+      <li><a href="#modal">Modal</a></li>
+      <li><a href="#snackbar">Snackbar / Toast</a></li>
+    </ul>
+
+    <h3>Icons</h3>
+    <ul>
+      <li><a href="#icons">Icon Library</a></li>
+    </ul>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="showcase-content">
+    <div class="showcase-header">
+      <h1>IES NG Design System</h1>
+      <p>Complete reference for components, tokens, and usage patterns</p>
+    </div>
+
+    <!-- DESIGN TOKENS -->
+
+    <!-- Colors -->
+    <section id="colors" class="showcase-section">
+      <h2>Colors</h2>
+      <p>All color tokens from the IES NG design system</p>
+
+      <div class="showcase-subsection">
+        <h3>Primary (Action)</h3>
+        <div class="color-swatches">
+          <div class="color-swatch">
+            <div class="color-swatch-box" style="background: var(--primary-100)"></div>
+            <div class="color-swatch-label">--primary-100</div>
+            <div class="color-swatch-value">#E4F1FF</div>
+          </div>
+          <div class="color-swatch">
+            <div class="color-swatch-box" style="background: var(--primary-200)"></div>
+            <div class="color-swatch-label">--primary-200</div>
+            <div class="color-swatch-value">#8EBCF2</div>
+          </div>
+          <div class="color-swatch">
+            <div class="color-swatch-box" style="background: var(--primary-300)"></div>
+            <div class="color-swatch-label">--primary-300</div>
+            <div class="color-swatch-value">#1C79E5</div>
+          </div>
+          <div class="color-swatch">
+            <div class="color-swatch-box" style="background: var(--primary-400)"></div>
+            <div class="color-swatch-label">--primary-400</div>
+            <div class="color-swatch-value">#155BAC</div>
+          </div>
+          <div class="color-swatch">
+            <div class="color-swatch-box" style="background: var(--primary-500)"></div>
+            <div class="color-swatch-label">--primary-500</div>
+            <div class="color-swatch-value">#0E3D73</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="showcase-subsection">
+        <h3>Secondary</h3>
+        <div class="color-swatches">
+          <div class="color-swatch">
+            <div class="color-swatch-box" style="background: var(--secondary-100)"></div>
+            <div class="color-swatch-label">--secondary-100</div>
+            <div class="color-swatch-value">#F2F4F7</div>
+          </div>
+          <div class="color-swatch">
+            <div class="color-swatch-box" style="background: var(--secondary-200)"></div>
+            <div class="color-swatch-label">--secondary-200</div>
+            <div class="color-swatch-value">#DCE3E8</div>
+          </div>
+          <div class="color-swatch">
+            <div class="color-swatch-box" style="background: var(--secondary-300)"></div>
+            <div class="color-swatch-label">--secondary-300</div>
+            <div class="color-swatch-value">#ADBDCC</div>
+          </div>
+          <div class="color-swatch">
+            <div class="color-swatch-box" style="background: var(--secondary-400)"></div>
+            <div class="color-swatch-label">--secondary-400</div>
+            <div class="color-swatch-value">#6F7E8C</div>
+          </div>
+          <div class="color-swatch">
+            <div class="color-swatch-box" style="background: var(--secondary-500)"></div>
+            <div class="color-swatch-label">--secondary-500</div>
+            <div class="color-swatch-value">#394A59</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="showcase-subsection">
+        <h3>Tertiary (Destructive)</h3>
+        <div class="color-swatches">
+          <div class="color-swatch">
+            <div class="color-swatch-box" style="background: var(--tertiary-100)"></div>
+            <div class="color-swatch-label">--tertiary-100</div>
+            <div class="color-swatch-value">#FFF0F3</div>
+          </div>
+          <div class="color-swatch">
+            <div class="color-swatch-box" style="background: var(--tertiary-200)"></div>
+            <div class="color-swatch-label">--tertiary-200</div>
+            <div class="color-swatch-value">#FFB5C3</div>
+          </div>
+          <div class="color-swatch">
+            <div class="color-swatch-box" style="background: var(--tertiary-250)"></div>
+            <div class="color-swatch-label">--tertiary-250</div>
+            <div class="color-swatch-value">#FF5D7C</div>
+          </div>
+          <div class="color-swatch">
+            <div class="color-swatch-box" style="background: var(--tertiary-300)"></div>
+            <div class="color-swatch-label">--tertiary-300</div>
+            <div class="color-swatch-value">#FF1C47</div>
+          </div>
+          <div class="color-swatch">
+            <div class="color-swatch-box" style="background: var(--tertiary-400)"></div>
+            <div class="color-swatch-label">--tertiary-400</div>
+            <div class="color-swatch-value">#B20C2C</div>
+          </div>
+          <div class="color-swatch">
+            <div class="color-swatch-box" style="background: var(--tertiary-500)"></div>
+            <div class="color-swatch-label">--tertiary-500</div>
+            <div class="color-swatch-value">#850019</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="showcase-subsection">
+        <h3>Alert</h3>
+        <div class="color-swatches">
+          <div class="color-swatch">
+            <div class="color-swatch-box" style="background: var(--alert-100)"></div>
+            <div class="color-swatch-label">--alert-100</div>
+            <div class="color-swatch-value">#FFE8EA</div>
+          </div>
+          <div class="color-swatch">
+            <div class="color-swatch-box" style="background: var(--alert-200)"></div>
+            <div class="color-swatch-label">--alert-200</div>
+            <div class="color-swatch-value">#FFC4C6</div>
+          </div>
+          <div class="color-swatch">
+            <div class="color-swatch-box" style="background: var(--alert-300)"></div>
+            <div class="color-swatch-label">--alert-300</div>
+            <div class="color-swatch-value">#FF7777</div>
+          </div>
+          <div class="color-swatch">
+            <div class="color-swatch-box" style="background: var(--alert-400)"></div>
+            <div class="color-swatch-label">--alert-400</div>
+            <div class="color-swatch-value">#F0113A</div>
+          </div>
+          <div class="color-swatch">
+            <div class="color-swatch-box" style="background: var(--alert-500)"></div>
+            <div class="color-swatch-label">--alert-500</div>
+            <div class="color-swatch-value">#9C0D1E</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="showcase-subsection">
+        <h3>Success</h3>
+        <div class="color-swatches">
+          <div class="color-swatch">
+            <div class="color-swatch-box" style="background: var(--success-100)"></div>
+            <div class="color-swatch-label">--success-100</div>
+            <div class="color-swatch-value">#E8FAEF</div>
+          </div>
+          <div class="color-swatch">
+            <div class="color-swatch-box" style="background: var(--success-200)"></div>
+            <div class="color-swatch-label">--success-200</div>
+            <div class="color-swatch-value">#B6EECE</div>
+          </div>
+          <div class="color-swatch">
+            <div class="color-swatch-box" style="background: var(--success-300)"></div>
+            <div class="color-swatch-label">--success-300</div>
+            <div class="color-swatch-value">#62DA94</div>
+          </div>
+          <div class="color-swatch">
+            <div class="color-swatch-box" style="background: var(--success-400)"></div>
+            <div class="color-swatch-label">--success-400</div>
+            <div class="color-swatch-value">#14C860</div>
+          </div>
+          <div class="color-swatch">
+            <div class="color-swatch-box" style="background: var(--success-500)"></div>
+            <div class="color-swatch-label">--success-500</div>
+            <div class="color-swatch-value">#0B6E35</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="showcase-subsection">
+        <h3>Warning</h3>
+        <div class="color-swatches">
+          <div class="color-swatch">
+            <div class="color-swatch-box" style="background: var(--warning-100)"></div>
+            <div class="color-swatch-label">--warning-100</div>
+            <div class="color-swatch-value">#FFF4EA</div>
+          </div>
+          <div class="color-swatch">
+            <div class="color-swatch-box" style="background: var(--warning-200)"></div>
+            <div class="color-swatch-label">--warning-200</div>
+            <div class="color-swatch-value">#FFDEBF</div>
+          </div>
+          <div class="color-swatch">
+            <div class="color-swatch-box" style="background: var(--warning-300)"></div>
+            <div class="color-swatch-label">--warning-300</div>
+            <div class="color-swatch-value">#FFB774</div>
+          </div>
+          <div class="color-swatch">
+            <div class="color-swatch-box" style="background: var(--warning-400)"></div>
+            <div class="color-swatch-label">--warning-400</div>
+            <div class="color-swatch-value">#FF932F</div>
+          </div>
+          <div class="color-swatch">
+            <div class="color-swatch-box" style="background: var(--warning-500)"></div>
+            <div class="color-swatch-label">--warning-500</div>
+            <div class="color-swatch-value">#8C511A</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="showcase-subsection">
+        <h3>Info</h3>
+        <div class="color-swatches">
+          <div class="color-swatch">
+            <div class="color-swatch-box" style="background: var(--info-100)"></div>
+            <div class="color-swatch-label">--info-100</div>
+            <div class="color-swatch-value">#EBF8FF</div>
+          </div>
+          <div class="color-swatch">
+            <div class="color-swatch-box" style="background: var(--info-200)"></div>
+            <div class="color-swatch-label">--info-200</div>
+            <div class="color-swatch-value">#C1E9FF</div>
+          </div>
+          <div class="color-swatch">
+            <div class="color-swatch-box" style="background: var(--info-300)"></div>
+            <div class="color-swatch-label">--info-300</div>
+            <div class="color-swatch-value">#79CFFF</div>
+          </div>
+          <div class="color-swatch">
+            <div class="color-swatch-box" style="background: var(--info-400)"></div>
+            <div class="color-swatch-label">--info-400</div>
+            <div class="color-swatch-value">#37B7FF</div>
+          </div>
+          <div class="color-swatch">
+            <div class="color-swatch-box" style="background: var(--info-500)"></div>
+            <div class="color-swatch-label">--info-500</div>
+            <div class="color-swatch-value">#1E658C</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="showcase-subsection">
+        <h3>Typography</h3>
+        <div class="color-swatches">
+          <div class="color-swatch">
+            <div class="color-swatch-box" style="background: var(--typo-100)"></div>
+            <div class="color-swatch-label">--typo-100</div>
+            <div class="color-swatch-value">#FFFFFF</div>
+          </div>
+          <div class="color-swatch">
+            <div class="color-swatch-box" style="background: var(--typo-200)"></div>
+            <div class="color-swatch-label">--typo-200</div>
+            <div class="color-swatch-value">#E6EDF5</div>
+          </div>
+          <div class="color-swatch">
+            <div class="color-swatch-box" style="background: var(--typo-300)"></div>
+            <div class="color-swatch-label">--typo-300</div>
+            <div class="color-swatch-value">#CEDAE5</div>
+          </div>
+          <div class="color-swatch">
+            <div class="color-swatch-box" style="background: var(--typo-350)"></div>
+            <div class="color-swatch-label">--typo-350</div>
+            <div class="color-swatch-value">#9CB3C9</div>
+          </div>
+          <div class="color-swatch">
+            <div class="color-swatch-box" style="background: var(--typo-400)"></div>
+            <div class="color-swatch-label">--typo-400</div>
+            <div class="color-swatch-value">#768EA6</div>
+          </div>
+          <div class="color-swatch">
+            <div class="color-swatch-box" style="background: var(--typo-500)"></div>
+            <div class="color-swatch-label">--typo-500</div>
+            <div class="color-swatch-value">#526A80</div>
+          </div>
+          <div class="color-swatch">
+            <div class="color-swatch-box" style="background: var(--typo-600)"></div>
+            <div class="color-swatch-label">--typo-600</div>
+            <div class="color-swatch-value">#394A59</div>
+          </div>
+          <div class="color-swatch">
+            <div class="color-swatch-box" style="background: var(--typo-700)"></div>
+            <div class="color-swatch-label">--typo-700</div>
+            <div class="color-swatch-value">#28313E</div>
+          </div>
+          <div class="color-swatch">
+            <div class="color-swatch-box" style="background: var(--typo-800)"></div>
+            <div class="color-swatch-label">--typo-800</div>
+            <div class="color-swatch-value">#1F2937</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="showcase-subsection">
+        <h3>Surface & Elements</h3>
+        <div class="color-swatches">
+          <div class="color-swatch">
+            <div class="color-swatch-box" style="background: var(--surface-100); border: 2px solid var(--elements-300)"></div>
+            <div class="color-swatch-label">--surface-100</div>
+            <div class="color-swatch-value">#FFFFFF</div>
+          </div>
+          <div class="color-swatch">
+            <div class="color-swatch-box" style="background: var(--surface-400)"></div>
+            <div class="color-swatch-label">--surface-400</div>
+            <div class="color-swatch-value">#EDF2F9</div>
+          </div>
+          <div class="color-swatch">
+            <div class="color-swatch-box" style="background: var(--elements-300)"></div>
+            <div class="color-swatch-label">--elements-300</div>
+            <div class="color-swatch-value">#CEDAE5</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Typography -->
+    <section id="typography" class="showcase-section">
+      <h2>Typography</h2>
+      <p>Font sizes, weights, and line heights</p>
+
+      <div class="showcase-subsection">
+        <h3>Font Sizes</h3>
+        <div class="typo-demo">
+          <div class="typo-row">
+            <div class="typo-label">text-xxs</div>
+            <div class="typo-sample" style="font-size: var(--text-xxs)">The quick brown fox jumps over the lazy dog</div>
+          </div>
+          <div class="typo-row">
+            <div class="typo-label">text-xs</div>
+            <div class="typo-sample" style="font-size: var(--text-xs)">The quick brown fox jumps over the lazy dog</div>
+          </div>
+          <div class="typo-row">
+            <div class="typo-label">text-sm</div>
+            <div class="typo-sample" style="font-size: var(--text-sm)">The quick brown fox jumps over the lazy dog</div>
+          </div>
+          <div class="typo-row">
+            <div class="typo-label">text-base</div>
+            <div class="typo-sample" style="font-size: var(--text-base)">The quick brown fox jumps over the lazy dog</div>
+          </div>
+          <div class="typo-row">
+            <div class="typo-label">text-lg</div>
+            <div class="typo-sample" style="font-size: var(--text-lg)">The quick brown fox jumps over the lazy dog</div>
+          </div>
+          <div class="typo-row">
+            <div class="typo-label">text-xl</div>
+            <div class="typo-sample" style="font-size: var(--text-xl)">The quick brown fox jumps over the lazy dog</div>
+          </div>
+          <div class="typo-row">
+            <div class="typo-label">text-2xl</div>
+            <div class="typo-sample" style="font-size: var(--text-2xl)">The quick brown fox</div>
+          </div>
+          <div class="typo-row">
+            <div class="typo-label">text-3xl</div>
+            <div class="typo-sample" style="font-size: var(--text-3xl)">The quick brown fox</div>
+          </div>
+          <div class="typo-row">
+            <div class="typo-label">text-4xl</div>
+            <div class="typo-sample" style="font-size: var(--text-4xl)">The quick brown</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="showcase-subsection">
+        <h3>Font Weights</h3>
+        <div class="typo-demo">
+          <div class="typo-row">
+            <div class="typo-label">light (300)</div>
+            <div class="typo-sample" style="font-weight: var(--font-light)">The quick brown fox jumps over the lazy dog</div>
+          </div>
+          <div class="typo-row">
+            <div class="typo-label">regular (400)</div>
+            <div class="typo-sample" style="font-weight: var(--font-regular)">The quick brown fox jumps over the lazy dog</div>
+          </div>
+          <div class="typo-row">
+            <div class="typo-label">medium (500)</div>
+            <div class="typo-sample" style="font-weight: var(--font-medium)">The quick brown fox jumps over the lazy dog</div>
+          </div>
+          <div class="typo-row">
+            <div class="typo-label">semibold (600)</div>
+            <div class="typo-sample" style="font-weight: var(--font-semibold)">The quick brown fox jumps over the lazy dog</div>
+          </div>
+          <div class="typo-row">
+            <div class="typo-label">bold (700)</div>
+            <div class="typo-sample" style="font-weight: var(--font-bold)">The quick brown fox jumps over the lazy dog</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="showcase-subsection">
+        <h3>Line Heights</h3>
+        <div class="typo-demo">
+          <div class="typo-row">
+            <div class="typo-label">lh-tight</div>
+            <div class="typo-sample" style="line-height: var(--lh-tight)">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
+          </div>
+          <div class="typo-row">
+            <div class="typo-label">lh-snug</div>
+            <div class="typo-sample" style="line-height: var(--lh-snug)">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
+          </div>
+          <div class="typo-row">
+            <div class="typo-label">lh-normal</div>
+            <div class="typo-sample" style="line-height: var(--lh-normal)">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
+          </div>
+          <div class="typo-row">
+            <div class="typo-label">lh-relaxed</div>
+            <div class="typo-sample" style="line-height: var(--lh-relaxed)">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
+          </div>
+          <div class="typo-row">
+            <div class="typo-label">lh-loose</div>
+            <div class="typo-sample" style="line-height: var(--lh-loose)">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Spacing -->
+    <section id="spacing" class="showcase-section">
+      <h2>Spacing</h2>
+      <p>Spacing scale based on 4px/8px grid</p>
+
+      <div class="spacing-demo">
+        <div class="spacing-row">
+          <div class="spacing-label">space-1</div>
+          <div class="spacing-bar" style="width: var(--space-1)"></div>
+          <span style="font-size: var(--text-xs); color: var(--typo-400)">4px</span>
+        </div>
+        <div class="spacing-row">
+          <div class="spacing-label">space-2</div>
+          <div class="spacing-bar" style="width: var(--space-2)"></div>
+          <span style="font-size: var(--text-xs); color: var(--typo-400)">8px</span>
+        </div>
+        <div class="spacing-row">
+          <div class="spacing-label">space-3</div>
+          <div class="spacing-bar" style="width: var(--space-3)"></div>
+          <span style="font-size: var(--text-xs); color: var(--typo-400)">12px</span>
+        </div>
+        <div class="spacing-row">
+          <div class="spacing-label">space-4</div>
+          <div class="spacing-bar" style="width: var(--space-4)"></div>
+          <span style="font-size: var(--text-xs); color: var(--typo-400)">16px</span>
+        </div>
+        <div class="spacing-row">
+          <div class="spacing-label">space-6</div>
+          <div class="spacing-bar" style="width: var(--space-6)"></div>
+          <span style="font-size: var(--text-xs); color: var(--typo-400)">24px</span>
+        </div>
+        <div class="spacing-row">
+          <div class="spacing-label">space-8</div>
+          <div class="spacing-bar" style="width: var(--space-8)"></div>
+          <span style="font-size: var(--text-xs); color: var(--typo-400)">32px</span>
+        </div>
+        <div class="spacing-row">
+          <div class="spacing-label">space-12</div>
+          <div class="spacing-bar" style="width: var(--space-12)"></div>
+          <span style="font-size: var(--text-xs); color: var(--typo-400)">48px</span>
+        </div>
+        <div class="spacing-row">
+          <div class="spacing-label">space-16</div>
+          <div class="spacing-bar" style="width: var(--space-16)"></div>
+          <span style="font-size: var(--text-xs); color: var(--typo-400)">64px</span>
+        </div>
+        <div class="spacing-row">
+          <div class="spacing-label">space-18</div>
+          <div class="spacing-bar" style="width: var(--space-18)"></div>
+          <span style="font-size: var(--text-xs); color: var(--typo-400)">72px</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Radius & Shadows -->
+    <section id="radius-shadows" class="showcase-section">
+      <h2>Border Radius & Shadows</h2>
+      <p>Radius values and shadow layers</p>
+
+      <div class="showcase-subsection">
+        <h3>Border Radius</h3>
+        <div class="radius-demo">
+          <div class="radius-box">
+            <div class="radius-sample" style="border-radius: var(--radius-sm)"></div>
+            <div class="radius-label">radius-sm (4px)</div>
+          </div>
+          <div class="radius-box">
+            <div class="radius-sample" style="border-radius: var(--radius-md)"></div>
+            <div class="radius-label">radius-md (6px)</div>
+          </div>
+          <div class="radius-box">
+            <div class="radius-sample" style="border-radius: var(--radius-lg)"></div>
+            <div class="radius-label">radius-lg (8px)</div>
+          </div>
+          <div class="radius-box">
+            <div class="radius-sample" style="border-radius: var(--radius-full)"></div>
+            <div class="radius-label">radius-full</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="showcase-subsection">
+        <h3>Shadows</h3>
+        <div class="shadow-demo">
+          <div class="shadow-box" style="box-shadow: var(--shadow-sm)">shadow-sm</div>
+          <div class="shadow-box" style="box-shadow: var(--shadow-md)">shadow-md</div>
+          <div class="shadow-box" style="box-shadow: var(--shadow-lg)">shadow-lg</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- COMPONENTS -->
+
+    <!-- Button -->
+    <section id="button" class="showcase-section">
+      <h2>Button</h2>
+      <p>Buttons in all colors, variants, sizes, and states</p>
+
+      <div class="showcase-subsection">
+        <h3>Primary</h3>
+        <div class="showcase-demo">
+          <div class="button-grid">
+            <div id="btn-primary-filled-base"></div>
+            <div id="btn-primary-outline-base"></div>
+            <div id="btn-primary-ghost-base"></div>
+          </div>
+        </div>
+        <div class="showcase-code">
+          <pre>&lt;DS.Button color="primary" variant="filled"&gt;Save&lt;/DS.Button&gt;
+&lt;DS.Button color="primary" variant="outline"&gt;Cancel&lt;/DS.Button&gt;
+&lt;DS.Button color="primary" variant="ghost"&gt;Reset&lt;/DS.Button&gt;</pre>
+        </div>
+      </div>
+
+      <div class="showcase-subsection">
+        <h3>Secondary</h3>
+        <div class="showcase-demo">
+          <div class="button-grid">
+            <div id="btn-secondary-filled-base"></div>
+            <div id="btn-secondary-outline-base"></div>
+            <div id="btn-secondary-ghost-base"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="showcase-subsection">
+        <h3>Destructive</h3>
+        <div class="showcase-demo">
+          <div class="button-grid">
+            <div id="btn-destructive-filled-base"></div>
+            <div id="btn-destructive-outline-base"></div>
+            <div id="btn-destructive-ghost-base"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="showcase-subsection">
+        <h3>Success</h3>
+        <div class="showcase-demo">
+          <div class="button-grid">
+            <div id="btn-success-filled-base"></div>
+            <div id="btn-success-outline-base"></div>
+            <div id="btn-success-ghost-base"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="showcase-subsection">
+        <h3>Link</h3>
+        <div class="showcase-demo">
+          <div id="btn-link"></div>
+        </div>
+      </div>
+
+      <div class="showcase-subsection">
+        <h3>Sizes</h3>
+        <div class="showcase-demo">
+          <div style="display: flex; gap: var(--space-4); align-items: center;">
+            <div id="btn-size-sm"></div>
+            <div id="btn-size-base"></div>
+            <div id="btn-size-lg"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="showcase-subsection">
+        <h3>With Icons</h3>
+        <div class="showcase-demo">
+          <div style="display: flex; gap: var(--space-4); flex-wrap: wrap;">
+            <div id="btn-icon-left"></div>
+            <div id="btn-icon-right"></div>
+            <div id="btn-icon-only"></div>
+            <div id="btn-round-icon"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="showcase-subsection">
+        <h3>States</h3>
+        <div class="showcase-demo">
+          <div style="display: flex; gap: var(--space-4);">
+            <div id="btn-disabled"></div>
+            <div id="btn-normal"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Input -->
+    <section id="input" class="showcase-section">
+      <h2>Input</h2>
+      <p>Text input fields with labels, states, and validation</p>
+
+      <div class="showcase-demo">
+        <div style="display: grid; gap: var(--space-6); max-width: 400px;">
+          <div id="input-default"></div>
+          <div id="input-required"></div>
+          <div id="input-error"></div>
+          <div id="input-warning"></div>
+          <div id="input-disabled"></div>
+          <div id="input-readonly"></div>
+          <div id="input-sm"></div>
+        </div>
+      </div>
+
+      <div class="showcase-code">
+        <pre>&lt;DS.Input label="Email" placeholder="Enter your email" /&gt;
+&lt;DS.Input label="Password" required error errorMessage="Password required" /&gt;</pre>
+      </div>
+    </section>
+
+    <!-- Select -->
+    <section id="select" class="showcase-section">
+      <h2>Select</h2>
+      <p>Dropdown select fields</p>
+
+      <div class="showcase-demo">
+        <div style="display: grid; gap: var(--space-6); max-width: 400px;">
+          <div id="select-default"></div>
+          <div id="select-error"></div>
+          <div id="select-sm"></div>
+        </div>
+      </div>
+
+      <div class="showcase-code">
+        <pre>&lt;DS.Select
+  label="Country"
+  options={[
+    { value: 'ch', label: 'Switzerland' },
+    { value: 'de', label: 'Germany' }
+  ]}
+/&gt;</pre>
+      </div>
+    </section>
+
+    <!-- Textarea -->
+    <section id="textarea" class="showcase-section">
+      <h2>Textarea</h2>
+      <p>Multi-line text input</p>
+
+      <div class="showcase-demo">
+        <div style="display: grid; gap: var(--space-6); max-width: 400px;">
+          <div id="textarea-default"></div>
+          <div id="textarea-required"></div>
+          <div id="textarea-invisible"></div>
+        </div>
+      </div>
+
+      <div class="showcase-code">
+        <pre>&lt;DS.Textarea label="Notes" placeholder="Enter notes..." /&gt;
+&lt;DS.Textarea variant="invisible" placeholder="Invisible border..." /&gt;</pre>
+      </div>
+    </section>
+
+    <!-- Checkbox & Radio -->
+    <section id="checkbox-radio" class="showcase-section">
+      <h2>Checkbox & Radio</h2>
+      <p>Selection controls</p>
+
+      <div class="showcase-subsection">
+        <h3>Checkbox</h3>
+        <div class="showcase-demo">
+          <div style="display: flex; flex-direction: column; gap: var(--space-3);">
+            <div id="checkbox-default"></div>
+            <div id="checkbox-checked"></div>
+            <div id="checkbox-disabled"></div>
+          </div>
+        </div>
+        <div class="showcase-code">
+          <pre>&lt;DS.Checkbox label="Accept terms and conditions" /&gt;</pre>
+        </div>
+      </div>
+
+      <div class="showcase-subsection">
+        <h3>RadioGroup</h3>
+        <div class="showcase-demo">
+          <div id="radio-group"></div>
+        </div>
+        <div class="showcase-code">
+          <pre>&lt;DS.RadioGroup
+  name="size"
+  options={['Small', 'Medium', 'Large']}
+  defaultValue="Medium"
+/&gt;</pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- Switch -->
+    <section id="switch" class="showcase-section">
+      <h2>Switch</h2>
+      <p>Toggle switch control</p>
+
+      <div class="showcase-demo">
+        <div style="display: flex; flex-direction: column; gap: var(--space-3);">
+          <div id="switch-default"></div>
+          <div id="switch-checked"></div>
+          <div id="switch-disabled"></div>
+        </div>
+      </div>
+
+      <div class="showcase-code">
+        <pre>&lt;DS.Switch label="Enable notifications" /&gt;</pre>
+      </div>
+    </section>
+
+    <!-- SearchBar -->
+    <section id="searchbar" class="showcase-section">
+      <h2>SearchBar</h2>
+      <p>Search input with icon and clear button</p>
+
+      <div class="showcase-demo">
+        <div style="display: grid; gap: var(--space-4); max-width: 400px;">
+          <div id="search-default"></div>
+          <div id="search-sm"></div>
+        </div>
+      </div>
+
+      <div class="showcase-code">
+        <pre>&lt;DS.SearchBar placeholder="Search patients..." /&gt;</pre>
+      </div>
+    </section>
+
+    <!-- Table -->
+    <section id="table" class="showcase-section">
+      <h2>Table</h2>
+      <p>Data table with sortable columns</p>
+
+      <div class="showcase-demo">
+        <div id="table-demo"></div>
+      </div>
+
+      <div class="showcase-code">
+        <pre>&lt;DS.Table
+  columns={[
+    { key: 'name', label: 'Name', sortable: true },
+    { key: 'status', label: 'Status', render: (val) =&gt; &lt;DS.Badge variant={val}&gt;{val}&lt;/DS.Badge&gt; }
+  ]}
+  data={patients}
+/&gt;</pre>
+      </div>
+    </section>
+
+    <!-- Badge -->
+    <section id="badge" class="showcase-section">
+      <h2>Badge</h2>
+      <p>Status indicators and labels</p>
+
+      <div class="showcase-demo">
+        <div style="display: flex; gap: var(--space-3); flex-wrap: wrap;">
+          <div id="badge-alert"></div>
+          <div id="badge-success"></div>
+          <div id="badge-warning"></div>
+          <div id="badge-info"></div>
+          <div id="badge-neutral"></div>
+        </div>
+      </div>
+
+      <div class="showcase-code">
+        <pre>&lt;DS.Badge variant="alert"&gt;Critical&lt;/DS.Badge&gt;
+&lt;DS.Badge variant="success"&gt;Active&lt;/DS.Badge&gt;</pre>
+      </div>
+    </section>
+
+    <!-- Avatar -->
+    <section id="avatar" class="showcase-section">
+      <h2>Avatar</h2>
+      <p>User profile images with fallback initials</p>
+
+      <div class="showcase-demo">
+        <div style="display: flex; gap: var(--space-4); align-items: center;">
+          <div id="avatar-sm"></div>
+          <div id="avatar-base"></div>
+          <div id="avatar-lg"></div>
+        </div>
+      </div>
+
+      <div class="showcase-code">
+        <pre>&lt;DS.Avatar fallbackText="John Doe" size="base" /&gt;
+&lt;DS.Avatar image="/path/to/photo.jpg" size="lg" /&gt;</pre>
+      </div>
+    </section>
+
+    <!-- ProgressBar -->
+    <section id="progressbar" class="showcase-section">
+      <h2>ProgressBar</h2>
+      <p>Progress indicators with variants</p>
+
+      <div class="showcase-demo">
+        <div style="display: grid; gap: var(--space-6);">
+          <div>
+            <div style="font-size: var(--text-sm); margin-bottom: var(--space-2);">Default - 45%</div>
+            <div id="progress-default"></div>
+          </div>
+          <div>
+            <div style="font-size: var(--text-sm); margin-bottom: var(--space-2);">Success - 100%</div>
+            <div id="progress-success"></div>
+          </div>
+          <div>
+            <div style="font-size: var(--text-sm); margin-bottom: var(--space-2);">Warning - 65%</div>
+            <div id="progress-warning"></div>
+          </div>
+          <div>
+            <div style="font-size: var(--text-sm); margin-bottom: var(--space-2);">Alert - 25%</div>
+            <div id="progress-alert"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="showcase-code">
+        <pre>&lt;DS.ProgressBar value={75} /&gt;
+&lt;DS.ProgressBar value={100} variant="success" /&gt;</pre>
+      </div>
+    </section>
+
+    <!-- Tooltip -->
+    <section id="tooltip" class="showcase-section">
+      <h2>Tooltip</h2>
+      <p>Hover to show tooltip</p>
+
+      <div class="showcase-demo">
+        <div style="display: flex; gap: var(--space-6);">
+          <div id="tooltip-demo"></div>
+        </div>
+      </div>
+
+      <div class="showcase-code">
+        <pre>&lt;DS.Tooltip text="Tooltip content"&gt;
+  &lt;span&gt;Hover me&lt;/span&gt;
+&lt;/DS.Tooltip&gt;</pre>
+      </div>
+    </section>
+
+    <!-- Card -->
+    <section id="card" class="showcase-section">
+      <h2>Card</h2>
+      <p>Content containers with optional header and footer</p>
+
+      <div class="showcase-demo">
+        <div style="display: grid; gap: var(--space-6);">
+          <div id="card-simple"></div>
+          <div id="card-with-header"></div>
+          <div id="card-with-footer"></div>
+        </div>
+      </div>
+
+      <div class="showcase-code">
+        <pre>&lt;DS.Card title="Patient Details"&gt;
+  Content goes here...
+&lt;/DS.Card&gt;</pre>
+      </div>
+    </section>
+
+    <!-- Tabs -->
+    <section id="tabs" class="showcase-section">
+      <h2>Tabs</h2>
+      <p>Tabbed navigation</p>
+
+      <div class="showcase-demo">
+        <div id="tabs-demo"></div>
+      </div>
+
+      <div class="showcase-code">
+        <pre>&lt;DS.Tabs
+  items={[
+    { key: 'overview', label: 'Overview', content: &lt;div&gt;...&lt;/div&gt; },
+    { key: 'details', label: 'Details', content: &lt;div&gt;...&lt;/div&gt; }
+  ]}
+/&gt;</pre>
+      </div>
+    </section>
+
+    <!-- Collapsible -->
+    <section id="collapsible" class="showcase-section">
+      <h2>Collapsible</h2>
+      <p>Expandable content sections</p>
+
+      <div class="showcase-demo">
+        <div style="display: grid; gap: var(--space-4);">
+          <div id="collapsible-default"></div>
+          <div id="collapsible-open"></div>
+        </div>
+      </div>
+
+      <div class="showcase-code">
+        <pre>&lt;DS.Collapsible title="Advanced Options" defaultOpen={false}&gt;
+  Hidden content...
+&lt;/DS.Collapsible&gt;</pre>
+      </div>
+    </section>
+
+    <!-- Separator -->
+    <section id="separator" class="showcase-section">
+      <h2>Separator</h2>
+      <p>Horizontal divider</p>
+
+      <div class="showcase-demo">
+        <div>Content above</div>
+        <div id="separator-demo"></div>
+        <div>Content below</div>
+      </div>
+
+      <div class="showcase-code">
+        <pre>&lt;DS.Separator /&gt;</pre>
+      </div>
+    </section>
+
+    <!-- Modal -->
+    <section id="modal" class="showcase-section">
+      <h2>Modal</h2>
+      <p>Dialog overlay</p>
+
+      <div class="showcase-demo">
+        <div id="modal-trigger"></div>
+      </div>
+
+      <div class="showcase-code">
+        <pre>&lt;DS.Modal
+  open={isOpen}
+  onClose={() =&gt; setOpen(false)}
+  title="Confirm Action"
+&gt;
+  Modal content...
+&lt;/DS.Modal&gt;</pre>
+      </div>
+    </section>
+
+    <!-- Snackbar -->
+    <section id="snackbar" class="showcase-section">
+      <h2>Snackbar / Toast</h2>
+      <p>Notification messages</p>
+
+      <div class="showcase-subsection">
+        <h3>Inline Snackbars</h3>
+        <div class="showcase-demo">
+          <div style="display: grid; gap: var(--space-4);">
+            <div id="snackbar-alert"></div>
+            <div id="snackbar-success"></div>
+            <div id="snackbar-warning"></div>
+            <div id="snackbar-info"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="showcase-subsection">
+        <h3>Toast (Auto-dismiss)</h3>
+        <div class="showcase-demo">
+          <div style="display: flex; gap: var(--space-3); flex-wrap: wrap;">
+            <div id="toast-alert-btn"></div>
+            <div id="toast-success-btn"></div>
+            <div id="toast-warning-btn"></div>
+            <div id="toast-info-btn"></div>
+          </div>
+        </div>
+        <div class="showcase-code">
+          <pre>DS.toast({
+  variant: 'success',
+  message: 'Changes saved!',
+  action: 'Undo',
+  onAction: () =&gt; console.log('Undo clicked')
+});</pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- Icons -->
+    <section id="icons" class="showcase-section">
+      <h2>Icons</h2>
+      <p>Lucide React icon library (curated selection)</p>
+
+      <div class="showcase-subsection">
+        <h3>Navigation</h3>
+        <div class="icon-grid" id="icons-navigation"></div>
+      </div>
+
+      <div class="showcase-subsection">
+        <h3>Actions</h3>
+        <div class="icon-grid" id="icons-actions"></div>
+      </div>
+
+      <div class="showcase-subsection">
+        <h3>Status</h3>
+        <div class="icon-grid" id="icons-status"></div>
+      </div>
+
+      <div class="showcase-subsection">
+        <h3>Data</h3>
+        <div class="icon-grid" id="icons-data"></div>
+      </div>
+
+      <div class="showcase-subsection">
+        <h3>Communication</h3>
+        <div class="icon-grid" id="icons-communication"></div>
+      </div>
+
+      <div class="showcase-subsection">
+        <h3>Users</h3>
+        <div class="icon-grid" id="icons-users"></div>
+      </div>
+
+      <div class="showcase-subsection">
+        <h3>Medical</h3>
+        <div class="icon-grid" id="icons-medical"></div>
+      </div>
+
+      <div class="showcase-subsection">
+        <h3>Logistics</h3>
+        <div class="icon-grid" id="icons-logistics"></div>
+      </div>
+
+      <div class="showcase-code">
+        <pre>// In JSX/React:
+&lt;LucideReact.Search size={24} /&gt;
+&lt;LucideReact.Plus size={20} /&gt;</pre>
+      </div>
+    </section>
+  </div>
+
+  <!-- CDN Scripts (exact order required) -->
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script>window.react = window.React;</script>
+  <script src="https://unpkg.com/prop-types@15/prop-types.min.js"></script>
+  <script src="https://unpkg.com/lucide-react@0.563.0/dist/umd/lucide-react.min.js"></script>
+  <script src="design-system.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <!-- React Components -->
+  <script type="text/babel">
+    const { useState } = React;
+    const h = React.createElement;
+
+    // Button Examples
+    ReactDOM.render(h(DS.Button, { color: 'primary', variant: 'filled' }, 'Save'), document.getElementById('btn-primary-filled-base'));
+    ReactDOM.render(h(DS.Button, { color: 'primary', variant: 'outline' }, 'Cancel'), document.getElementById('btn-primary-outline-base'));
+    ReactDOM.render(h(DS.Button, { color: 'primary', variant: 'ghost' }, 'Reset'), document.getElementById('btn-primary-ghost-base'));
+
+    ReactDOM.render(h(DS.Button, { color: 'secondary', variant: 'filled' }, 'Secondary'), document.getElementById('btn-secondary-filled-base'));
+    ReactDOM.render(h(DS.Button, { color: 'secondary', variant: 'outline' }, 'Outline'), document.getElementById('btn-secondary-outline-base'));
+    ReactDOM.render(h(DS.Button, { color: 'secondary', variant: 'ghost' }, 'Ghost'), document.getElementById('btn-secondary-ghost-base'));
+
+    ReactDOM.render(h(DS.Button, { color: 'destructive', variant: 'filled' }, 'Delete'), document.getElementById('btn-destructive-filled-base'));
+    ReactDOM.render(h(DS.Button, { color: 'destructive', variant: 'outline' }, 'Remove'), document.getElementById('btn-destructive-outline-base'));
+    ReactDOM.render(h(DS.Button, { color: 'destructive', variant: 'ghost' }, 'Discard'), document.getElementById('btn-destructive-ghost-base'));
+
+    ReactDOM.render(h(DS.Button, { color: 'success', variant: 'filled' }, 'Confirm'), document.getElementById('btn-success-filled-base'));
+    ReactDOM.render(h(DS.Button, { color: 'success', variant: 'outline' }, 'Approve'), document.getElementById('btn-success-outline-base'));
+    ReactDOM.render(h(DS.Button, { color: 'success', variant: 'ghost' }, 'Accept'), document.getElementById('btn-success-ghost-base'));
+
+    ReactDOM.render(h(DS.Button, { color: 'link' }, 'Link Button'), document.getElementById('btn-link'));
+
+    ReactDOM.render(h(DS.Button, { size: 'sm' }, 'Small'), document.getElementById('btn-size-sm'));
+    ReactDOM.render(h(DS.Button, { size: 'base' }, 'Base'), document.getElementById('btn-size-base'));
+    ReactDOM.render(h(DS.Button, { size: 'lg' }, 'Large'), document.getElementById('btn-size-lg'));
+
+    ReactDOM.render(h(DS.Button, { iconLeft: 'Plus' }, 'Add Item'), document.getElementById('btn-icon-left'));
+    ReactDOM.render(h(DS.Button, { iconRight: 'ArrowRight' }, 'Next'), document.getElementById('btn-icon-right'));
+    ReactDOM.render(h(DS.Button, { iconOnly: true, iconLeft: 'Settings' }), document.getElementById('btn-icon-only'));
+    ReactDOM.render(h(DS.Button, { iconOnly: true, iconLeft: 'Heart', round: true }), document.getElementById('btn-round-icon'));
+
+    ReactDOM.render(h(DS.Button, { disabled: true }, 'Disabled'), document.getElementById('btn-disabled'));
+    ReactDOM.render(h(DS.Button, {}, 'Enabled'), document.getElementById('btn-normal'));
+
+    // Input Examples
+    ReactDOM.render(h(DS.Input, { label: 'Email', placeholder: 'Enter your email' }), document.getElementById('input-default'));
+    ReactDOM.render(h(DS.Input, { label: 'Username', required: true, placeholder: 'Required field' }), document.getElementById('input-required'));
+    ReactDOM.render(h(DS.Input, { label: 'Password', error: true, errorMessage: 'Password is required' }), document.getElementById('input-error'));
+    ReactDOM.render(h(DS.Input, { label: 'Phone', warning: true, placeholder: 'Warning state' }), document.getElementById('input-warning'));
+    ReactDOM.render(h(DS.Input, { label: 'Disabled', disabled: true, placeholder: 'Cannot edit' }), document.getElementById('input-disabled'));
+    ReactDOM.render(h(DS.Input, { label: 'Readonly', readOnly: true, value: 'Read-only value' }), document.getElementById('input-readonly'));
+    ReactDOM.render(h(DS.Input, { label: 'Small Size', size: 'sm', placeholder: 'Compact input' }), document.getElementById('input-sm'));
+
+    // Select Examples
+    const countries = [
+      { value: 'ch', label: 'Switzerland' },
+      { value: 'de', label: 'Germany' },
+      { value: 'at', label: 'Austria' },
+      { value: 'fr', label: 'France' }
+    ];
+    ReactDOM.render(h(DS.Select, { label: 'Country', options: countries, placeholder: 'Select country' }), document.getElementById('select-default'));
+    ReactDOM.render(h(DS.Select, { label: 'Priority', error: true, options: [{ value: 'low', label: 'Low' }, { value: 'high', label: 'High' }] }), document.getElementById('select-error'));
+    ReactDOM.render(h(DS.Select, { label: 'Department', size: 'sm', options: [{ value: 'hr', label: 'HR' }, { value: 'it', label: 'IT' }] }), document.getElementById('select-sm'));
+
+    // Textarea Examples
+    ReactDOM.render(h(DS.Textarea, { label: 'Notes', placeholder: 'Enter your notes here...' }), document.getElementById('textarea-default'));
+    ReactDOM.render(h(DS.Textarea, { label: 'Comments', required: true, placeholder: 'Required textarea' }), document.getElementById('textarea-required'));
+    ReactDOM.render(h(DS.Textarea, { variant: 'invisible', placeholder: 'Invisible border until focus...' }), document.getElementById('textarea-invisible'));
+
+    // Checkbox Examples
+    ReactDOM.render(h(DS.Checkbox, { label: 'Accept terms and conditions' }), document.getElementById('checkbox-default'));
+    ReactDOM.render(h(DS.Checkbox, { label: 'Subscribe to newsletter', defaultChecked: true }), document.getElementById('checkbox-checked'));
+    ReactDOM.render(h(DS.Checkbox, { label: 'Disabled option', disabled: true }), document.getElementById('checkbox-disabled'));
+
+    // RadioGroup Example
+    ReactDOM.render(h(DS.RadioGroup, { name: 'size', options: ['Small', 'Medium', 'Large'], defaultValue: 'Medium' }), document.getElementById('radio-group'));
+
+    // Switch Examples
+    ReactDOM.render(h(DS.Switch, { label: 'Enable notifications' }), document.getElementById('switch-default'));
+    ReactDOM.render(h(DS.Switch, { label: 'Auto-save', defaultChecked: true }), document.getElementById('switch-checked'));
+    ReactDOM.render(h(DS.Switch, { label: 'Disabled setting', disabled: true }), document.getElementById('switch-disabled'));
+
+    // SearchBar Examples
+    function SearchExample() {
+      const [value, setValue] = useState('');
+      return h(DS.SearchBar, {
+        value: value,
+        onChange: (e) => setValue(e.target.value),
+        onClear: () => setValue(''),
+        placeholder: 'Search patients...'
+      });
+    }
+    function SearchSmallExample() {
+      const [value, setValue] = useState('');
+      return h(DS.SearchBar, {
+        value: value,
+        onChange: (e) => setValue(e.target.value),
+        onClear: () => setValue(''),
+        placeholder: 'Search (small)...',
+        size: 'sm'
+      });
+    }
+    ReactDOM.render(h(SearchExample), document.getElementById('search-default'));
+    ReactDOM.render(h(SearchSmallExample), document.getElementById('search-sm'));
+
+    // Table Example
+    const tableData = [
+      { id: 1, name: 'Anna Müller', age: 34, status: 'success', department: 'Cardiology' },
+      { id: 2, name: 'Thomas Weber', age: 45, status: 'warning', department: 'Neurology' },
+      { id: 3, name: 'Lisa Schmidt', age: 29, status: 'alert', department: 'Emergency' },
+      { id: 4, name: 'Michael Bauer', age: 52, status: 'info', department: 'Radiology' }
+    ];
+    const tableColumns = [
+      { key: 'name', label: 'Name', sortable: true },
+      { key: 'age', label: 'Age', sortable: true, width: '80px' },
+      { key: 'department', label: 'Department', sortable: true },
+      {
+        key: 'status',
+        label: 'Status',
+        render: (val) => h(DS.Badge, { variant: val }, val)
+      }
+    ];
+    ReactDOM.render(h(DS.Table, { columns: tableColumns, data: tableData }), document.getElementById('table-demo'));
+
+    // Badge Examples
+    ReactDOM.render(h(DS.Badge, { variant: 'alert' }, 'Critical'), document.getElementById('badge-alert'));
+    ReactDOM.render(h(DS.Badge, { variant: 'success' }, 'Active'), document.getElementById('badge-success'));
+    ReactDOM.render(h(DS.Badge, { variant: 'warning' }, 'Pending'), document.getElementById('badge-warning'));
+    ReactDOM.render(h(DS.Badge, { variant: 'info' }, 'Info'), document.getElementById('badge-info'));
+    ReactDOM.render(h(DS.Badge, { variant: 'neutral' }, 'Neutral'), document.getElementById('badge-neutral'));
+
+    // Avatar Examples
+    ReactDOM.render(h(DS.Avatar, { fallbackText: 'Anna Müller', size: 'sm' }), document.getElementById('avatar-sm'));
+    ReactDOM.render(h(DS.Avatar, { fallbackText: 'Thomas Weber', size: 'base' }), document.getElementById('avatar-base'));
+    ReactDOM.render(h(DS.Avatar, { fallbackText: 'Lisa Schmidt', size: 'lg' }), document.getElementById('avatar-lg'));
+
+    // ProgressBar Examples
+    ReactDOM.render(h(DS.ProgressBar, { value: 45 }), document.getElementById('progress-default'));
+    ReactDOM.render(h(DS.ProgressBar, { value: 100, variant: 'success' }), document.getElementById('progress-success'));
+    ReactDOM.render(h(DS.ProgressBar, { value: 65, variant: 'warning' }), document.getElementById('progress-warning'));
+    ReactDOM.render(h(DS.ProgressBar, { value: 25, variant: 'alert' }), document.getElementById('progress-alert'));
+
+    // Tooltip Example
+    ReactDOM.render(
+      h(DS.Tooltip, { text: 'This is helpful information' },
+        h(DS.Button, {}, 'Hover for tooltip')
+      ),
+      document.getElementById('tooltip-demo')
+    );
+
+    // Card Examples
+    ReactDOM.render(
+      h(DS.Card, {}, 'Simple card content without header or footer.'),
+      document.getElementById('card-simple')
+    );
+    ReactDOM.render(
+      h(DS.Card, { title: 'Patient Details' },
+        h('div', null,
+          h('p', null, 'Name: Anna Müller'),
+          h('p', null, 'Age: 34'),
+          h('p', null, 'Department: Cardiology')
+        )
+      ),
+      document.getElementById('card-with-header')
+    );
+    ReactDOM.render(
+      h(DS.Card, {
+        title: 'Confirm Action',
+        footer: h('div', { style: { display: 'flex', gap: 'var(--space-2)' } },
+          h(DS.Button, { color: 'primary' }, 'Confirm'),
+          h(DS.Button, { color: 'secondary', variant: 'outline' }, 'Cancel')
+        )
+      }, 'Are you sure you want to proceed?'),
+      document.getElementById('card-with-footer')
+    );
+
+    // Tabs Example
+    const tabItems = [
+      { key: 'overview', label: 'Overview', content: h('div', null, 'Overview content goes here...') },
+      { key: 'details', label: 'Details', content: h('div', null, 'Detailed information...') },
+      { key: 'history', label: 'History', content: h('div', null, 'Historical data...') }
+    ];
+    ReactDOM.render(h(DS.Tabs, { items: tabItems }), document.getElementById('tabs-demo'));
+
+    // Collapsible Examples
+    ReactDOM.render(
+      h(DS.Collapsible, { title: 'Advanced Options' },
+        h('div', null, 'Hidden content that can be expanded...')
+      ),
+      document.getElementById('collapsible-default')
+    );
+    ReactDOM.render(
+      h(DS.Collapsible, { title: 'Already Open', defaultOpen: true },
+        h('div', null, 'This section is open by default.')
+      ),
+      document.getElementById('collapsible-open')
+    );
+
+    // Separator
+    ReactDOM.render(h(DS.Separator), document.getElementById('separator-demo'));
+
+    // Modal Example
+    function ModalExample() {
+      const [open, setOpen] = useState(false);
+      return h('div', null,
+        h(DS.Button, { onClick: () => setOpen(true) }, 'Open Modal'),
+        h(DS.Modal, {
+          open: open,
+          onClose: () => setOpen(false),
+          title: 'Patient Information',
+          footer: h('div', { style: { display: 'flex', gap: 'var(--space-2)' } },
+            h(DS.Button, { color: 'primary', onClick: () => setOpen(false) }, 'Save'),
+            h(DS.Button, { color: 'secondary', variant: 'outline', onClick: () => setOpen(false) }, 'Cancel')
+          )
+        },
+          h('div', { style: { display: 'grid', gap: 'var(--space-4)' } },
+            h(DS.Input, { label: 'Name', placeholder: 'Enter patient name' }),
+            h(DS.Input, { label: 'Age', placeholder: 'Enter age', type: 'number' }),
+            h(DS.Select, { label: 'Department', options: countries })
+          )
+        )
+      );
+    }
+    ReactDOM.render(h(ModalExample), document.getElementById('modal-trigger'));
+
+    // Snackbar Examples
+    ReactDOM.render(h(DS.Snackbar, { variant: 'alert', message: 'Critical system error occurred', action: 'Retry' }), document.getElementById('snackbar-alert'));
+    ReactDOM.render(h(DS.Snackbar, { variant: 'success', message: 'Patient record saved successfully' }), document.getElementById('snackbar-success'));
+    ReactDOM.render(h(DS.Snackbar, { variant: 'warning', message: 'Session will expire in 5 minutes', action: 'Extend' }), document.getElementById('snackbar-warning'));
+    ReactDOM.render(h(DS.Snackbar, { variant: 'info', message: 'New updates available' }), document.getElementById('snackbar-info'));
+
+    // Toast Examples (wrapped in SnackbarProvider)
+    function ToastButtons() {
+      return h('div', { style: { display: 'flex', gap: 'var(--space-3)', flexWrap: 'wrap' } },
+        h(DS.Button, {
+          color: 'destructive',
+          onClick: () => DS.toast({ variant: 'alert', message: 'Error: Could not save changes', action: 'Retry' })
+        }, 'Show Alert Toast'),
+        h(DS.Button, {
+          color: 'success',
+          onClick: () => DS.toast({ variant: 'success', message: 'Successfully saved!' })
+        }, 'Show Success Toast'),
+        h(DS.Button, {
+          onClick: () => DS.toast({ variant: 'warning', message: 'Please review before submitting', action: 'Review' })
+        }, 'Show Warning Toast'),
+        h(DS.Button, {
+          color: 'secondary',
+          onClick: () => DS.toast({ variant: 'info', message: 'Update available', action: 'Download' })
+        }, 'Show Info Toast')
+      );
+    }
+
+    // Wrap entire app in SnackbarProvider
+    function App() {
+      return h(DS.SnackbarProvider, null,
+        h(ToastButtons)
+      );
+    }
+
+    ReactDOM.render(h(App), document.getElementById('toast-alert-btn').parentElement);
+
+    // Icon Examples
+    const iconCategories = {
+      navigation: ['Menu', 'ChevronDown', 'ChevronRight', 'ArrowLeft', 'ArrowRight', 'ExternalLink', 'Home'],
+      actions: ['Plus', 'Minus', 'X', 'Check', 'Search', 'Edit', 'Trash2', 'Download', 'Upload', 'Copy', 'Save'],
+      status: ['AlertCircle', 'AlertTriangle', 'Info', 'CheckCircle2', 'XCircle', 'Clock', 'Activity'],
+      data: ['File', 'FileText', 'Database', 'BarChart3', 'PieChart', 'TrendingUp'],
+      communication: ['Mail', 'Phone', 'MessageSquare', 'Bell', 'Send'],
+      users: ['User', 'Users', 'UserPlus', 'Shield', 'Lock', 'Unlock'],
+      medical: ['Heart', 'Stethoscope', 'Pill', 'Syringe', 'Hospital', 'Ambulance', 'Cross'],
+      logistics: ['Truck', 'MapPin', 'Navigation', 'Building', 'Warehouse']
+    };
+
+    Object.keys(iconCategories).forEach(category => {
+      const container = document.getElementById(`icons-${category}`);
+      iconCategories[category].forEach(iconName => {
+        const IconComponent = LucideReact[iconName];
+        if (IconComponent) {
+          const item = document.createElement('div');
+          item.className = 'icon-item';
+          container.appendChild(item);
+          ReactDOM.render(
+            h('div', { style: { display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 'var(--space-2)' } },
+              h(IconComponent, { size: 32 }),
+              h('div', { className: 'icon-label' }, iconName)
+            ),
+            item
+          );
+        }
+      });
+    });
+  </script>
+</body>
+</html>

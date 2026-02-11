@@ -1,0 +1,2024 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IES NG — Informations- und Einsatzsystem</title>
+  <meta name="description" content="Zentrale Einstiegsseite für das Informations- und Einsatzsystem New Generation (IES NG) des Bundesamts für Bevölkerungsschutz BABS." />
+  <link rel="stylesheet" href="design-system/design-system.css" />
+  <style>
+    /* ═══════════════════════════════════════════════════════════════════════
+       IES NG Landing Page — React Prototype
+       Base: landing-template.html + HTML prototype enhancements + NZZ spacing
+       ═══════════════════════════════════════════════════════════════════════ */
+
+    /* ── Overrides & Additions ─────────────────────────────────────────── */
+    :root {
+      --primary-svg-color: #1C79E5;
+    }
+    body {
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ── Header ────────────────────────────────────────────────────────── */
+    .lp-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--elements-300);
+      height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 var(--space-6);
+    }
+    .lp-header-left {
+      display: flex;
+      align-items: center;
+      gap: var(--space-4);
+    }
+    .lp-header-logo {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-weight: var(--font-bold);
+      font-size: var(--text-sm);
+      color: var(--typo-800);
+      letter-spacing: -0.01em;
+      text-decoration: none;
+    }
+    .lp-header-logo:hover { text-decoration: none; }
+    .lp-logo-mark {
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .lp-logo-mark img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+    .lp-header-divider {
+      width: 1px;
+      height: 20px;
+      background: var(--elements-300);
+    }
+    .lp-header-nav {
+      display: flex;
+      gap: var(--space-1);
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .lp-header-nav a {
+      font-size: var(--text-sm);
+      font-weight: var(--font-normal);
+      color: var(--typo-500);
+      text-decoration: none;
+      transition: color 0.15s;
+      padding: var(--space-1) var(--space-3);
+    }
+    .lp-header-nav a:hover {
+      color: var(--typo-800);
+    }
+    .lp-header-nav a.active {
+      color: var(--typo-800);
+      font-weight: var(--font-medium);
+    }
+    .lp-header-right {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+    .lp-lang-switch {
+      font-size: var(--text-xs);
+      font-weight: var(--font-medium);
+      color: var(--typo-400);
+      background: none;
+      border: none;
+      padding: var(--space-1) var(--space-2);
+      cursor: pointer;
+      font-family: inherit;
+      transition: color 0.15s;
+      margin-right: var(--space-1);
+    }
+    .lp-lang-switch:hover { color: var(--typo-600); }
+
+    /* ── Mobile Menu ──────────────────────────────────────────────────── */
+    .lp-menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      padding: var(--space-1);
+      cursor: pointer;
+      color: var(--typo-700);
+      line-height: 0;
+    }
+    .lp-mobile-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
+      z-index: 200;
+      opacity: 0;
+      transition: opacity 0.25s;
+    }
+    .lp-mobile-overlay.open {
+      opacity: 1;
+    }
+    .lp-mobile-drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 300px;
+      max-width: 85vw;
+      background: white;
+      z-index: 201;
+      transform: translateX(100%);
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      flex-direction: column;
+      padding: var(--space-6);
+      box-shadow: -4px 0 24px rgba(0,0,0,0.12);
+    }
+    .lp-mobile-drawer.open {
+      transform: translateX(0);
+    }
+    .lp-mobile-drawer-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: var(--space-4);
+      border-bottom: 1px solid var(--elements-300);
+      margin-bottom: var(--space-4);
+    }
+    .lp-mobile-drawer-close {
+      background: none;
+      border: none;
+      padding: var(--space-1);
+      cursor: pointer;
+      color: var(--typo-500);
+      line-height: 0;
+      border-radius: var(--radius-md);
+      transition: background 0.15s;
+    }
+    .lp-mobile-drawer-close:hover {
+      background: var(--surface-200);
+    }
+    .lp-mobile-nav {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-1);
+    }
+    .lp-mobile-nav a {
+      display: block;
+      font-size: var(--text-base);
+      font-weight: var(--font-medium);
+      color: var(--typo-600);
+      text-decoration: none;
+      padding: var(--space-3) var(--space-3);
+      border-radius: var(--radius-md);
+      transition: background 0.15s, color 0.15s;
+    }
+    .lp-mobile-nav a:hover,
+    .lp-mobile-nav a:active {
+      background: var(--surface-200);
+      color: var(--typo-800);
+    }
+    .lp-mobile-drawer-actions {
+      margin-top: auto;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+      padding-top: var(--space-6);
+      border-top: 1px solid var(--elements-300);
+    }
+    .lp-mobile-drawer-actions .lp-lang-switch {
+      display: block;
+      align-self: flex-start;
+      padding: var(--space-2) 0;
+      margin-bottom: var(--space-2);
+    }
+
+    /* ── Alert Banner ──────────────────────────────────────────────────── */
+    .lp-alert-banner {
+      position: sticky;
+      top: 56px;
+      z-index: 99;
+      background: var(--warning-100);
+      border-bottom: 1px solid rgba(140, 81, 26, 0.2);
+      padding: var(--space-3) var(--space-8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+      font-size: var(--text-sm);
+      font-weight: var(--font-semibold);
+      color: var(--typo-700);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .lp-alert-banner-critical {
+      background: var(--alert-100);
+      border-bottom-color: var(--alert-400);
+    }
+
+    /* ── Hero ──────────────────────────────────────────────────────────── */
+    .lp-hero {
+      background: linear-gradient(145deg, #0B2E57 0%, var(--primary-500) 40%, var(--primary-400) 70%, #3B93F7 100%);
+      padding: 100px 0 80px;
+      position: relative;
+      overflow: hidden;
+    }
+    .lp-hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-16);
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+    .lp-hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: var(--font-semibold);
+      color: rgba(255,255,255,0.8);
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.15);
+      padding: 5px 14px;
+      border-radius: var(--radius-full);
+      margin-bottom: var(--space-8);
+      letter-spacing: 0.02em;
+    }
+    .lp-hero h1 {
+      font-size: clamp(2.2rem, 4vw, 3rem);
+      font-weight: var(--font-bold);
+      color: white;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      margin-bottom: var(--space-4);
+      text-shadow: 0 2px 12px rgba(0,0,0,0.25);
+    }
+    .lp-hero-subtitle {
+      font-size: var(--text-lg);
+      color: rgba(255,255,255,0.85);
+      margin-bottom: var(--space-6);
+      text-shadow: 0 1px 8px rgba(0,0,0,0.2);
+    }
+    .lp-hero-desc {
+      font-size: var(--text-base);
+      line-height: 1.75;
+      color: rgba(255,255,255,0.9);
+      margin-bottom: var(--space-8);
+      max-width: 520px;
+      text-shadow: 0 1px 6px rgba(0,0,0,0.15);
+    }
+    .lp-hero-actions {
+      display: flex;
+      gap: var(--space-3);
+      flex-wrap: wrap;
+    }
+    .lp-hero .ds-btn {
+      min-width: 180px;
+      font-size: var(--text-sm);
+      padding: 12px 24px;
+    }
+    .lp-btn-white {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: inherit;
+      font-size: var(--text-sm);
+      font-weight: var(--font-semibold);
+      padding: 12px 24px;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      text-decoration: none;
+      border: 1.5px solid transparent;
+      white-space: nowrap;
+      background: white;
+      color: var(--primary-500);
+      border-color: white;
+      min-width: 180px;
+      justify-content: center;
+    }
+    .lp-btn-white:hover { background: var(--primary-100); border-color: var(--primary-100); text-decoration: none; }
+    .lp-btn-white-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: inherit;
+      font-size: var(--text-sm);
+      font-weight: var(--font-semibold);
+      padding: 12px 24px;
+      border-radius: var(--radius-md);
+      cursor: pointer;
+      transition: all 0.15s ease;
+      text-decoration: none;
+      white-space: nowrap;
+      background: transparent;
+      color: white;
+      border: 1.5px solid rgba(255,255,255,0.35);
+      min-width: 180px;
+      justify-content: center;
+    }
+    .lp-btn-white-outline:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.6); text-decoration: none; }
+
+    /* Hero Video */
+    .lp-hero-video-wrapper {
+      position: relative;
+      border-radius: var(--radius-xl);
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.1);
+      aspect-ratio: 16 / 9;
+      background: rgba(0,0,0,0.3);
+      cursor: pointer;
+    }
+    .lp-hero-video-wrapper iframe {
+      width: 100%;
+      height: 100%;
+      border: 0;
+      display: block;
+    }
+    .lp-video-thumbnail {
+      position: absolute;
+      inset: 0;
+      background: url('https://img.youtube.com/vi/u58bEzHuQuM/maxresdefault.jpg') center/cover no-repeat;
+      z-index: 2;
+      transition: opacity 0.4s ease;
+    }
+    .lp-video-thumbnail::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(14, 61, 115, 0.35);
+      transition: background 0.3s;
+    }
+    .lp-hero-video-wrapper:hover .lp-video-thumbnail::after {
+      background: rgba(14, 61, 115, 0.2);
+    }
+    .lp-video-play-btn {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 3;
+      width: 64px;
+      height: 64px;
+      background: rgba(255,255,255,0.95);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+      transition: transform 0.2s, box-shadow 0.2s;
+      border: none;
+      cursor: pointer;
+    }
+    .lp-hero-video-wrapper:hover .lp-video-play-btn {
+      transform: translate(-50%, -50%) scale(1.08);
+      box-shadow: 0 6px 28px rgba(0,0,0,0.3);
+    }
+    .lp-video-play-btn svg { color: var(--primary-500); margin-left: 3px; }
+    .lp-hero-video-wrapper.playing .lp-video-thumbnail,
+    .lp-hero-video-wrapper.playing .lp-video-play-btn {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .lp-hero-video-caption {
+      margin-top: var(--space-3);
+      font-size: var(--text-xs);
+      color: rgba(255,255,255,0.45);
+      text-align: center;
+    }
+    .lp-hero-video-caption a { color: rgba(255,255,255,0.65); }
+    .lp-hero-video-caption a:hover { color: white; }
+
+    /* Mountains */
+    .lp-hero-mountains {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 0;
+      pointer-events: none;
+      line-height: 0;
+    }
+    .lp-hero-mountains svg { width: 100%; height: auto; display: block; }
+
+    /* ── Trust Bar ─────────────────────────────────────────────────────── */
+    .lp-trust-bar {
+      background: var(--surface-200);
+      border-bottom: 1px solid var(--elements-300);
+      padding: var(--space-3) 0;
+      text-align: center;
+      font-size: var(--text-xs);
+      color: var(--typo-500);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-3);
+    }
+    .lp-swiss-cross-inline {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 18px;
+      height: 18px;
+      background: #E2001A;
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+    .lp-swiss-cross-inline svg { width: 10px; height: 10px; }
+
+    /* ── Stats Bar ─────────────────────────────────────────────────── */
+    .lp-stats-bar {
+      background: var(--typo-800);
+      padding: 52px 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .lp-stats-bar::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 32px 32px;
+      pointer-events: none;
+    }
+    .lp-stats-bar-container {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 80px;
+    }
+    .lp-stats-bar-item {
+      text-align: center;
+      position: relative;
+    }
+    .lp-stats-bar-item:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      right: -40px;
+      transform: translateY(-50%);
+      width: 1px;
+      height: 60px;
+      background: rgba(255,255,255,0.1);
+    }
+    .lp-stats-bar-number {
+      font-size: 2.5rem;
+      font-weight: var(--font-bold);
+      color: white;
+      line-height: 1;
+      margin-bottom: 8px;
+      letter-spacing: -0.02em;
+    }
+    .lp-stats-bar-label {
+      font-size: var(--text-xs);
+      color: rgba(255,255,255,0.6);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-weight: var(--font-medium);
+    }
+
+    /* ── Container & Section ───────────────────────────────────────────── */
+    .lp-container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 var(--space-8);
+    }
+    .lp-section {
+      padding: 140px 0;
+    }
+    .lp-section-bg {
+      background: var(--surface-200);
+    }
+    .lp-section-header {
+      margin-bottom: 72px;
+    }
+    .lp-section-label {
+      font-size: var(--text-sm);
+      font-weight: var(--font-semibold);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--primary-500);
+      margin-bottom: var(--space-3);
+    }
+    .lp-section-title {
+      font-size: clamp(1.75rem, 3vw, 2.25rem);
+      font-weight: var(--font-bold);
+      color: var(--typo-800);
+      letter-spacing: -0.025em;
+      line-height: 1.2;
+    }
+    .lp-section-subtitle {
+      font-size: var(--text-lg);
+      color: var(--typo-400);
+      margin-top: var(--space-3);
+      max-width: 640px;
+      line-height: 1.65;
+    }
+    .lp-section-subtitle strong,
+    .lp-feature-card p strong {
+      color: var(--typo-700);
+      font-weight: var(--font-semibold);
+    }
+
+    /* ── Gradient Text ─────────────────────────────────────────────────── */
+    .lp-gradient-text {
+      background: linear-gradient(135deg, #1C79E5, #3B93F7);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    /* ── Dark Section Inversion ────────────────────────────────────────── */
+    .lp-section-dark {
+      background: var(--typo-800);
+      position: relative;
+      overflow: hidden;
+    }
+    #bg-net {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+    .lp-section-dark {
+      z-index: 1;
+    }
+    .lp-section-dark > * {
+      position: relative;
+      z-index: 1;
+    }
+    .lp-section-dark .lp-section-label {
+      color: rgba(255,255,255,0.7);
+    }
+    .lp-section-dark .lp-section-title {
+      color: white;
+    }
+    .lp-section-dark .lp-gradient-text {
+      background: linear-gradient(135deg, #5BA3F5, #7BB7F8);
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
+
+    /* ── Feature Cards ─────────────────────────────────────────────────── */
+    .lp-features-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-6);
+    }
+    .lp-feature-card {
+      background: var(--surface-100);
+      border: 1px solid var(--elements-300);
+      border-radius: 20px;
+      padding: var(--space-8);
+      display: grid;
+      grid-template-columns: 160px 1fr;
+      gap: var(--space-6);
+      align-items: center;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .lp-feature-card:hover {
+      border-color: var(--primary-200);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    }
+    .lp-feature-illustration {
+      width: 100%;
+      height: 140px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--radius-lg);
+      background: linear-gradient(135deg, var(--primary-100) 0%, #F0F7FF 100%);
+      overflow: hidden;
+      flex-shrink: 0;
+      padding: var(--space-4);
+    }
+    .lp-feature-illustration img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+    .lp-feature-card h3 {
+      font-size: var(--text-base);
+      font-weight: var(--font-semibold);
+      color: var(--typo-800);
+      margin-bottom: var(--space-2);
+    }
+    .lp-feature-card p {
+      font-size: var(--text-sm);
+      color: var(--typo-400);
+      line-height: 1.65;
+    }
+
+    /* ── Status Dashboard (compact, moved before footer) ────────────── */
+    .lp-status-strip {
+      background: var(--surface-200);
+      border-top: 1px solid var(--elements-300);
+      border-bottom: 1px solid var(--elements-300);
+      padding: var(--space-6) 0;
+    }
+    .lp-status-strip-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: var(--space-4);
+    }
+    .lp-status-strip-title {
+      font-size: var(--text-sm);
+      font-weight: var(--font-semibold);
+      color: var(--typo-500);
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+    .lp-status-strip-all-ok {
+      font-size: 12px;
+      font-weight: var(--font-medium);
+      color: var(--success-400);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .lp-status-grid {
+      display: flex;
+      gap: var(--space-3);
+      flex-wrap: wrap;
+    }
+    .lp-status-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: var(--surface-100);
+      border: 1px solid var(--elements-300);
+      border-radius: var(--radius-full);
+      padding: 5px 14px 5px 10px;
+      font-size: 13px;
+      font-weight: var(--font-medium);
+      color: var(--typo-600);
+      transition: border-color 0.15s;
+    }
+    .lp-status-chip:hover { border-color: var(--primary-200); }
+    .lp-status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .lp-status-dot-green { background: var(--success-400); }
+    .lp-status-dot-yellow { background: var(--warning-400); }
+    .lp-status-dot-red { background: var(--alert-400); }
+    .lp-status-chip-version {
+      font-family: ui-monospace, 'SF Mono', monospace;
+      font-size: 11px;
+      color: var(--typo-400);
+      margin-left: 2px;
+    }
+
+    /* ── Workshop ──────────────────────────────────────────────────────── */
+    .lp-workshop {
+      background: linear-gradient(145deg, #0B2E57 0%, var(--primary-500) 60%, #1A5CA0 100%);
+      padding: 120px 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .lp-workshop::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 75% 30%, rgba(28, 121, 229, 0.15), transparent 60%),
+        radial-gradient(ellipse at 25% 70%, rgba(59, 147, 247, 0.1), transparent 50%);
+      pointer-events: none;
+    }
+    .lp-workshop-grid {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-16);
+      align-items: center;
+    }
+    .lp-workshop-content { }
+    .lp-workshop-eyebrow {
+      font-size: 12px;
+      font-weight: var(--font-semibold);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--primary-200);
+      margin-bottom: var(--space-4);
+    }
+    .lp-workshop-date-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.15);
+      padding: 5px 14px;
+      border-radius: var(--radius-full);
+      font-size: var(--text-sm);
+      font-weight: var(--font-semibold);
+      color: white;
+      backdrop-filter: blur(4px);
+      white-space: nowrap;
+      margin-bottom: var(--space-6);
+    }
+    .lp-workshop-content h3 {
+      font-size: clamp(1.75rem, 3vw, 2.25rem);
+      font-weight: var(--font-bold);
+      color: white;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      margin-bottom: var(--space-4);
+    }
+    .lp-workshop-desc {
+      font-size: var(--text-base);
+      color: rgba(255,255,255,0.55);
+      line-height: 1.7;
+      margin-bottom: var(--space-8);
+    }
+    .lp-workshop-actions {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: var(--space-3);
+    }
+    .lp-workshop-secondary {
+      font-size: var(--text-sm);
+      color: rgba(255,255,255,0.6);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.15s;
+      text-decoration: none;
+    }
+    .lp-workshop-secondary:hover { color: rgba(255,255,255,0.9); text-decoration: none; }
+    .lp-workshop-illustration {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    .lp-workshop-illustration img {
+      width: 100%;
+      max-width: 400px;
+      height: auto;
+      drop-shadow: 0 8px 30px rgba(0,0,0,0.15);
+    }
+
+    /* ── Roadmap Timeline (Vertical Alternating) ────────────────────── */
+    .lp-roadmap {
+      position: relative;
+      margin-top: var(--space-12);
+      padding-bottom: var(--space-4);
+    }
+    /* Central vertical line */
+    .lp-roadmap::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(to bottom, var(--primary-300), var(--elements-300) 65%);
+      transform: translateX(-50%);
+    }
+    .lp-roadmap-item {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr 48px 1fr;
+      gap: 0;
+      align-items: start;
+      margin-bottom: var(--space-10);
+    }
+    .lp-roadmap-item:last-child { margin-bottom: 0; }
+    /* Dot in center column */
+    .lp-roadmap-marker {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding-top: 20px;
+      position: relative;
+      z-index: 2;
+      grid-column: 2;
+    }
+    .lp-roadmap-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--primary-400);
+      border: 3px solid var(--surface-200);
+      box-shadow: 0 0 0 2px var(--primary-300);
+      flex-shrink: 0;
+    }
+    .lp-roadmap-item.completed .lp-roadmap-dot {
+      background: var(--primary-400);
+      box-shadow: 0 0 0 2px var(--primary-200);
+    }
+    .lp-roadmap-item.current .lp-roadmap-dot {
+      width: 16px;
+      height: 16px;
+      background: white;
+      border: 3px solid var(--primary-400);
+      box-shadow: 0 0 0 3px rgba(28,121,229,0.2), 0 0 12px rgba(28,121,229,0.25);
+      animation: lp-pulse-dot 2.5s ease-in-out infinite;
+    }
+    @keyframes lp-pulse-dot {
+      0%, 100% { box-shadow: 0 0 0 3px rgba(28,121,229,0.2), 0 0 12px rgba(28,121,229,0.25); }
+      50% { box-shadow: 0 0 0 5px rgba(28,121,229,0.12), 0 0 20px rgba(28,121,229,0.15); }
+    }
+    .lp-roadmap-item.future .lp-roadmap-dot {
+      background: var(--elements-300);
+      border-color: var(--surface-200);
+      box-shadow: 0 0 0 2px var(--elements-300);
+    }
+    .lp-roadmap-item.golive .lp-roadmap-dot {
+      width: 16px;
+      height: 16px;
+      background: var(--success-400);
+      border-color: var(--surface-200);
+      box-shadow: 0 0 0 2px var(--success-300);
+    }
+    /* Card */
+    .lp-roadmap-card {
+      background: none;
+      border: none;
+      border-radius: var(--radius-lg);
+      padding: var(--space-5) var(--space-6);
+    }
+    .lp-roadmap-item.current .lp-roadmap-card {}
+    .lp-roadmap-item.future .lp-roadmap-card {}
+    .lp-roadmap-item.golive .lp-roadmap-card {}
+    .lp-roadmap-date {
+      font-size: 11px;
+      font-weight: var(--font-bold);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--primary-400);
+      margin-bottom: 4px;
+    }
+    .lp-roadmap-item.future .lp-roadmap-date { color: var(--typo-400); }
+    .lp-roadmap-item.golive .lp-roadmap-date { color: var(--success-400); }
+    .lp-roadmap-card h4 {
+      font-size: var(--text-base);
+      font-weight: var(--font-bold);
+      color: var(--typo-800);
+      margin-bottom: 4px;
+      line-height: 1.3;
+    }
+    .lp-roadmap-item.future .lp-roadmap-card h4 { color: var(--typo-500); }
+    .lp-roadmap-card p {
+      font-size: var(--text-sm);
+      color: var(--typo-400);
+      line-height: 1.6;
+    }
+    .lp-roadmap-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 10px;
+      font-weight: var(--font-bold);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 2px 8px;
+      border-radius: var(--radius-full);
+      margin-top: var(--space-2);
+    }
+    .lp-roadmap-badge-current {
+      color: var(--primary-500);
+      background: var(--primary-100);
+    }
+    .lp-roadmap-badge-golive {
+      color: var(--success-500);
+      background: var(--success-100);
+    }
+    /* Alternating: use classes since Reveal wrappers break nth-child */
+    .lp-roadmap-item.left .lp-roadmap-card { grid-column: 1; text-align: right; }
+    .lp-roadmap-item.left .lp-roadmap-marker { grid-column: 2; }
+    .lp-roadmap-item.left .lp-roadmap-spacer { grid-column: 3; }
+    .lp-roadmap-item.left .lp-roadmap-badge { float: right; }
+    .lp-roadmap-item.right .lp-roadmap-spacer { grid-column: 1; }
+    .lp-roadmap-item.right .lp-roadmap-marker { grid-column: 2; }
+    .lp-roadmap-item.right .lp-roadmap-card { grid-column: 3; text-align: left; }
+    .lp-roadmap-item.right .lp-roadmap-badge { float: left; }
+
+    /* ── Quick Links ───────────────────────────────────────────────────── */
+    .lp-links-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: var(--space-6);
+    }
+    .lp-link-tile {
+      background: var(--surface-100);
+      border: 1px solid var(--elements-300);
+      border-radius: var(--radius-lg);
+      padding: var(--space-8);
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-4);
+      transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+      text-decoration: none;
+      color: inherit;
+    }
+    .lp-link-tile:hover {
+      border-color: var(--primary-200);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+      transform: translateY(-2px);
+      text-decoration: none;
+    }
+    .lp-link-tile-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--surface-200);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--typo-400);
+      flex-shrink: 0;
+      transition: background 0.2s, color 0.2s;
+    }
+    .lp-link-tile:hover .lp-link-tile-icon {
+      background: var(--primary-100);
+      color: var(--primary-400);
+    }
+    .lp-link-tile h4 {
+      font-size: var(--text-sm);
+      font-weight: var(--font-semibold);
+      color: var(--typo-700);
+      margin-bottom: 2px;
+    }
+    .lp-link-tile p {
+      font-size: var(--text-xs);
+      color: var(--typo-400);
+    }
+    .lp-section-dark .lp-link-tile {
+      background: rgba(255,255,255,0.04);
+      border-color: rgba(255,255,255,0.08);
+      color: white;
+    }
+    .lp-section-dark .lp-link-tile:hover {
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.15);
+      transform: translateY(-2px);
+    }
+    .lp-section-dark .lp-link-tile h4 {
+      color: white;
+    }
+    .lp-section-dark .lp-link-tile p {
+      color: rgba(255,255,255,0.5);
+    }
+    .lp-section-dark .lp-link-tile-icon {
+      background: rgba(255,255,255,0.08);
+      color: rgba(255,255,255,0.6);
+    }
+    .lp-section-dark .lp-link-tile:hover .lp-link-tile-icon {
+      background: rgba(28,121,229,0.3);
+      color: #5BA3F5;
+    }
+
+    /* ── Contact ───────────────────────────────────────────────────────── */
+    .lp-contact {
+      background: var(--primary-500);
+      padding: 120px 0;
+    }
+    .lp-contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+    }
+    .lp-contact h3 {
+      font-size: var(--text-xl);
+      font-weight: var(--font-bold);
+      color: white;
+      margin-bottom: var(--space-4);
+    }
+    .lp-contact p {
+      font-size: var(--text-sm);
+      color: rgba(255,255,255,0.65);
+      line-height: 1.8;
+    }
+    .lp-contact a { color: var(--primary-200); text-decoration: none; }
+    .lp-contact a:hover { color: white; }
+    .lp-contact-link-card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--radius-lg);
+      padding: var(--space-4) var(--space-6);
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      color: white;
+      text-decoration: none;
+      transition: all 0.15s;
+      font-size: var(--text-sm);
+      font-weight: var(--font-medium);
+    }
+    .lp-contact-link-card:hover {
+      background: rgba(255,255,255,0.1);
+      border-color: rgba(255,255,255,0.2);
+      text-decoration: none;
+    }
+    .lp-contact-link-card svg { opacity: 0.6; }
+
+    /* ── Footer ────────────────────────────────────────────────────────── */
+    .lp-footer {
+      background: var(--typo-800);
+      color: var(--typo-400);
+      padding: var(--space-8) var(--space-8) var(--space-6);
+      text-align: center;
+      font-size: var(--text-xs);
+    }
+    .lp-footer-status {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: var(--space-4);
+      padding-bottom: var(--space-4);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .lp-footer-status-label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: rgba(255,255,255,0.5);
+      font-size: var(--text-xs);
+      font-weight: var(--font-medium);
+    }
+    .lp-footer-status-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .lp-footer-status-dot-green { background: var(--success-400); }
+    .lp-footer-status-dot-yellow { background: var(--warning-400); }
+    .lp-footer-status-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: rgba(255,255,255,0.45);
+      font-size: 11px;
+    }
+    .lp-footer-status-item span:last-child {
+      font-family: ui-monospace, 'SF Mono', monospace;
+      font-size: 10px;
+      color: rgba(255,255,255,0.3);
+    }
+
+    /* ── Scroll Reveal ─────────────────────────────────────────────────── */
+    .lp-reveal {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .lp-reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ── Responsive ────────────────────────────────────────────────────── */
+    @media (max-width: 1024px) {
+      .lp-links-grid { grid-template-columns: repeat(2, 1fr); }
+      .lp-section { padding: 100px 0; }
+      .lp-workshop { padding: 100px 0; }
+      .lp-contact { padding: 100px 0; }
+      .lp-workshop-grid { grid-template-columns: 1fr; gap: var(--space-8); }
+      .lp-workshop-illustration { order: -1; }
+      .lp-workshop-actions { align-items: center; }
+      .lp-workshop-content { text-align: center; }
+    }
+    @media (max-width: 768px) {
+      .lp-hero { padding: 64px 0 48px; }
+      .lp-hero-grid { grid-template-columns: 1fr; gap: var(--space-8); }
+      .lp-hero h1 { font-size: 2rem; }
+      .lp-hero-video-wrapper { order: -1; }
+      .lp-section { padding: 80px 0; }
+      .lp-workshop { padding: 80px 0; }
+      .lp-contact { padding: 80px 0; }
+      .lp-section-header { margin-bottom: var(--space-8); }
+      .lp-features-grid { grid-template-columns: 1fr; }
+      .lp-feature-card { grid-template-columns: 120px 1fr; }
+      .lp-links-grid { grid-template-columns: 1fr; }
+      .lp-contact-grid { grid-template-columns: 1fr; gap: var(--space-8); }
+      .lp-header { padding: 0 var(--space-4); height: 52px; }
+      .lp-container { padding: 0 var(--space-4); }
+      .lp-header-nav { display: none; }
+      .lp-header-divider { display: none; }
+      .lp-header-logo { margin-right: 0; }
+      .lp-menu-toggle { display: flex; align-items: center; }
+      .lp-mobile-overlay { display: block; pointer-events: none; }
+      .lp-mobile-overlay.open { pointer-events: auto; }
+      .lp-header-right .ds-btn,
+      .lp-header-right .lp-lang-switch { display: none; }
+      .lp-alert-banner { top: 52px; }
+      .lp-hero-actions { flex-direction: column; align-items: stretch; }
+      .lp-btn-white, .lp-btn-white-outline { min-width: unset; }
+      .lp-roadmap::before { left: 20px; }
+      .lp-roadmap-item { grid-template-columns: 40px 1fr; }
+      .lp-roadmap-marker { padding-top: var(--space-5); justify-content: center; }
+      .lp-roadmap-item .lp-roadmap-spacer { display: none; }
+      .lp-roadmap-item.left .lp-roadmap-card,
+      .lp-roadmap-item.right .lp-roadmap-card { grid-column: 2; text-align: left; }
+      .lp-roadmap-item.left .lp-roadmap-marker,
+      .lp-roadmap-item.right .lp-roadmap-marker { grid-column: 1; }
+      .lp-roadmap-item.left .lp-roadmap-badge,
+      .lp-roadmap-item.right .lp-roadmap-badge { float: left; }
+      .lp-status-grid { flex-direction: column; }
+      .lp-stats-bar { padding: 40px 0; }
+      .lp-stats-bar-container { flex-wrap: wrap; gap: 32px; }
+      .lp-stats-bar-item:not(:last-child)::after { display: none; }
+    }
+    @media (max-width: 480px) {
+      .lp-feature-card { grid-template-columns: 1fr; }
+    }
+  </style>
+
+  <!-- React 18 -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <!-- React lowercase shim for UMD packages -->
+  <script>window.react = window.React;</script>
+  <!-- Lucide React Icons -->
+  <script src="https://unpkg.com/lucide-react@0.563.0/dist/umd/lucide-react.min.js"></script>
+  <!-- Design System -->
+  <script src="design-system/design-system.js"></script>
+  <!-- Agentation (CJS shim — scoped) -->
+  <script>
+    // Save any existing globals
+    var __saved_module = window.module;
+    var __saved_exports = window.exports;
+    var __saved_require = window.require;
+    // Set up CJS environment
+    window.module = { exports: {} };
+    window.exports = window.module.exports;
+    window.require = function(mod) {
+      if (mod === 'react') return window.React;
+      if (mod === 'react/jsx-runtime') return {
+        jsx: window.React.createElement,
+        jsxs: window.React.createElement,
+        Fragment: window.React.Fragment,
+      };
+      if (mod === 'react-dom') return window.ReactDOM;
+      if (mod === 'react-dom/client') return window.ReactDOM;
+      throw new Error('Cannot find module: ' + mod);
+    };
+  </script>
+  <script src="lib/agentation.js"></script>
+  <script>
+    // Capture result, then restore globals
+    window.AgentationLib = window.module.exports;
+    console.log('[Agentation] Loaded:', Object.keys(window.AgentationLib || {}));
+    window.module = __saved_module;
+    window.exports = __saved_exports;
+    window.require = __saved_require;
+  </script>
+  <!-- Babel Standalone -->
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+<body>
+
+<canvas id="bg-net"></canvas>
+<div id="root"></div>
+
+<script type="text/babel">
+// ═══════════════════════════════════════════════════════════════════════════
+// KONFIGURATION — Hier anpassen pro Organisation (BABS, BWL, etc.)
+// ═══════════════════════════════════════════════════════════════════════════
+
+const CONFIG = {
+  org: "BABS",
+  orgFull: "Bundesamt für Bevölkerungsschutz BABS",
+  logoUrl: "",
+
+  loginLinks: [
+    { label: "Produktion", url: "https://ies.babs.admin.ch", variant: "filled" },
+    { label: "Schulung", url: "https://ies-schulung.babs.admin.ch", variant: "outline" },
+  ],
+
+  hero: {
+    title: "Informations- und Einsatzsystem",
+    titleBreak: true,
+    subtitle: "New Generation — IES NG",
+    description: "Führungskräfte und Einsatzorganisationen koordinieren mit IES den Sanitätsdienst im Ereignisfall — Patientenverfolgung, Spitalkapazitäten und Ressourcenplanung, in Echtzeit und kantonsübergreifend.",
+    videoUrl: "https://youtu.be/u58bEzHuQuM",
+    videoId: "u58bEzHuQuM",
+  },
+
+  alertBanner: {
+    type: "warning",
+    message: "Geplante Wartung am 15. März 2026, 02:00–06:00 Uhr. Das System ist in dieser Zeit nicht verfügbar.",
+  },
+
+  systemStatus: [
+    { name: "IES NG Core", status: "green", version: "2.4.1", updated: "09.02.2026, 08:15" },
+    { name: "Heilmittelplattform", status: "green", version: "1.2.0", updated: "09.02.2026, 08:15" },
+    { name: "Schnittstellen / APIs", status: "green", version: null, updated: "09.02.2026, 08:00" },
+    { name: "PROD", status: "green", version: null, updated: "09.02.2026, 08:15" },
+    { name: "Schulung", status: "yellow", version: null, updated: "08.02.2026, 14:30", detail: "Eingeschränkte Verfügbarkeit" },
+    { name: "ABN / Testing", status: "green", version: "2.5.0-rc1", updated: "09.02.2026, 07:00" },
+  ],
+
+  quickLinks: [
+    { title: "Dokumentation", description: "Benutzerhandbuch & Anleitungen", icon: "BookOpen", url: "#" },
+    { title: "API-Docs", description: "Technische Schnittstellen", icon: "Code", url: "#" },
+    { title: "Support", description: "Ticketsystem & Hilfe", icon: "LifeBuoy", url: "#" },
+    { title: "Monitoring", description: "System-Überwachung", icon: "Activity", url: "#" },
+    { title: "Onboarding", description: "Erste Schritte mit IES NG", icon: "GraduationCap", url: "#" },
+    { title: "Schulungsmaterial", description: "Videos & Tutorials", icon: "Video", url: "#" },
+  ],
+
+  downloads: {
+    pool: {
+      name: "IES NG_POOL_SII NG.pdf",
+      size: "231 kB",
+      url: "https://www.babs.admin.ch/dam/de/sd-web/3c8JmVRXhVQx/IES%20NG_POOL_SII%20NG.pdf",
+    },
+  },
+
+  contact: {
+    org: "Bundesamt für Bevölkerungsschutz BABS",
+    address: ["Guisanplatz 1B", "CH-3003 Bern"],
+    email: "info@babs.admin.ch",
+  },
+};
+
+// ═══════════════════════════════════════════════════════════════════════════
+// COMPONENTS
+// ═══════════════════════════════════════════════════════════════════════════
+
+const { Button, Badge } = DS;
+const { Agentation } = window.AgentationLib || {};
+
+const Icons = {
+  Play: LucideReact.Play,
+  Download: LucideReact.Download,
+  FileText: LucideReact.FileText,
+  Users: LucideReact.Users,
+  Shield: LucideReact.Shield,
+  Heart: LucideReact.Heart,
+  MapPin: LucideReact.MapPin,
+  AlertTriangle: LucideReact.AlertTriangle,
+  Truck: LucideReact.Truck,
+  Building: LucideReact.Building,
+  Activity: LucideReact.Activity,
+  LogIn: LucideReact.LogIn,
+  ExternalLink: LucideReact.ExternalLink,
+  Mail: LucideReact.Mail,
+  BookOpen: LucideReact.BookOpen,
+  Code: LucideReact.Code,
+  LifeBuoy: LucideReact.LifeBuoy,
+  GraduationCap: LucideReact.GraduationCap,
+  Video: LucideReact.Video,
+  Clock: LucideReact.Clock,
+  Calendar: LucideReact.Calendar,
+  Info: LucideReact.Info,
+  AlertCircle: LucideReact.AlertCircle,
+  Menu: LucideReact.Menu,
+  X: LucideReact.X,
+};
+
+// ── Swiss Cross SVG ─────────────────────────────────────────────────────
+
+function SwissCross({ size = 10 }) {
+  return (
+    <svg viewBox="0 0 10 10" fill="white" width={size} height={size}>
+      <rect x="4" y="1" width="2" height="8" rx="0.5"/>
+      <rect x="1" y="4" width="8" height="2" rx="0.5"/>
+    </svg>
+  );
+}
+
+// ── Scroll Reveal Hook ──────────────────────────────────────────────────
+
+function useScrollReveal() {
+  const ref = React.useRef(null);
+  React.useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15, rootMargin: '0px 0px -40px 0px' }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+  return ref;
+}
+
+function Reveal({ children, className = '', delay = 0 }) {
+  const ref = useScrollReveal();
+  return (
+    <div ref={ref} className={`lp-reveal ${className}`} style={delay ? { transitionDelay: `${delay}ms` } : undefined}>
+      {children}
+    </div>
+  );
+}
+
+// ── Header ──────────────────────────────────────────────────────────────
+
+function Header() {
+  const [menuOpen, setMenuOpen] = React.useState(false);
+
+  const navLinks = [
+    { href: '#about', label: 'Über IES' },
+    { href: '#werkstatt', label: 'Werkstatt' },
+    { href: '#roadmap', label: 'Roadmap' },
+  ];
+
+  const closeMenu = () => setMenuOpen(false);
+
+  return (
+    <>
+      <header className="lp-header">
+        <div className="lp-header-left">
+          <a href="#" className="lp-header-logo">
+            <div className="lp-logo-mark">
+              <img src="illustrations/logo-ies.svg" alt="IES Logo" />
+            </div>
+            IES NG
+          </a>
+          <div className="lp-header-divider" />
+          <nav>
+            <ul className="lp-header-nav">
+              {navLinks.map(l => (
+                <li key={l.href}><a href={l.href}>{l.label}</a></li>
+              ))}
+            </ul>
+          </nav>
+        </div>
+        <div className="lp-header-right">
+          <select className="lp-lang-switch" aria-label="Sprache">
+            <option>DE</option>
+            <option disabled>FR</option>
+            <option disabled>IT</option>
+            <option disabled>EN</option>
+          </select>
+          {CONFIG.loginLinks.map((link, i) => (
+            <Button
+              key={i}
+              color="primary"
+              variant={link.variant === "outline" ? "outline" : "filled"}
+              size="sm"
+              onClick={() => window.open(link.url, '_blank')}
+            >
+              <Icons.LogIn size={14} />
+              {link.label}
+            </Button>
+          ))}
+          <button className="lp-menu-toggle" onClick={() => setMenuOpen(true)} aria-label="Menü öffnen">
+            <Icons.Menu size={22} />
+          </button>
+        </div>
+      </header>
+
+      {/* Mobile drawer */}
+      <div className={`lp-mobile-overlay ${menuOpen ? 'open' : ''}`} onClick={closeMenu} />
+      <div className={`lp-mobile-drawer ${menuOpen ? 'open' : ''}`}>
+        <div className="lp-mobile-drawer-header">
+          <a href="#" className="lp-header-logo" onClick={closeMenu}>
+            <div className="lp-logo-mark">
+              <img src="illustrations/logo-ies.svg" alt="IES Logo" />
+            </div>
+            IES NG
+          </a>
+          <button className="lp-mobile-drawer-close" onClick={closeMenu} aria-label="Menü schliessen">
+            <Icons.X size={22} />
+          </button>
+        </div>
+        <ul className="lp-mobile-nav">
+          {navLinks.map(l => (
+            <li key={l.href}><a href={l.href} onClick={closeMenu}>{l.label}</a></li>
+          ))}
+        </ul>
+        <div className="lp-mobile-drawer-actions">
+          <select className="lp-lang-switch" aria-label="Sprache" style={{alignSelf:'flex-start'}}>
+            <option>DE</option>
+            <option disabled>FR</option>
+            <option disabled>IT</option>
+            <option disabled>EN</option>
+          </select>
+          {CONFIG.loginLinks.map((link, i) => (
+            <Button
+              key={i}
+              color="primary"
+              variant={link.variant === "outline" ? "outline" : "filled"}
+              onClick={() => window.open(link.url, '_blank')}
+              style={{width:'100%'}}
+            >
+              <Icons.LogIn size={14} />
+              {link.label}
+            </Button>
+          ))}
+        </div>
+      </div>
+    </>
+  );
+}
+
+// ── Alert Banner ────────────────────────────────────────────────────────
+
+function AlertBanner() {
+  if (!CONFIG.alertBanner) return null;
+  const isCritical = CONFIG.alertBanner.type === "critical";
+  const Icon = isCritical ? Icons.AlertCircle : Icons.Info;
+  return (
+    <div className={`lp-alert-banner ${isCritical ? 'lp-alert-banner-critical' : ''}`}>
+      <Icon size={14} />
+      {CONFIG.alertBanner.message}
+    </div>
+  );
+}
+
+// ── Hero ─────────────────────────────────────────────────────────────────
+
+function Hero() {
+  const [playing, setPlaying] = React.useState(false);
+  const iframeRef = React.useRef(null);
+
+  function handlePlay() {
+    if (!playing) {
+      setPlaying(true);
+      if (iframeRef.current) {
+        const src = iframeRef.current.src;
+        iframeRef.current.src = src + (src.includes('?') ? '&' : '?') + 'autoplay=1';
+      }
+    }
+  }
+
+  return (
+    <section className="lp-hero">
+      <div className="lp-container">
+        <div className="lp-hero-grid">
+          <div style={{ position: 'relative', zIndex: 1 }}>
+            <div className="lp-hero-badge">
+              <Icons.Clock size={14} />
+              Go-Live Oktober 2026
+            </div>
+            <h1>{CONFIG.hero.title}</h1>
+            <div className="lp-hero-subtitle">New Generation — <strong style={{ color: 'rgba(255,255,255,0.85)' }}>IES NG</strong></div>
+            <p className="lp-hero-desc">Führungskräfte und Einsatzorganisationen koordinieren mit IES den <strong style={{ color: 'rgba(255,255,255,0.8)' }}>Sanitätsdienst im Ereignisfall</strong> — Patientenverfolgung, Spitalkapazitäten und Ressourcenplanung, <strong style={{ color: 'rgba(255,255,255,0.8)' }}>in Echtzeit und kantonsübergreifend</strong>.</p>
+            <div className="lp-hero-actions">
+              <a href={CONFIG.loginLinks[0].url} className="lp-btn-white" target="_blank" rel="noopener">
+                <Icons.LogIn size={16} />
+                Produktionsumgebung
+              </a>
+              <a href={CONFIG.loginLinks[1].url} className="lp-btn-white-outline" target="_blank" rel="noopener">
+                <Icons.GraduationCap size={16} />
+                Schulungsumgebung
+              </a>
+            </div>
+          </div>
+          <div style={{ position: 'relative', zIndex: 1 }}>
+            <div
+              className={`lp-hero-video-wrapper ${playing ? 'playing' : ''}`}
+              onClick={handlePlay}
+            >
+              <iframe
+                ref={iframeRef}
+                src={`https://www.youtube.com/embed/${CONFIG.hero.videoId}`}
+                title="IES NG: Countdown-365"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                loading="lazy"
+              />
+              <div className="lp-video-thumbnail" />
+              <button className="lp-video-play-btn" aria-label="Video abspielen">
+                <Icons.Play size={24} fill="var(--primary-500)" />
+              </button>
+            </div>
+            <p className="lp-hero-video-caption">
+              IES NG: Countdown-365 — <a href={CONFIG.hero.videoUrl} target="_blank" rel="noopener">Auf YouTube ansehen</a>
+            </p>
+          </div>
+        </div>
+      </div>
+      {/* Alpine Silhouette */}
+    </section>
+  );
+}
+
+// ── Trust Bar ────────────────────────────────────────────────────────────
+
+function TrustBar() {
+  return (
+    <div className="lp-trust-bar">
+      <span className="lp-swiss-cross-inline"><SwissCross /></span>
+      Ein Projekt des <strong>Bundesamts für Bevölkerungsschutz BABS</strong> — Schweizerische Eidgenossenschaft
+    </div>
+  );
+}
+
+// ── Stats Bar ────────────────────────────────────────────────────────
+
+function StatsBar() {
+  const stats = [
+    { number: "26", label: "Kantone" },
+    { number: "500+", label: "Nutzende" },
+    { number: "Okt 2026", label: "Go-Live" },
+    { number: "24/7", label: "Support" },
+  ];
+  return (
+    <div className="lp-stats-bar">
+      <div className="lp-container">
+        <div className="lp-stats-bar-container">
+          {stats.map((stat, i) => (
+            <div key={i} className="lp-stats-bar-item">
+              <div className="lp-stats-bar-number">{stat.number}</div>
+              <div className="lp-stats-bar-label">{stat.label}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── Feature Cards ───────────────────────────────────────────────────────
+
+const FEATURES = [
+  {
+    title: "Patientenverfolgung",
+    description: "Echtzeit-Übersicht über alle betroffenen Personen im Ereignisfall — von der Erstversorgung bis zur Spitalzuweisung.",
+    img: "illustrations/medical-care.svg",
+  },
+  {
+    title: "Spitalkapazität",
+    description: "Verfügbare Kapazitäten, Bettenauslastung und Aufnahmebereitschaft aller angeschlossenen Spitäler auf einen Blick.",
+    img: "illustrations/dashboard.svg",
+  },
+  {
+    title: "Einsatzkoordination",
+    description: "Kantonsübergreifende Abstimmung von Einsatzkräften, Transportmitteln und Rettungsketten.",
+    img: "illustrations/connected-world.svg",
+  },
+  {
+    title: "Lageübersicht",
+    description: "Zentrales Lagebild für Führungsstäbe: Wer ist betroffen, welche Ressourcen stehen bereit, wo besteht Handlungsbedarf.",
+    img: "illustrations/real-time-analytics.svg",
+  },
+];
+
+function FeaturesSection() {
+  return (
+    <section className="lp-section" id="about">
+      <div className="lp-container">
+        <Reveal>
+          <div className="lp-section-header">
+            <div className="lp-section-label">Das System</div>
+            <h2 className="lp-section-title">Was ist <span className="lp-gradient-text">IES NG</span>?</h2>
+            <p className="lp-section-subtitle">
+              Die Schweiz baut ein gemeinsames, digitales Werkzeug für den <strong>Sanitätsdienst im Ereignisfall</strong>. Von der Erstversorgung vor Ort bis zur koordinierten Spitalzuweisung — <strong>alles in einer Plattform</strong>.
+            </p>
+          </div>
+        </Reveal>
+        <div className="lp-features-grid">
+          <Reveal delay={0}>
+            <div className="lp-feature-card">
+              <div className="lp-feature-illustration">
+                <img src="illustrations/medical-care.svg" alt="Patientenverfolgung" loading="lazy" />
+              </div>
+              <div>
+                <h3>Patientenverfolgung</h3>
+                <p><strong>Echtzeit-Übersicht</strong> über alle betroffenen Personen im Ereignisfall — von der Erstversorgung bis zur Spitalzuweisung.</p>
+              </div>
+            </div>
+          </Reveal>
+          <Reveal delay={60}>
+            <div className="lp-feature-card">
+              <div className="lp-feature-illustration">
+                <img src="illustrations/dashboard.svg" alt="Spitalkapazität" loading="lazy" />
+              </div>
+              <div>
+                <h3>Spitalkapazität</h3>
+                <p>Verfügbare Kapazitäten, <strong>Bettenauslastung</strong> und Aufnahmebereitschaft aller angeschlossenen Spitäler auf einen Blick.</p>
+              </div>
+            </div>
+          </Reveal>
+          <Reveal delay={120}>
+            <div className="lp-feature-card">
+              <div className="lp-feature-illustration">
+                <img src="illustrations/connected-world.svg" alt="Einsatzkoordination" loading="lazy" />
+              </div>
+              <div>
+                <h3>Einsatzkoordination</h3>
+                <p><strong>Kantonsübergreifende Abstimmung</strong> von Einsatzkräften, Transportmitteln und Rettungsketten.</p>
+              </div>
+            </div>
+          </Reveal>
+          <Reveal delay={180}>
+            <div className="lp-feature-card">
+              <div className="lp-feature-illustration">
+                <img src="illustrations/real-time-analytics.svg" alt="Lageübersicht" loading="lazy" />
+              </div>
+              <div>
+                <h3>Lageübersicht</h3>
+                <p>Zentrales Lagebild für Führungsstäbe: Wer ist betroffen, welche Ressourcen stehen bereit, wo besteht <strong>Handlungsbedarf</strong>.</p>
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── Status Dashboard ────────────────────────────────────────────────────
+
+function StatusDashboard() {
+  const allGreen = CONFIG.systemStatus.every(s => s.status === 'green');
+  return (
+    <div className="lp-status-strip" id="status">
+      <div className="lp-container">
+        <div className="lp-status-strip-header">
+          <div className="lp-status-strip-title">
+            <Icons.Activity size={14} />
+            Systemstatus
+          </div>
+          {allGreen && (
+            <div className="lp-status-strip-all-ok">
+              <Icons.Shield size={13} />
+              Alle Systeme operativ
+            </div>
+          )}
+        </div>
+        <div className="lp-status-grid">
+          {CONFIG.systemStatus.map((sys, i) => (
+            <div key={i} className="lp-status-chip">
+              <div className={`lp-status-dot lp-status-dot-${sys.status}`} />
+              <span>{sys.name}</span>
+              {sys.version && <span className="lp-status-chip-version">{sys.version}</span>}
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ── Workshop ────────────────────────────────────────────────────────────
+
+function WorkshopSection() {
+  return (
+    <section className="lp-workshop" id="werkstatt">
+      <div className="lp-container">
+        <div className="lp-workshop-grid">
+          <Reveal>
+            <div className="lp-workshop-content">
+              <div className="lp-workshop-eyebrow">Nächste Veranstaltung</div>
+              <span className="lp-workshop-date-pill">
+                <Icons.Calendar size={15} />
+                12. März 2026, 14:00 Uhr
+              </span>
+              <h3>Blick in die Werkstatt</h3>
+              <p className="lp-workshop-desc">
+                Alle zwei Monate gewähren wir einen Einblick in die aktuelle Entwicklung von IES&nbsp;NG. <strong style={{ color: 'rgba(255,255,255,0.75)' }}>Registrieren Sie sich im Pool</strong> und gestalten Sie das System aktiv mit&nbsp;— Ihr Feedback fliesst <strong style={{ color: 'rgba(255,255,255,0.75)' }}>direkt in die agile Entwicklung</strong> ein.
+              </p>
+              <div className="lp-workshop-actions">
+                <a href="#" className="lp-btn-white" style={{ padding: '12px 32px', fontSize: 'var(--text-base)' }}>
+                  Zum Pool anmelden
+                </a>
+                <a href={CONFIG.downloads.pool.url} className="lp-workshop-secondary" target="_blank" rel="noopener">
+                  <Icons.Download size={14} />
+                  Pool-Dokument herunterladen (PDF)
+                </a>
+              </div>
+            </div>
+          </Reveal>
+          <Reveal delay={100}>
+            <div className="lp-workshop-illustration">
+              <img src="illustrations/working-together.svg?v=2" alt="Digitale Werkstatt" loading="lazy" />
+            </div>
+          </Reveal>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── Roadmap Timeline ────────────────────────────────────────────────────
+
+const ROADMAP_MILESTONES = [
+  {
+    date: "Juli 2025",
+    title: "Heilmittelplattform",
+    desc: "Go-Live der Heilmittelplattform (HMP) zum aktiven Monitoring der Verfügbarkeit von kritischen Heilmitteln.",
+    state: "completed",
+  },
+  {
+    date: "Oktober 2025",
+    title: "Schulungsumgebung Phase 1",
+    desc: "Schulungsumgebung zugänglich für Pool-Leitung, Fachexperten und Pilotkantone.",
+    state: "completed",
+  },
+  {
+    date: "Februar 2026",
+    title: "Schulungsumgebung Phase 2",
+    desc: "Schulungsumgebung steht allen Organisationen zur Verfügung. Schulungsmaterial und Onboarding-Unterstützung verfügbar.",
+    state: "current",
+  },
+  {
+    date: "Juni 2026",
+    title: "Produktionssystem",
+    desc: "Das Produktionssystem wird für alle Organisationen freigegeben. Start der operativen Nutzung.",
+    state: "future",
+  },
+  {
+    date: "19. Oktober 2026",
+    title: "Cut-over — Go-Live",
+    desc: "Umstellung auf IES NG für alle Organisationen. IES-KSD wird abgelöst und der Betrieb eingestellt.",
+    state: "golive",
+  },
+];
+
+function RoadmapSection() {
+  return (
+    <section className="lp-section lp-section-bg" id="roadmap">
+      <div className="lp-container">
+        <Reveal>
+          <div className="lp-section-header">
+            <div className="lp-section-label">Roadmap & Transition</div>
+            <h2 className="lp-section-title">Von IES-KSD zu <span className="lp-gradient-text">IES NG</span></h2>
+            <p className="lp-section-subtitle">
+              IES NG ersetzt das bisherige IES-KSD <strong>schrittweise</strong>. Hier sehen Sie, was bereits geschafft ist — und welche Meilensteine als Nächstes anstehen.
+            </p>
+          </div>
+        </Reveal>
+        <div className="lp-roadmap">
+          {ROADMAP_MILESTONES.map((ms, i) => {
+            const side = i % 2 === 0 ? 'left' : 'right';
+            return (
+              <Reveal key={i} delay={i * 50}>
+                <div className={`lp-roadmap-item ${ms.state} ${side}`}>
+                  <div className="lp-roadmap-card">
+                    <div className="lp-roadmap-date">{ms.date}</div>
+                    <h4>{ms.title}</h4>
+                    <p>{ms.desc}</p>
+                    {ms.state === 'current' && <div className="lp-roadmap-badge lp-roadmap-badge-current">Aktuell</div>}
+                    {ms.state === 'golive' && <div className="lp-roadmap-badge lp-roadmap-badge-golive">Ziel</div>}
+                  </div>
+                  <div className="lp-roadmap-marker"><div className="lp-roadmap-dot" /></div>
+                  <div className="lp-roadmap-spacer" />
+                </div>
+              </Reveal>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── Quick Links ─────────────────────────────────────────────────────────
+
+function QuickLinksSection() {
+  return (
+    <section className="lp-section lp-section-dark">
+      <div className="lp-container">
+        <Reveal>
+          <div className="lp-section-header">
+            <div className="lp-section-label">Ressourcen</div>
+            <h2 className="lp-section-title">Hilfreiche <span className="lp-gradient-text">Links</span></h2>
+          </div>
+        </Reveal>
+        <Reveal>
+          <div className="lp-links-grid">
+            {CONFIG.quickLinks.map((link, i) => {
+              const IconComp = Icons[link.icon] || Icons.ExternalLink;
+              return (
+                <a key={i} href={link.url} target="_blank" rel="noopener" className="lp-link-tile">
+                  <div className="lp-link-tile-icon">
+                    <IconComp size={20} />
+                  </div>
+                  <div>
+                    <h4>{link.title}</h4>
+                    <p>{link.description}</p>
+                  </div>
+                </a>
+              );
+            })}
+          </div>
+        </Reveal>
+      </div>
+    </section>
+  );
+}
+
+// ── Contact ─────────────────────────────────────────────────────────────
+
+function ContactSection() {
+  return (
+    <section className="lp-contact">
+      <div className="lp-container">
+        <div className="lp-contact-grid">
+          <Reveal>
+            <div>
+              <h3>Kontakt</h3>
+              <p>
+                <strong style={{ color: 'white' }}>{CONFIG.contact.org}</strong><br />
+                {CONFIG.contact.address.map((line, i) => (
+                  <span key={i}>{line}<br /></span>
+                ))}
+                <br />
+                <Icons.Mail size={14} style={{ verticalAlign: 'middle', marginRight: '6px', opacity: 0.6 }} />
+                <a href={`mailto:${CONFIG.contact.email}`}>{CONFIG.contact.email}</a>
+              </p>
+            </div>
+          </Reveal>
+          <Reveal delay={100}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-3)', justifyContent: 'center' }}>
+              <a href={CONFIG.loginLinks[0].url} className="lp-contact-link-card" target="_blank" rel="noopener">
+                <Icons.LogIn size={18} />
+                <span>Zur Produktionsumgebung</span>
+              </a>
+              <a href={CONFIG.loginLinks[1].url} className="lp-contact-link-card" target="_blank" rel="noopener">
+                <Icons.GraduationCap size={18} />
+                <span>Zur Schulungsumgebung</span>
+              </a>
+              <a href="#" className="lp-contact-link-card">
+                <Icons.LifeBuoy size={18} />
+                <span>Support-Portal</span>
+              </a>
+            </div>
+          </Reveal>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ── Footer ──────────────────────────────────────────────────────────────
+
+function Footer() {
+  return (
+    <footer className="lp-footer">
+      <div className="lp-footer-status">
+        <div className="lp-footer-status-label">
+          <Icons.Activity size={12} />
+          Systemstatus
+        </div>
+        {CONFIG.systemStatus.map((sys, i) => {
+          const tooltipText = [
+            sys.detail || (sys.status === 'green' ? 'Operativ' : 'Eingeschränkt'),
+            sys.version ? `Version: ${sys.version}` : null,
+            `Aktualisiert: ${sys.updated}`,
+          ].filter(Boolean).join('\n');
+          return (
+            <div key={i} className="lp-footer-status-item" title={tooltipText} style={{ cursor: 'help' }}>
+              <div className={`lp-footer-status-dot lp-footer-status-dot-${sys.status}`} />
+              <span>{sys.name}</span>
+              {sys.version && <span>{sys.version}</span>}
+            </div>
+          );
+        })}
+      </div>
+      &copy; {new Date().getFullYear()} {CONFIG.contact.org} — Informations- und Einsatzsystem New Generation
+    </footer>
+  );
+}
+
+// ── App ─────────────────────────────────────────────────────────────────
+
+function App() {
+  return (
+    <DS.SnackbarProvider>
+      <Header />
+      <AlertBanner />
+      <Hero />
+      <TrustBar />
+      <FeaturesSection />
+      <WorkshopSection />
+      <RoadmapSection />
+      <QuickLinksSection />
+      <ContactSection />
+      <Footer />
+      {Agentation && <Agentation endpoint="http://localhost:4747" />}
+    </DS.SnackbarProvider>
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
+
+// Background network canvas — wait for React render
+setTimeout(function() {
+  // Background network — visible on dark sections (parallax-style)
+  const bgCanvas = document.getElementById('bg-net');
+  if (bgCanvas) {
+    const bCtx = bgCanvas.getContext('2d');
+    let bW, bH, bNodes = [];
+    function bResize() {
+      const dpr = window.devicePixelRatio || 1;
+      bW = window.innerWidth;
+      bH = window.innerHeight;
+      bgCanvas.width = bW * dpr;
+      bgCanvas.height = bH * dpr;
+      bgCanvas.style.width = bW + 'px';
+      bgCanvas.style.height = bH + 'px';
+      bCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+    function bInitNodes() {
+      bNodes = [];
+      const sp = 180;
+      const cols = Math.ceil(bW / sp) + 2;
+      const rows = Math.ceil(bH / sp) + 2;
+      for (let r = -1; r < rows; r++) {
+        for (let c = -1; c < cols; c++) {
+          const jX = (Math.random() - 0.5) * sp * 0.6;
+          const jY = (Math.random() - 0.5) * sp * 0.6;
+          bNodes.push({
+            x: c * sp + jX + sp / 2, y: r * sp + jY + sp / 2,
+            vx: (Math.random() - 0.5) * 0.2, vy: (Math.random() - 0.5) * 0.2,
+            baseX: c * sp + jX + sp / 2, baseY: r * sp + jY + sp / 2,
+          });
+        }
+      }
+    }
+    function bDraw() {
+      bCtx.clearRect(0, 0, bW, bH);
+      for (const n of bNodes) {
+        n.x += n.vx; n.y += n.vy;
+        n.vx += (n.baseX - n.x) * 0.0005;
+        n.vy += (n.baseY - n.y) * 0.0005;
+        n.vx *= 0.998; n.vy *= 0.998;
+      }
+      bCtx.lineWidth = 1.5;
+      bCtx.lineCap = 'round';
+      for (let i = 0; i < bNodes.length; i++) {
+        for (let j = i + 1; j < bNodes.length; j++) {
+          const dx = bNodes[i].x - bNodes[j].x;
+          const dy = bNodes[i].y - bNodes[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 220) {
+            bCtx.strokeStyle = `rgba(255,255,255,${0.4 * (1 - dist / 220)})`;
+            bCtx.beginPath();
+            bCtx.moveTo(bNodes[i].x, bNodes[i].y);
+            bCtx.lineTo(bNodes[j].x, bNodes[j].y);
+            bCtx.stroke();
+          }
+        }
+      }
+      bCtx.fillStyle = 'rgba(255,255,255,0.7)';
+      for (const n of bNodes) {
+        bCtx.beginPath();
+        bCtx.arc(n.x, n.y, 5, 0, Math.PI * 2);
+        bCtx.fill();
+      }
+      requestAnimationFrame(bDraw);
+    }
+    bResize(); bInitNodes(); bDraw();
+    window.addEventListener('resize', () => { bResize(); bInitNodes(); });
+
+    // Show/hide based on dark section visibility
+    function updateBgNet() {
+      const darkSections = document.querySelectorAll('.lp-section-dark');
+      let visible = false;
+      darkSections.forEach(s => {
+        const r = s.getBoundingClientRect();
+        if (r.top < window.innerHeight && r.bottom > 0) visible = true;
+      });
+      // Also show on footer
+      const footer = document.querySelector('.lp-footer');
+      if (footer) {
+        const r = footer.getBoundingClientRect();
+        if (r.top < window.innerHeight && r.bottom > 0) visible = true;
+      }
+      bgCanvas.style.opacity = visible ? '0.25' : '0';
+    }
+    window.addEventListener('scroll', updateBgNet, { passive: true });
+    updateBgNet();
+  }
+}, 500);
+</script>
+
+</body>
+</html>
