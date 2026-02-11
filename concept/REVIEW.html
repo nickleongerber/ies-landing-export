@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IES NG Landing Page — Kritische Reflexion</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: #0a0a0a;
+    color: #e0e0e0;
+    line-height: 1.7;
+    font-size: 15px;
+  }
+
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 60px 24px 120px;
+  }
+
+  header {
+    margin-bottom: 64px;
+  }
+
+  header .badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #f59e0b;
+    background: rgba(245, 158, 11, 0.1);
+    border: 1px solid rgba(245, 158, 11, 0.2);
+    padding: 4px 12px;
+    border-radius: 100px;
+    margin-bottom: 20px;
+  }
+
+  header h1 {
+    font-size: 32px;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.3;
+    margin-bottom: 12px;
+  }
+
+  header .subtitle {
+    font-size: 16px;
+    color: #888;
+  }
+
+  h2 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #fff;
+    margin: 56px 0 24px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #222;
+  }
+
+  h2 .num {
+    color: #f59e0b;
+    font-variant-numeric: tabular-nums;
+  }
+
+  h3 {
+    font-size: 15px;
+    font-weight: 600;
+    color: #ccc;
+    margin: 24px 0 8px;
+  }
+
+  p { margin-bottom: 16px; color: #b0b0b0; }
+
+  .callout {
+    background: #141414;
+    border-left: 3px solid #f59e0b;
+    padding: 16px 20px;
+    border-radius: 0 8px 8px 0;
+    margin: 20px 0;
+  }
+
+  .callout.red { border-left-color: #ef4444; }
+  .callout.green { border-left-color: #22c55e; }
+  .callout.blue { border-left-color: #3b82f6; }
+
+  .callout strong { color: #fff; }
+  .callout p:last-child { margin-bottom: 0; }
+
+  blockquote {
+    background: #111;
+    border-left: 3px solid #333;
+    padding: 12px 20px;
+    border-radius: 0 6px 6px 0;
+    margin: 16px 0;
+    font-style: italic;
+    color: #999;
+  }
+
+  blockquote .source {
+    display: block;
+    font-style: normal;
+    font-size: 12px;
+    color: #666;
+    margin-top: 8px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 14px;
+  }
+
+  thead th {
+    text-align: left;
+    padding: 10px 12px;
+    font-weight: 600;
+    color: #999;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    border-bottom: 1px solid #222;
+  }
+
+  tbody td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #1a1a1a;
+    color: #b0b0b0;
+    vertical-align: top;
+  }
+
+  tbody tr:hover { background: #111; }
+
+  .tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+  .tag.warn { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
+  .tag.danger { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
+  .tag.ok { background: rgba(34, 197, 94, 0.15); color: #22c55e; }
+  .tag.info { background: rgba(59, 130, 246, 0.15); color: #3b82f6; }
+
+  .tree {
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 13px;
+    background: #111;
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin: 20px 0;
+    line-height: 1.8;
+    color: #888;
+    overflow-x: auto;
+  }
+
+  .tree .highlight { color: #f59e0b; font-weight: 600; }
+  .tree .dim { color: #555; }
+  .tree .new { color: #22c55e; }
+
+  .recommendations {
+    display: grid;
+    gap: 16px;
+    margin: 24px 0;
+  }
+
+  .rec-card {
+    background: #111;
+    border: 1px solid #1a1a1a;
+    border-radius: 12px;
+    padding: 20px 24px;
+    transition: border-color 0.2s;
+  }
+
+  .rec-card:hover { border-color: #333; }
+
+  .rec-card .rec-num {
+    font-size: 28px;
+    font-weight: 700;
+    color: #f59e0b;
+    float: left;
+    margin-right: 16px;
+    line-height: 1;
+    margin-top: 2px;
+  }
+
+  .rec-card h4 {
+    font-size: 15px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 6px;
+  }
+
+  .rec-card p {
+    font-size: 14px;
+    color: #888;
+    margin-bottom: 0;
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid #1a1a1a;
+    margin: 48px 0;
+  }
+
+  .footer-note {
+    text-align: center;
+    color: #444;
+    font-size: 12px;
+    margin-top: 64px;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <div class="badge">Konzeptphase</div>
+  <h1>Kritische Reflexion:<br>IES NG Landing Page</h1>
+  <p class="subtitle">Analyse basierend auf Confluence-Konzept, IES-16539, Login-Flow-Diskussion und BABS Live-Seite. Stand 09.02.2026.</p>
+</header>
+
+<!-- 1 -->
+<h2><span class="num">01</span> Landing Page &ne; EDU-Plattform</h2>
+
+<blockquote>
+  &laquo;Landing page und edu trennen wir voneinander. Die Scopes sind zu unterschiedlich.&raquo;
+  <span class="source">Ueli Sigrist, IES-16539, 27.01.2026</span>
+</blockquote>
+
+<p>WordPress/DIVI wird f&uuml;r die <strong style="color:#fff">EDU-Seite</strong> separat evaluiert. Das sind zwei verschiedene Projekte.</p>
+
+<div class="callout red">
+  <p><strong>Problem:</strong> Unsere geplante &laquo;Getting Started&raquo;-Seite mit Schulungsmaterial, Videos und Tutorials blutet ins EDU-Territorium. Wir m&uuml;ssen die Grenze klar ziehen.</p>
+</div>
+
+<table>
+  <thead><tr><th>Landing Page (unser Scope)</th><th>EDU (separates Projekt)</th></tr></thead>
+  <tbody>
+    <tr><td>Zugang zu Umgebungen</td><td>Lerninhalte &amp; Tutorials</td></tr>
+    <tr><td>Projektinformation</td><td>Videos &amp; Schulungsmaterial</td></tr>
+    <tr><td>Betriebsinfo &amp; Status</td><td>Onboarding-Kurse</td></tr>
+    <tr><td>Downloads (Scope, Zeitplan)</td><td>Interaktive &Uuml;bungen</td></tr>
+  </tbody>
+</table>
+
+<p><strong style="color:#fff">Konsequenz:</strong> Getting Started entweder streichen oder radikal umfokussieren auf <em>Zugangsbeantragung</em> &mdash; nicht auf Lerninhalte.</p>
+
+<!-- 2 -->
+<h2><span class="num">02</span> Mehr Umgebungen als 2 Buttons</h2>
+
+<p>Aus dem Confluence-Konzept und der Login-Flow-Diskussion existieren deutlich mehr Umgebungen als Produktion + Schulung:</p>
+
+<table>
+  <thead><tr><th>Umgebung</th><th>Zielgruppe</th><th>Im Konzept?</th></tr></thead>
+  <tbody>
+    <tr><td>PROD</td><td>Aktive Nutzer</td><td><span class="tag ok">Ja</span></td></tr>
+    <tr><td>Schulung / Training</td><td>Lernende</td><td><span class="tag ok">Ja</span></td></tr>
+    <tr><td>ABN (Abnahme)</td><td>QA / Tester</td><td><span class="tag danger">Nein</span></td></tr>
+    <tr><td>Staging / Testing</td><td>Entwickler</td><td><span class="tag danger">Nein</span></td></tr>
+    <tr><td>Notfall-Auth (eigener IdP)</td><td>Alle (Fallback)</td><td><span class="tag danger">Nein</span></td></tr>
+  </tbody>
+</table>
+
+<div class="callout">
+  <p><strong>Idee von Marwin Philips:</strong> Gleiche Landing Page f&uuml;r Produktion und Ausbildung, gleiche Landing Page f&uuml;r Testing und Staging. Braucht es einen dritten, subtileren Link f&uuml;r technische Umgebungen?</p>
+</div>
+
+<!-- 3 -->
+<h2><span class="num">03</span> Systemstatus wird untersch&auml;tzt</h2>
+
+<p>Im Confluence-Konzept ist der Systemstatus ein <strong style="color:#fff">Kern-Feature</strong>, nicht Beiwerk:</p>
+
+<table>
+  <thead><tr><th>Feature</th><th>Confluence-Konzept</th><th>Unser Konzept</th></tr></thead>
+  <tbody>
+    <tr><td>Ampel-Status</td><td><span class="tag ok">Ja</span></td><td><span class="tag ok">Ja</span></td></tr>
+    <tr><td>Installierte Version</td><td><span class="tag ok">Ja</span></td><td><span class="tag ok">Ja</span></td></tr>
+    <tr><td>Letztes Update (Timestamp)</td><td><span class="tag ok">Ja</span></td><td><span class="tag ok">Ja</span></td></tr>
+    <tr><td>Tooltips mit Ursachen/Details</td><td><span class="tag ok">Ja</span></td><td><span class="tag danger">Nein</span></td></tr>
+    <tr><td>Link zu Status-Historie</td><td><span class="tag ok">Ja</span></td><td><span class="tag danger">Nein</span></td></tr>
+    <tr><td>Automatisiert via Monitoring-API</td><td><span class="tag info">Idee</span></td><td><span class="tag danger">Nein</span></td></tr>
+  </tbody>
+</table>
+
+<div class="callout blue">
+  <p><strong>Erkenntnis:</strong> F&uuml;r aktive Nutzer ist der Systemstatus <em>der Hauptgrund</em>, die Landing Page t&auml;glich zu besuchen (neben dem Login-Button). Das Dashboard muss funktionaler und prominenter werden.</p>
+</div>
+
+<!-- 4 -->
+<h2><span class="num">04</span> Seitenstruktur: Zu viele Seiten?</h2>
+
+<p>Haben wir genug Content f&uuml;r 5 separate Seiten?</p>
+
+<table>
+  <thead><tr><th>Seite</th><th>Content</th><th>Bewertung</th></tr></thead>
+  <tbody>
+    <tr><td>Home</td><td>Hero, CTAs, Status, Teaser</td><td><span class="tag ok">Solide</span></td></tr>
+    <tr><td>&Uuml;ber IES</td><td>Vision, Partner, Scope</td><td><span class="tag warn">K&ouml;nnte Teil von Home sein</span></td></tr>
+    <tr><td>Werkstatt</td><td>1 Paragraph + Termine + Download</td><td><span class="tag warn">D&uuml;nn f&uuml;r eigene Seite</span></td></tr>
+    <tr><td>Roadmap</td><td>Zeitplan, Releases, Wartung</td><td><span class="tag warn">&Uuml;berschneidet mit Aktuelles</span></td></tr>
+    <tr><td>Getting Started</td><td>???</td><td><span class="tag danger">Scope-Konflikt mit EDU</span></td></tr>
+  </tbody>
+</table>
+
+<h3>Vorschlag: 3 Seiten, nach Nutzer-Intent</h3>
+
+<div class="tree">
+<span class="highlight">HOME</span> <span class="dim">/ &mdash; F&uuml;r alle: schneller Zugang + &Uuml;berblick</span>
+&boxvr;&boxh;&boxh; Hero + CTAs (Produktion / Schulung)
+&boxvr;&boxh;&boxh; Was ist IES? (Kurzfassung, 3&ndash;4 Karten)
+&boxvr;&boxh;&boxh; <span class="highlight">Systemstatus (prominent!)</span>
+&boxvr;&boxh;&boxh; Werkstatt-Teaser (n&auml;chster Termin + CTA)
+&boxvr;&boxh;&boxh; Aktuelles (2&ndash;3 Updates)
+&boxvr;&boxh;&boxh; Hilfreiche Links
+&boxur;&boxh;&boxh; Kontakt + Footer
+
+<span class="highlight">PROJEKT</span> <span class="dim">/projekt &mdash; F&uuml;r Interessierte: Hintergrund &amp; Engagement</span>
+&boxvr;&boxh;&boxh; Vision &amp; Hintergrund (ausf&uuml;hrlich)
+&boxvr;&boxh;&boxh; Ereignisbew&auml;ltigung (9 Kernfragen)
+&boxvr;&boxh;&boxh; Roadmap &amp; Transition
+&boxvr;&boxh;&boxh; Digitale Werkstatt (ausf&uuml;hrlich)
+&boxvr;&boxh;&boxh; Projektpartner
+&boxur;&boxh;&boxh; Downloads (gesammelt)
+
+<span class="new">BETRIEB</span> <span class="dim">/betrieb &mdash; F&uuml;r aktive Nutzer: technische Infos</span> <span class="tag new" style="font-size:10px;padding:1px 6px;">NEU</span>
+&boxvr;&boxh;&boxh; Systemstatus (Detail + Historie)
+&boxvr;&boxh;&boxh; Releasenotes (vollst&auml;ndig)
+&boxvr;&boxh;&boxh; Wartungsfenster
+&boxur;&boxh;&boxh; Bekannte Einschr&auml;nkungen
+</div>
+
+<div class="callout green">
+  <p><strong>Logik:</strong> Statt thematische Silos (Werkstatt, Roadmap, Getting Started) trennen wir nach <em>Nutzer-Intent</em>: Wer schnell rein will &rarr; Home. Wer mehr wissen will &rarr; Projekt. Wer das System aktiv nutzt &rarr; Betrieb.</p>
+</div>
+
+<!-- 5 -->
+<h2><span class="num">05</span> Content-L&uuml;cken vs. BABS Live-Seite</h2>
+
+<table>
+  <thead><tr><th>BABS-Content</th><th>Unser Status</th><th>Handlungsbedarf</th></tr></thead>
+  <tbody>
+    <tr><td>YouTube Video (Countdown-365)</td><td>Nur URL in Config</td><td><span class="tag warn">Prominenter einbetten, evtl. Hero-Element</span></td></tr>
+    <tr><td>&laquo;Sounding Board&raquo; Feedback</td><td>Nicht erw&auml;hnt</td><td><span class="tag warn">Als Teil der Werkstatt erw&auml;hnen</span></td></tr>
+    <tr><td>Konkrete Transition-Daten</td><td>Generisch</td><td><span class="tag warn">Okt 25, Feb 26, Jun 26, Okt 26 &uuml;bernehmen</span></td></tr>
+    <tr><td>Pool-Registration</td><td>Externer Link</td><td><span class="tag warn">Klarer als CTA hervorheben</span></td></tr>
+  </tbody>
+</table>
+
+<!-- 6 -->
+<h2><span class="num">06</span> Fehlende Perspektive: Wer pflegt den Content?</h2>
+
+<p><strong style="color:#fff">IES-16539</strong> fragt explizit: &laquo;Wer kann das CMS bearbeiten?&raquo; Unser Konzept beschreibt die User-Sicht, aber nicht die Admin-Sicht.</p>
+
+<table>
+  <thead><tr><th>Content-Bereich</th><th>Wer pflegt?</th><th>Frequenz</th></tr></thead>
+  <tbody>
+    <tr><td>Systemstatus</td><td><span class="tag info">Offen</span> &mdash; Manuell oder Monitoring-API?</td><td>T&auml;glich / bei Vorfall</td></tr>
+    <tr><td>Releasenotes</td><td><span class="tag info">Offen</span> &mdash; Automatisiert aus Jira/GitLab?</td><td>Pro Release</td></tr>
+    <tr><td>Wartungsfenster</td><td><span class="tag info">Offen</span> &mdash; Ops-Team</td><td>Bei Bedarf</td></tr>
+    <tr><td>Projekt-Updates</td><td><span class="tag info">Offen</span> &mdash; PO / Kommunikation</td><td>Monatlich</td></tr>
+    <tr><td>Werkstatt-Termine</td><td><span class="tag info">Offen</span> &mdash; Pool-Verantwortliche</td><td>Alle 2 Monate</td></tr>
+  </tbody>
+</table>
+
+<p>F&uuml;r das Handoff-Dokument braucht jeder Content-Bereich einen definierten Owner und Prozess.</p>
+
+<!-- 7 -->
+<h2><span class="num">07</span> Domain &amp; Branding-Freiheit</h2>
+
+<div class="callout green">
+  <p><strong>www.ies.swiss</strong> &mdash; eigene Domain, kein admin.ch. Plus: <strong>CI Bund nicht erforderlich</strong> (IES-16539). Das gibt uns visuell deutlich mehr Freiheit als eine typische Bundesseite.</p>
+</div>
+
+<hr>
+
+<!-- Recommendations -->
+<h2>Top-5 Empfehlungen</h2>
+
+<div class="recommendations">
+  <div class="rec-card">
+    <div class="rec-num">1</div>
+    <h4>Seiten reduzieren auf 3</h4>
+    <p>Home, Projekt, Betrieb &mdash; strukturiert nach Nutzer-Intent statt thematischen Silos. Weniger Seiten = weniger Navigation, schnelleres Finden.</p>
+  </div>
+  <div class="rec-card">
+    <div class="rec-num">2</div>
+    <h4>Getting Started streichen</h4>
+    <p>Scope-Konflikt mit EDU-Plattform. Zugangsbeantragung kann als Sektion auf Home oder als Link in &laquo;Hilfreiche Links&raquo; abgedeckt werden.</p>
+  </div>
+  <div class="rec-card">
+    <div class="rec-num">3</div>
+    <h4>Systemstatus aufwerten</h4>
+    <p>Eigene Detail-Ansicht unter /betrieb mit Tooltips, Historie, Komponenten-Details. F&uuml;r aktive Nutzer der Hauptgrund, die Seite t&auml;glich zu besuchen.</p>
+  </div>
+  <div class="rec-card">
+    <div class="rec-num">4</div>
+    <h4>Umgebungs-Zugang &uuml;berdenken</h4>
+    <p>2 prominente Buttons (Produktion + Schulung) plus optionalen subtilen Link f&uuml;r ABN/Testing. Notfall-Auth-Hinweis bei Bedarf einblendbar.</p>
+  </div>
+  <div class="rec-card">
+    <div class="rec-num">5</div>
+    <h4>Content-Ownership definieren</h4>
+    <p>Jeder Content-Bereich braucht einen Owner und Pflegeprozess &mdash; essenziell f&uuml;rs Handoff und sp&auml;tere CMS-Integration.</p>
+  </div>
+</div>
+
+<hr>
+
+<p class="footer-note">IES NG Landing Page &mdash; Kritische Reflexion &mdash; 09.02.2026<br>Quellen: Confluence Landingpage Konzept, IES-16539, Login-Flow 240311, babs.admin.ch/de/ies-ng</p>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IES NG Landing Page — Konzept &amp; Strategie</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: #0a0a0a;
+    color: #e0e0e0;
+    line-height: 1.7;
+    font-size: 15px;
+  }
+
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 60px 24px 120px;
+  }
+
+  /* Header */
+  header { margin-bottom: 64px; }
+
+  header .badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #3b82f6;
+    background: rgba(59, 130, 246, 0.1);
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    padding: 4px 12px;
+    border-radius: 100px;
+    margin-bottom: 20px;
+  }
+
+  header h1 {
+    font-size: 32px;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.3;
+    margin-bottom: 12px;
+  }
+
+  header .subtitle { font-size: 16px; color: #888; }
+
+  /* Headings */
+  h2 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #fff;
+    margin: 56px 0 24px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #222;
+  }
+
+  h2 .num {
+    color: #3b82f6;
+    font-variant-numeric: tabular-nums;
+  }
+
+  h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #ddd;
+    margin: 32px 0 12px;
+  }
+
+  h4 {
+    font-size: 14px;
+    font-weight: 600;
+    color: #ccc;
+    margin: 20px 0 8px;
+  }
+
+  p { margin-bottom: 16px; color: #b0b0b0; }
+
+  strong { color: #fff; }
+  em { color: #999; font-style: italic; }
+
+  /* Callouts */
+  .callout {
+    background: #141414;
+    border-left: 3px solid #3b82f6;
+    padding: 16px 20px;
+    border-radius: 0 8px 8px 0;
+    margin: 20px 0;
+  }
+  .callout.amber { border-left-color: #f59e0b; }
+  .callout.green { border-left-color: #22c55e; }
+  .callout.red { border-left-color: #ef4444; }
+  .callout.subtle { border-left-color: #333; background: #111; }
+  .callout p:last-child { margin-bottom: 0; }
+
+  /* Leitsatz */
+  .leitsatz {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.08), rgba(59, 130, 246, 0.02));
+    border: 1px solid rgba(59, 130, 246, 0.15);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin: 20px 0;
+    text-align: center;
+    font-size: 15px;
+    color: #ccc;
+  }
+
+  /* Tables */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+    font-size: 14px;
+  }
+
+  thead th {
+    text-align: left;
+    padding: 10px 12px;
+    font-weight: 600;
+    color: #999;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    border-bottom: 1px solid #222;
+  }
+
+  tbody td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #1a1a1a;
+    color: #b0b0b0;
+    vertical-align: top;
+  }
+
+  tbody tr:hover { background: #111; }
+
+  /* Tags */
+  .tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+  .tag.blue { background: rgba(59, 130, 246, 0.15); color: #3b82f6; }
+  .tag.amber { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
+  .tag.green { background: rgba(34, 197, 94, 0.15); color: #22c55e; }
+  .tag.red { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
+  .tag.gray { background: rgba(150, 150, 150, 0.15); color: #999; }
+
+  /* Tree diagram */
+  .tree {
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 13px;
+    background: #111;
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin: 20px 0;
+    line-height: 1.8;
+    color: #888;
+    overflow-x: auto;
+  }
+  .tree .hl { color: #3b82f6; font-weight: 600; }
+  .tree .dim { color: #555; }
+
+  /* Header wireframe */
+  .wireframe {
+    background: #111;
+    border: 1px solid #222;
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin: 20px 0;
+    font-family: 'SF Mono', 'Fira Code', monospace;
+    font-size: 12px;
+    color: #777;
+    line-height: 1.6;
+    overflow-x: auto;
+  }
+
+  /* Principle cards */
+  .principles {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 24px 0;
+  }
+
+  @media (max-width: 600px) { .principles { grid-template-columns: 1fr; } }
+
+  .principle {
+    background: #111;
+    border: 1px solid #1a1a1a;
+    border-radius: 12px;
+    padding: 20px;
+  }
+
+  .principle h4 {
+    margin: 0 0 8px;
+    color: #fff;
+    font-size: 14px;
+  }
+
+  .principle ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .principle ul li {
+    font-size: 13px;
+    color: #888;
+    padding: 3px 0;
+    padding-left: 16px;
+    position: relative;
+  }
+
+  .principle ul li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 10px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #333;
+  }
+
+  /* Section cards (for page sections) */
+  .section-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 16px 0;
+  }
+
+  .section-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: #111;
+    border-radius: 8px;
+    padding: 12px 16px;
+  }
+
+  .section-num {
+    font-size: 11px;
+    font-weight: 700;
+    color: #3b82f6;
+    background: rgba(59, 130, 246, 0.1);
+    padding: 2px 8px;
+    border-radius: 4px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .section-item .sec-title {
+    font-weight: 600;
+    color: #ddd;
+    font-size: 14px;
+  }
+
+  .section-item .sec-desc {
+    color: #777;
+    font-size: 13px;
+    margin-top: 2px;
+  }
+
+  /* Steps */
+  .steps {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin: 24px 0;
+    counter-reset: step;
+  }
+
+  .step {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    counter-increment: step;
+  }
+
+  .step::before {
+    content: counter(step);
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    background: rgba(59, 130, 246, 0.1);
+    color: #3b82f6;
+    font-weight: 700;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    margin-top: 2px;
+  }
+
+  .step-content h4 { margin: 0 0 2px; color: #ddd; font-size: 14px; }
+  .step-content p { margin: 0; font-size: 13px; color: #888; }
+
+  /* Tech stack pills */
+  .stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 16px 0;
+  }
+
+  .pill {
+    font-size: 13px;
+    font-weight: 500;
+    padding: 6px 14px;
+    border-radius: 100px;
+    background: #141414;
+    border: 1px solid #222;
+    color: #ccc;
+  }
+
+  .pill strong { color: #fff; font-weight: 600; }
+
+  hr {
+    border: none;
+    border-top: 1px solid #1a1a1a;
+    margin: 48px 0;
+  }
+
+  .footer-note {
+    text-align: center;
+    color: #444;
+    font-size: 12px;
+    margin-top: 64px;
+  }
+
+  /* Two-col hero goals */
+  .goals {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 20px 0;
+  }
+  @media (max-width: 600px) { .goals { grid-template-columns: 1fr; } }
+
+  .goal-card {
+    background: #111;
+    border: 1px solid #1a1a1a;
+    border-radius: 12px;
+    padding: 20px;
+  }
+
+  .goal-card .goal-label {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 8px;
+  }
+
+  .goal-card h4 { margin: 0 0 6px; font-size: 15px; color: #fff; }
+  .goal-card p { margin: 0; font-size: 13px; color: #888; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <div class="badge">Konzept &amp; Strategie</div>
+  <h1>IES NG Landing Page</h1>
+  <p class="subtitle">Konzeptdokument f&uuml;r Stakeholder-Review und Projekt-Handoff. Stand 09.02.2026.</p>
+</header>
+
+<!-- 1. Projektziel -->
+<h2><span class="num">01</span> Projektziel</h2>
+
+<p>Erstellung einer modernen, einladenden Informations- und Einstiegsseite f&uuml;r <strong>IES New Generation</strong> (IES NG). Die Seite dient als <strong>Template</strong>, das pro Organisation (BABS, BWL, etc.) konfiguriert und von einem Entwickler-Team weitergef&uuml;hrt wird.</p>
+
+<div class="goals">
+  <div class="goal-card">
+    <div class="goal-label" style="color:#3b82f6;">Prim&auml;rziel</div>
+    <h4>Schneller Zugang</h4>
+    <p><strong style="color:#ccc;">Produktion</strong> (Live-System) &mdash; prim&auml;rer CTA<br>
+    <strong style="color:#ccc;">Schulung / Test</strong> &mdash; sekund&auml;rer CTA</p>
+  </div>
+  <div class="goal-card">
+    <div class="goal-label" style="color:#f59e0b;">Sekund&auml;rziel</div>
+    <h4>Informieren &uuml;ber das Projekt</h4>
+    <p>Hintergrund, Fortschritt, Angebote (Digitale Werkstatt), Roadmap &mdash; in gut portionierten, visuell ansprechenden Abschnitten.</p>
+  </div>
+</div>
+
+<!-- 2. Zielgruppen -->
+<h2><span class="num">02</span> Zielgruppen</h2>
+
+<table>
+  <thead><tr><th>Zielgruppe</th><th>Bed&uuml;rfnis</th><th>Priorit&auml;t</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Aktive Nutzer</strong><br><span style="color:#666;font-size:12px;">Kantons&shy;angeh&ouml;rige, Einsatzkr&auml;fte</span></td><td>Schneller Login zur Produktion / Schulung</td><td><span class="tag green">Hoch</span></td></tr>
+    <tr><td><strong>Neue Nutzer</strong></td><td>Onboarding, Erste Schritte, Zugang beantragen</td><td><span class="tag amber">Mittel</span></td></tr>
+    <tr><td><strong>Entscheider / Stakeholder</strong></td><td>Projektinformation, Fortschritt, Partner</td><td><span class="tag amber">Mittel</span></td></tr>
+    <tr><td><strong>Interessierte / Pool-Teilnehmer</strong></td><td>Werkstatt-Angebote, Updates, Downloads</td><td><span class="tag amber">Mittel</span></td></tr>
+  </tbody>
+</table>
+
+<div class="leitsatz">
+  Wer das System nutzt, findet <strong>sofort den Zugang</strong>.<br>
+  Wer sich informiert, findet <strong>portionierte, einladende Inhalte</strong>.
+</div>
+
+<!-- 3. Designprinzipien -->
+<h2><span class="num">03</span> Designprinzipien</h2>
+
+<div class="principles">
+  <div class="principle">
+    <h4>Modern &amp; Einladend</h4>
+    <ul>
+      <li>Weg vom klassischen Gov-Look</li>
+      <li>Illustrationen &amp; visuelle Hierarchie</li>
+      <li>Grossz&uuml;giger Whitespace</li>
+      <li>Professionell, nicht steril</li>
+    </ul>
+  </div>
+  <div class="principle">
+    <h4>Scannbar</h4>
+    <ul>
+      <li>Klares visuelles Muster pro Sektion</li>
+      <li>Hauptthemen beim Scrollen erkennbar</li>
+      <li>Kleine, verdaubare Bl&ouml;cke</li>
+      <li>Headlines die sofort kommunizieren</li>
+    </ul>
+  </div>
+  <div class="principle">
+    <h4>Klarheit vor Kreativit&auml;t</h4>
+    <ul>
+      <li>Einfache, aktive Sprache</li>
+      <li>Keine Abk&uuml;rzungen ohne Erkl&auml;rung</li>
+      <li>Funktioniert ohne Bilder (A11y)</li>
+    </ul>
+  </div>
+  <div class="principle">
+    <h4>Template-f&auml;hig</h4>
+    <ul>
+      <li>CONFIG-Objekt steuert alle Inhalte</li>
+      <li>Farben, Logos, Links anpassbar</li>
+      <li>Sp&auml;tere CMS-Integration m&ouml;glich</li>
+    </ul>
+  </div>
+</div>
+
+<!-- 3b. Design Language -->
+<h2><span class="num">03b</span> Design Language &amp; Plattform-Alignment</h2>
+
+<div class="callout">
+  <p><strong>Leitgedanke:</strong> Die Landing Page orientiert sich visuell an der IES NG Plattform (gleiche Farben, Schrift, Komponenten-Sprache), darf sich aber als Content-Seite <em>mehr in Szene setzen</em> als das Tool selbst. Sie verlinkt auf das Tool &mdash; sie ist nicht das Tool.</p>
+</div>
+
+<h3>Basis: IES NG Design System</h3>
+
+<table>
+  <thead><tr><th>Token</th><th>Wert</th><th>Verwendung</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Primary Blue</strong></td><td style="color:#1C79E5;">#1C79E5</td><td>CTAs, Links, Akzente</td></tr>
+    <tr><td>Primary Dark</td><td style="color:#6e9ecf;">#0E3D73</td><td>Hero-Gradient, Footer, dunkle Fl&auml;chen</td></tr>
+    <tr><td>Primary Light</td><td style="color:#8EBCF2;">#8EBCF2</td><td>Hover-States, subtile Akzente</td></tr>
+    <tr><td><strong>Font</strong></td><td>Inter</td><td>Gesamte Seite, alle Gewichte (300&ndash;700)</td></tr>
+    <tr><td><strong>Radius</strong></td><td>4 / 6 / 8px</td><td>Buttons sm, Inputs md, Cards lg</td></tr>
+    <tr><td><strong>Spacing</strong></td><td>8px Grid</td><td>4, 8, 12, 16, 24, 32, 48, 64px</td></tr>
+    <tr><td><strong>Shadows</strong></td><td>3 Stufen</td><td>Cards (sm), Modals (md), Hero-Elemente (lg)</td></tr>
+  </tbody>
+</table>
+
+<h3>shadcn/ui als Komponenten-Basis</h3>
+
+<p>Die IES NG Plattform nutzt <strong>shadcn/ui</strong> f&uuml;r alle UI-Komponenten. Die Landing Page soll dieselbe Komponentenbibliothek verwenden, damit:</p>
+
+<div class="principles" style="grid-template-columns: 1fr 1fr 1fr;">
+  <div class="principle">
+    <h4>Konsistenz</h4>
+    <ul>
+      <li>Gleiche Buttons, Cards, Badges</li>
+      <li>Gleiche Hover-Patterns</li>
+      <li>Kein visueller Bruch beim Wechsel ins Tool</li>
+    </ul>
+  </div>
+  <div class="principle">
+    <h4>Effizienz</h4>
+    <ul>
+      <li>Vorhandene Komponenten nutzen</li>
+      <li>Weniger Custom-CSS</li>
+      <li>Schnelleres Handoff ans Dev-Team</li>
+    </ul>
+  </div>
+  <div class="principle">
+    <h4>Erweiterbarkeit</h4>
+    <ul>
+      <li>Neue Sektionen einfach baubar</li>
+      <li>Theme-Tokens zentral &auml;nderbar</li>
+      <li>Multi-Tenant via CSS Variables</li>
+    </ul>
+  </div>
+</div>
+
+<h3>Wo darf die Landing Page mehr?</h3>
+
+<p>Als Content-Seite (nicht Tool) darf die Landing Page expressiver sein:</p>
+
+<table>
+  <thead><tr><th>Element</th><th>Plattform (Tool)</th><th>Landing Page</th></tr></thead>
+  <tbody>
+    <tr><td>Hero</td><td>Kein Hero</td><td><span class="tag blue">Grossfl&auml;chig</span> mit Gradient, Bild oder Video</td></tr>
+    <tr><td>Illustrationen</td><td>Keine / Icons only</td><td><span class="tag blue">Erlaubt</span> &mdash; undraw.co oder eigene</td></tr>
+    <tr><td>Whitespace</td><td>Kompakt (Daten-UI)</td><td><span class="tag blue">Grossz&uuml;gig</span> &mdash; Luft zum Atmen</td></tr>
+    <tr><td>Typografie</td><td>14&ndash;16px, funktional</td><td><span class="tag blue">Gr&ouml;sser</span> &mdash; bis 48px Headlines</td></tr>
+    <tr><td>Animationen</td><td>Minimal</td><td><span class="tag blue">Subtil erlaubt</span> &mdash; Scroll-Reveals, Hover-Lifts</td></tr>
+    <tr><td>Farbfl&auml;chen</td><td>Weiss + Grau</td><td><span class="tag blue">Dunkle Sektionen</span> erlaubt (Hero, Footer, CTA-Bereiche)</td></tr>
+  </tbody>
+</table>
+
+<div class="callout green">
+  <p><strong>Zusammengefasst:</strong> Gleiche DNA (Farben, Font, Komponenten, Radius), aber mehr Inszenierung. Wer von der Landing Page ins Tool wechselt, soll das Gef&uuml;hl haben: &laquo;Das geh&ouml;rt zusammen&raquo; &mdash; nicht &laquo;Das ist dasselbe&raquo;.</p>
+</div>
+
+<!-- 4. Seitenarchitektur -->
+<h2><span class="num">04</span> Seitenarchitektur</h2>
+
+<div class="tree">
+<span class="hl">HOME</span> <span class="dim">/ &mdash; Schneller Zugang + &Uuml;berblick</span>
+&boxv;
+&boxvr;&boxh;&boxh; <span class="hl">&Uuml;BER IES</span> <span class="dim">/about &mdash; Hintergrund &amp; Kontext</span>
+&boxv;
+&boxvr;&boxh;&boxh; <span class="hl">WERKSTATT</span> <span class="dim">/werkstatt &mdash; Digitale Werkstatt</span>
+&boxv;
+&boxvr;&boxh;&boxh; <span class="hl">ROADMAP</span> <span class="dim">/roadmap &mdash; Zeitplan &amp; Releases</span>
+&boxv;
+&boxur;&boxh;&boxh; <span class="hl">EINSTIEG</span> <span class="dim">/getting-started &mdash; Erste Schritte</span>
+</div>
+
+<!-- 4.1 Home -->
+<h3>4.1 &mdash; HOME (Startseite)</h3>
+<p>Erster Eindruck. Fokus auf schnellen Zugang + &Uuml;berblick.</p>
+
+<div class="section-list">
+  <div class="section-item"><span class="section-num">1</span><div><span class="sec-title">Header</span><div class="sec-desc">Logo, Org-Name, Sprachwechsler, Login-Buttons</div></div></div>
+  <div class="section-item"><span class="section-num">2</span><div><span class="sec-title">Alert Banner</span><div class="sec-desc">Optionale Wartungs- oder St&ouml;rungsmeldung</div></div></div>
+  <div class="section-item"><span class="section-num">3</span><div><span class="sec-title">Hero</span><div class="sec-desc">Titel, Kurzbeschreibung, 2 CTAs (Produktion + Schulung), ggf. Video</div></div></div>
+  <div class="section-item"><span class="section-num">4</span><div><span class="sec-title">Was ist IES?</span><div class="sec-desc">3&ndash;4 Karten mit Icon + Kurztext (Kernfunktionen)</div></div></div>
+  <div class="section-item"><span class="section-num">5</span><div><span class="sec-title">Status Dashboard</span><div class="sec-desc">Ampel-Status der Systemkomponenten</div></div></div>
+  <div class="section-item"><span class="section-num">6</span><div><span class="sec-title">Werkstatt-Teaser</span><div class="sec-desc">Kurzbeschreibung + n&auml;chster Termin + CTA &rarr; /werkstatt</div></div></div>
+  <div class="section-item"><span class="section-num">7</span><div><span class="sec-title">Aktuelles</span><div class="sec-desc">2&ndash;3 neueste Projekt-Updates</div></div></div>
+  <div class="section-item"><span class="section-num">8</span><div><span class="sec-title">Hilfreiche Links</span><div class="sec-desc">4&ndash;6 Link-Tiles (Doku, Support, Onboarding, etc.)</div></div></div>
+  <div class="section-item"><span class="section-num">9</span><div><span class="sec-title">Kontakt + Footer</span><div class="sec-desc">Adresse, E-Mail, Rechtliches</div></div></div>
+</div>
+
+<div class="callout">
+  <p><strong>Hero-Design:</strong> Grossfl&auml;chig mit Hintergrundbild oder subtiler Illustration. Beide CTAs nebeneinander &mdash; Produktion als ausgef&uuml;llter Button (Primary), Schulung als Outline-Button (Secondary).</p>
+</div>
+
+<!-- 4.2 Über IES -->
+<h3>4.2 &mdash; &Uuml;BER IES (Hintergrund &amp; Kontext)</h3>
+<p>F&uuml;r Besucher, die mehr &uuml;ber das Projekt erfahren wollen.</p>
+
+<div class="section-list">
+  <div class="section-item"><span class="section-num">1</span><div><span class="sec-title">Vision &amp; Hintergrund</span><div class="sec-desc">Warum IES NG? Welches Problem l&ouml;st es?</div></div></div>
+  <div class="section-item"><span class="section-num">2</span><div><span class="sec-title">Ereignisbew&auml;ltigung</span><div class="sec-desc">Die 9 Kernfragen im Ereignisfall (Karten-Grid)</div></div></div>
+  <div class="section-item"><span class="section-num">3</span><div><span class="sec-title">Projektpartner</span><div class="sec-desc">Strategisch / Taktisch / Operativ (3-Stufen-Visualisierung)</div></div></div>
+  <div class="section-item"><span class="section-num">4</span><div><span class="sec-title">Scope</span><div class="sec-desc">Was deckt IES ab? + PDF-Download</div></div></div>
+  <div class="section-item"><span class="section-num">5</span><div><span class="sec-title">Downloads</span><div class="sec-desc">Alle verf&uuml;gbaren Dokumente gesammelt</div></div></div>
+</div>
+
+<!-- 4.3 Werkstatt -->
+<h3>4.3 &mdash; WERKSTATT (Digitale Werkstatt)</h3>
+<p>&laquo;Blick in die Werkstatt&raquo; als eigenst&auml;ndiges, attraktives Angebot.</p>
+
+<div class="section-list">
+  <div class="section-item"><span class="section-num">1</span><div><span class="sec-title">Was ist die Digitale Werkstatt?</span><div class="sec-desc">Kurzbeschreibung, Zielgruppe, Format</div></div></div>
+  <div class="section-item"><span class="section-num">2</span><div><span class="sec-title">N&auml;chste Termine</span><div class="sec-desc">Kommende Sessions mit Datum, Thema</div></div></div>
+  <div class="section-item"><span class="section-num">3</span><div><span class="sec-title">Pool-Anmeldung</span><div class="sec-desc">CTA &rarr; externer Link (konfigurierbar)</div></div></div>
+  <div class="section-item"><span class="section-num">4</span><div><span class="sec-title">R&uuml;ckblick</span><div class="sec-desc">Highlights vergangener Sessions (optional)</div></div></div>
+  <div class="section-item"><span class="section-num">5</span><div><span class="sec-title">Pool-Dokument</span><div class="sec-desc">PDF-Download</div></div></div>
+</div>
+
+<!-- 4.4 Roadmap -->
+<h3>4.4 &mdash; ROADMAP (Zeitplan &amp; Releases)</h3>
+<p>F&uuml;r Nutzer, die den Projektfortschritt verfolgen.</p>
+
+<div class="section-list">
+  <div class="section-item"><span class="section-num">1</span><div><span class="sec-title">Zeitplan</span><div class="sec-desc">Roadmap-Grafik (Meilensteine)</div></div></div>
+  <div class="section-item"><span class="section-num">2</span><div><span class="sec-title">Transition</span><div class="sec-desc">Von IES-KSD zu IES NG (Timeline mit Phasen)</div></div></div>
+  <div class="section-item"><span class="section-num">3</span><div><span class="sec-title">Releasenotes</span><div class="sec-desc">Versionierte &Auml;nderungen mit Feature/Fix/Improvement Tags</div></div></div>
+  <div class="section-item"><span class="section-num">4</span><div><span class="sec-title">Wartungsfenster</span><div class="sec-desc">Geplante Wartungen mit Datum, Uhrzeit, Impact</div></div></div>
+</div>
+
+<!-- 4.5 Einstieg -->
+<h3>4.5 &mdash; EINSTIEG (Getting Started)</h3>
+<p>F&uuml;r neue Nutzer, die Zugang erhalten wollen.</p>
+
+<div class="section-list">
+  <div class="section-item"><span class="section-num">1</span><div><span class="sec-title">Rollenwahl</span><div class="sec-desc">&laquo;Ich bin...&raquo; &mdash; Admin / Enduser / Ausbilder</div></div></div>
+  <div class="section-item"><span class="section-num">2</span><div><span class="sec-title">Checkliste</span><div class="sec-desc">Schritt f&uuml;r Schritt Zugang beantragen</div></div></div>
+  <div class="section-item"><span class="section-num">3</span><div><span class="sec-title">Onboarding</span><div class="sec-desc">Links zu Schulungsmaterial, Videos, Tutorials</div></div></div>
+  <div class="section-item"><span class="section-num">4</span><div><span class="sec-title">FAQ</span><div class="sec-desc">H&auml;ufige Fragen (Akkordeon)</div></div></div>
+</div>
+
+<div class="callout amber">
+  <p><strong>Hinweis:</strong> Diese Seite ist konzeptionell vorbereitet. Der genaue Inhalt wird gemeinsam mit den POs definiert.</p>
+</div>
+
+<!-- 5. Navigation -->
+<h2><span class="num">05</span> Navigation &amp; Header</h2>
+
+<div class="wireframe">
+&boxdr;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxdl;
+&boxv; <span style="color:#3b82f6">[Logo]</span> IES NG     &Uuml;ber IES  Werkstatt  Roadmap  Einstieg &boxv;
+&boxv;                                    <span style="color:#666">[DE &blacktriangledown;]</span>  <span style="color:#3b82f6">[Prod]</span> <span style="color:#888">[Schulung]</span> &boxv;
+&boxur;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxh;&boxul;
+</div>
+
+<table>
+  <thead><tr><th>Element</th><th>Verhalten</th></tr></thead>
+  <tbody>
+    <tr><td><strong>Logo + Name</strong></td><td>Links, immer sichtbar</td></tr>
+    <tr><td><strong>Navigation</strong></td><td>Hauptseiten als Links</td></tr>
+    <tr><td><strong>Sprachwechsler</strong></td><td>Dropdown (DE/FR/IT/EN), initial nur DE aktiv</td></tr>
+    <tr><td><strong>Login-Buttons</strong></td><td>Rechts, immer sichtbar (Produktion + Schulung)</td></tr>
+    <tr><td><strong>Sticky Header</strong></td><td>Bleibt beim Scrollen sichtbar</td></tr>
+    <tr><td><strong>Mobile</strong></td><td>Hamburger-Men&uuml;, Login-Buttons bleiben sichtbar</td></tr>
+  </tbody>
+</table>
+
+<!-- 6. Sprachen -->
+<h2><span class="num">06</span> Sprachen</h2>
+
+<table>
+  <thead><tr><th>Sprache</th><th>Status</th><th>Anmerkung</th></tr></thead>
+  <tbody>
+    <tr><td>Deutsch</td><td><span class="tag green">Aktiv</span></td><td>Erstsprache, vollst&auml;ndig</td></tr>
+    <tr><td>Fran&ccedil;ais</td><td><span class="tag gray">Geplant</span></td><td>UI-Switcher vorhanden, &Uuml;bersetzung offen</td></tr>
+    <tr><td>Italiano</td><td><span class="tag gray">Geplant</span></td><td>UI-Switcher vorhanden, &Uuml;bersetzung offen</td></tr>
+    <tr><td>English</td><td><span class="tag gray">Geplant</span></td><td>UI-Switcher vorhanden, &Uuml;bersetzung offen</td></tr>
+  </tbody>
+</table>
+
+<div class="callout subtle">
+  <p><strong>Strategie:</strong> Sprachwechsler von Anfang an im UI (zeigt Bereitschaft). Nicht-&uuml;bersetzte Sprachen zeigen Fallback auf Deutsch mit Hinweis. Vollst&auml;ndige &Uuml;bersetzung kommt mit CMS-Integration. Architektur: i18n-f&auml;higes CONFIG-Objekt.</p>
+</div>
+
+<!-- 7. Technik -->
+<h2><span class="num">07</span> Technische Architektur</h2>
+
+<h3>Stack</h3>
+<div class="stack">
+  <div class="pill"><strong>React 19</strong> + Vite</div>
+  <div class="pill"><strong>React Router</strong> Client-Side</div>
+  <div class="pill"><strong>Design System</strong> CSS Tokens</div>
+  <div class="pill"><strong>Lucide</strong> Icons</div>
+  <div class="pill"><strong>Vercel</strong> Hosting</div>
+</div>
+
+<h3>Content-Management</h3>
+<table>
+  <thead><tr><th>Phase</th><th>Ansatz</th></tr></thead>
+  <tbody>
+    <tr><td><span class="tag blue">Phase 1 (jetzt)</span></td><td>Statisches CONFIG-Objekt</td></tr>
+    <tr><td><span class="tag gray">Phase 2 (sp&auml;ter)</span></td><td>CMS-Integration (durch weiterf&uuml;hrendes Dev-Team)</td></tr>
+  </tbody>
+</table>
+<p>CONFIG-Struktur so gestalten, dass sie 1:1 durch CMS-API ersetzbar ist.</p>
+
+<h3>Multi-Tenant</h3>
+<p>Ein CONFIG pro Organisation (BABS, BWL, etc.). Farben, Logos, Links, Texte konfigurierbar. Gleiches Template, verschiedene Auspr&auml;gungen.</p>
+
+<!-- 8. Abgrenzung -->
+<h2><span class="num">08</span> Abgrenzung &amp; Nicht-Scope</h2>
+
+<table>
+  <thead><tr><th>Thema</th><th>Entscheidung</th></tr></thead>
+  <tbody>
+    <tr><td>CMS-Integration</td><td><span class="tag gray">Nicht Phase 1</span> &mdash; Architektur vorbereitet</td></tr>
+    <tr><td>Vollst&auml;ndige &Uuml;bersetzungen</td><td><span class="tag gray">Nicht Phase 1</span> &mdash; Sprachwechsler-UI vorhanden</td></tr>
+    <tr><td>Authentifizierung</td><td>Kein Login auf der Landing Page &mdash; Links zu externen Umgebungen</td></tr>
+    <tr><td>EDU-Plattform</td><td><span class="tag red">Separates Projekt</span> &mdash; WordPress/DIVI in Evaluation</td></tr>
+    <tr><td>Dark Mode</td><td>Nicht geplant (nice-to-have)</td></tr>
+    <tr><td>Analytics</td><td>Nicht in Phase 1</td></tr>
+    <tr><td>Backend / API</td><td>Kein eigenes Backend, rein statisch</td></tr>
+  </tbody>
+</table>
+
+<!-- 9. Offene Punkte -->
+<h2><span class="num">09</span> Offene Punkte</h2>
+
+<table>
+  <thead><tr><th>#</th><th>Thema</th><th>Status</th><th>Anmerkung</th></tr></thead>
+  <tbody>
+    <tr><td>1</td><td>Getting-Started Inhalte</td><td><span class="tag amber">Offen</span></td><td>Gemeinsam mit POs definieren</td></tr>
+    <tr><td>2</td><td>Werkstatt-Termine</td><td><span class="tag amber">Offen</span></td><td>Quelle kl&auml;ren (manuell vs. API)</td></tr>
+    <tr><td>3</td><td>Illustrationen / Bildsprache</td><td><span class="tag amber">Offen</span></td><td>undraw.co oder eigene?</td></tr>
+    <tr><td>4</td><td>BWL-Konfiguration</td><td><span class="tag amber">Offen</span></td><td>Zweite Organisation als Template-Variante</td></tr>
+    <tr><td>5</td><td>Pool-Anmeldung URL</td><td><span class="tag amber">Offen</span></td><td>Externer Link von BABS bereitstellen</td></tr>
+    <tr><td>6</td><td>Barrierefreiheit (WCAG 2.1 AA)</td><td><span class="tag blue">Empfohlen</span></td><td>Pflicht f&uuml;r Bundesverwaltung</td></tr>
+    <tr><td>7</td><td>Content-Ownership</td><td><span class="tag amber">Offen</span></td><td>Wer pflegt welchen Bereich?</td></tr>
+    <tr><td>8</td><td>Umgebungs-Zugang (ABN/Testing)</td><td><span class="tag amber">Offen</span></td><td>Dritter Link f&uuml;r Dev-Teams?</td></tr>
+  </tbody>
+</table>
+
+<!-- 10. Nächste Schritte -->
+<h2><span class="num">10</span> N&auml;chste Schritte</h2>
+
+<div class="steps">
+  <div class="step"><div class="step-content"><h4>Stakeholder-Review</h4><p>Dieses Konzept pr&auml;sentieren und Feedback einholen</p></div></div>
+  <div class="step"><div class="step-content"><h4>Wireframes</h4><p>Homepage + 1&ndash;2 Unterseiten skizzieren</p></div></div>
+  <div class="step"><div class="step-content"><h4>Design-Iteration</h4><p>Visuelles Design basierend auf Wireframes</p></div></div>
+  <div class="step"><div class="step-content"><h4>Implementation</h4><p>Multi-Page-Architektur mit React Router</p></div></div>
+  <div class="step"><div class="step-content"><h4>Content-Feinschliff</h4><p>Texte und Inhalte mit POs finalisieren</p></div></div>
+  <div class="step"><div class="step-content"><h4>Feedback-Runde</h4><p>Stakeholder-Test mit Live-Prototype</p></div></div>
+</div>
+
+<hr>
+
+<!-- 11. Kritischer Check -->
+<h2><span class="num">11</span> Finaler kritischer Check</h2>
+
+<p>Was k&ouml;nnte noch fehlen oder besser sein? Ehrliche Bewertung nach Durchsicht aller Quellen:</p>
+
+<table>
+  <thead><tr><th>Thema</th><th>Status</th><th>Einsch&auml;tzung</th></tr></thead>
+  <tbody>
+    <tr>
+      <td><strong>Informationsarchitektur</strong></td>
+      <td><span class="tag amber">Hinterfragen</span></td>
+      <td>5 Seiten k&ouml;nnten zu viel sein &mdash; siehe REVIEW.html f&uuml;r Alternative mit 3 Seiten (Home, Projekt, Betrieb). Entscheidung steht aus.</td>
+    </tr>
+    <tr>
+      <td><strong>SEO / Auffindbarkeit</strong></td>
+      <td><span class="tag red">Fehlt</span></td>
+      <td>Domain www.ies.swiss erw&auml;hnt, aber: Meta-Tags, Open Graph, strukturierte Daten nicht adressiert. F&uuml;r eine &ouml;ffentliche Seite relevant.</td>
+    </tr>
+    <tr>
+      <td><strong>Performance-Budget</strong></td>
+      <td><span class="tag red">Fehlt</span></td>
+      <td>Kantonsangestellte in l&auml;ndlichen Gebieten mit langsamem Netz? Ladezeit-Ziel definieren (z.B. &lt;2s First Contentful Paint).</td>
+    </tr>
+    <tr>
+      <td><strong>Offline / Ausfall-Szenario</strong></td>
+      <td><span class="tag red">Fehlt</span></td>
+      <td>Was passiert, wenn die Landing Page down ist? Direkt-URLs zu Prod/Schulung als Fallback dokumentieren?</td>
+    </tr>
+    <tr>
+      <td><strong>Feedback-Kanal</strong></td>
+      <td><span class="tag amber">Schwach</span></td>
+      <td>Nur E-Mail-Adresse im Kontakt. Kein Feedback-Formular, kein &laquo;War diese Seite hilfreich?&raquo; Widget. BABS-Seite erw&auml;hnt &laquo;Sounding Board&raquo; &mdash; sollte das sichtbar sein?</td>
+    </tr>
+    <tr>
+      <td><strong>Suche</strong></td>
+      <td><span class="tag red">Fehlt</span></td>
+      <td>Bei Multi-Page mit zunehmendem Content: braucht es eine Suche? Wahrscheinlich nicht in Phase 1, aber die Architektur sollte es erm&ouml;glichen.</td>
+    </tr>
+    <tr>
+      <td><strong>Versionierung / Changelog der Seite selbst</strong></td>
+      <td><span class="tag gray">Nice-to-have</span></td>
+      <td>Wann wurde die Landing Page zuletzt aktualisiert? Ein kleiner &laquo;Zuletzt aktualisiert&raquo; Hinweis im Footer schafft Vertrauen.</td>
+    </tr>
+    <tr>
+      <td><strong>Print-Stylesheet</strong></td>
+      <td><span class="tag gray">Nice-to-have</span></td>
+      <td>Gov-Nutzer drucken gerne. Ein sauberes Print-CSS kostet wenig und signalisiert Professionalit&auml;t.</td>
+    </tr>
+    <tr>
+      <td><strong>Cookie-Banner / Datenschutz</strong></td>
+      <td><span class="tag amber">Kl&auml;ren</span></td>
+      <td>Vercel-Hosting = kein EU-Server. Braucht es einen Datenschutz-Hinweis? Cookies durch Analytics (Phase 2)?</td>
+    </tr>
+    <tr>
+      <td><strong>Notfall-Kommunikation</strong></td>
+      <td><span class="tag amber">Teilweise</span></td>
+      <td>Alert Banner existiert, aber: kann es automatisch getriggert werden? Oder nur manuell via CONFIG? Bei einem Krisenmanagement-Tool ist die Ironie offensichtlich, wenn die eigene Landing Page keine schnelle Notfall-Kommunikation unterst&uuml;tzt.</td>
+    </tr>
+  </tbody>
+</table>
+
+<!-- 12. Offene Fragen -->
+<h2><span class="num">12</span> Offene Fragen an dich</h2>
+
+<div class="section-list">
+  <div class="section-item">
+    <span class="section-num" style="background:rgba(245,158,11,0.1);color:#f59e0b;">?</span>
+    <div>
+      <span class="sec-title">3 oder 5 Seiten?</span>
+      <div class="sec-desc">Die REVIEW schl&auml;gt 3 Seiten vor (Home, Projekt, Betrieb) statt 5 (Home, &Uuml;ber, Werkstatt, Roadmap, Einstieg). Was f&uuml;hlt sich richtiger an? Oder starten wir mit 3 und erweitern sp&auml;ter?</div>
+    </div>
+  </div>
+  <div class="section-item">
+    <span class="section-num" style="background:rgba(245,158,11,0.1);color:#f59e0b;">?</span>
+    <div>
+      <span class="sec-title">Video im Hero &mdash; ja oder nein?</span>
+      <div class="sec-desc">Das YouTube-Video (Countdown-365) ist auf der BABS-Seite prominent. Soll es auch bei uns im Hero eingebettet werden, oder reicht ein Link? Ein eingebettetes Video ver&auml;ndert die Hero-Dynamik stark.</div>
+    </div>
+  </div>
+  <div class="section-item">
+    <span class="section-num" style="background:rgba(245,158,11,0.1);color:#f59e0b;">?</span>
+    <div>
+      <span class="sec-title">Wie expressiv darf die Seite sein?</span>
+      <div class="sec-desc">Du sagst &laquo;darf sich in Szene setzen&raquo;. Aber wie weit? Denken wir an: dezente Scroll-Animationen? Parallax-Effekte? Oder eher clean und statisch wie ein guter Saas-Onepager &agrave; la Linear/Vercel?</div>
+    </div>
+  </div>
+  <div class="section-item">
+    <span class="section-num" style="background:rgba(245,158,11,0.1);color:#f59e0b;">?</span>
+    <div>
+      <span class="sec-title">Bildsprache: undraw.co oder eigene Illustrationen?</span>
+      <div class="sec-desc">undraw.co ist schnell und gratis, wirkt aber generisch. Eigene Illustrationen w&auml;ren einzigartiger, kosten aber. Gibt es ein Budget oder soll es lean bleiben?</div>
+    </div>
+  </div>
+  <div class="section-item">
+    <span class="section-num" style="background:rgba(245,158,11,0.1);color:#f59e0b;">?</span>
+    <div>
+      <span class="sec-title">Zieltermin?</span>
+      <div class="sec-desc">PL-Meeting erw&auml;hnt &laquo;Konzept bis 15.02.2026&raquo;. Ist das noch aktuell? Und wann soll die Seite live gehen? Das beeinflusst Scope-Entscheidungen (Phase 1 vs. nice-to-haves).</div>
+    </div>
+  </div>
+  <div class="section-item">
+    <span class="section-num" style="background:rgba(245,158,11,0.1);color:#f59e0b;">?</span>
+    <div>
+      <span class="sec-title">Wer gibt das Konzept frei?</span>
+      <div class="sec-desc">Ueli Sigrist (Confluence-Autor)? Marwin Philips (Applikationsverantwortlicher)? Beide? Kl&auml;rt den Review-Prozess und wer finale Entscheidungen trifft.</div>
+    </div>
+  </div>
+  <div class="section-item">
+    <span class="section-num" style="background:rgba(245,158,11,0.1);color:#f59e0b;">?</span>
+    <div>
+      <span class="sec-title">Datenschutz / Hosting-Konformit&auml;t?</span>
+      <div class="sec-desc">Vercel hosted in den USA. F&uuml;r eine Bundesverwaltungs-Seite: ist das ok oder braucht es EU/CH-Hosting? Kl&auml;rung vor Go-Live n&ouml;tig.</div>
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<p class="footer-note">IES NG Landing Page &mdash; Konzept &amp; Strategie &mdash; v2 &mdash; 09.02.2026<br>
+Quellen: babs.admin.ch/de/ies-ng &middot; Confluence Landingpage Konzept &middot; IES-16539 &middot; Login-Flow 240311 &middot; IES NG Design System</p>
+
+</div>
+</body>
+</html>
